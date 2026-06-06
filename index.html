@@ -13,13 +13,7 @@
   <link rel="stylesheet" href="/styles.css?v=3">
   <style>
     .intake-shell{min-height:100vh;display:flex;flex-direction:column}
-    .intake-top{padding:22px 0 0;position:relative;z-index:2}
-    .intake-top .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .intake-logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
-    .intake-logo img{width:36px;height:36px;object-fit:contain}
-    .intake-logo span{font-family:"Barlow Condensed",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-weight:800;letter-spacing:.08em}
-    .intake-logo em{font-style:normal;color:var(--ember)}
-    .intake-main{flex:1;display:flex;align-items:center;padding:24px 0 48px}
+    .intake-main{flex:1;display:flex;align-items:center;padding:32px 0 48px}
     .intake-card{max-width:1060px;margin:0 auto;width:100%}
 
     .intake-view{display:none;animation:fadeUp .45s ease both}
@@ -61,6 +55,20 @@
       border-radius:6px 0 0 6px;
     }
     .welcome-inner{position:relative;max-width:640px}
+    .welcome-brand{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:22px;
+      text-decoration:none;
+      color:var(--text,#101318);
+      font-family:"Barlow Condensed",system-ui,sans-serif;
+      font-weight:900;
+      font-size:clamp(1.85rem,4vw,2.15rem);
+      letter-spacing:-.01em;
+      line-height:1;
+    }
+    .welcome-brand .logo-han{color:var(--ember)}
     .welcome-hero h1{
       font-family:"Barlow Condensed",system-ui,sans-serif;
       font-weight:800;
