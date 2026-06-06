@@ -3,28 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahana — Intake Forms</title>
-  <meta name="description" content="Choose your plan and complete the matching intake form.">
+  <title>Welcome — Ahana Client Intake</title>
+  <meta name="description" content="Welcome to Ahana. Start your client intake to begin your website and SEO build.">
   <meta name="robots" content="noindex,nofollow">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=block" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=2">
+  <link rel="stylesheet" href="/styles.css?v=3">
   <style>
     .intake-shell{min-height:100vh;display:flex;flex-direction:column}
-    .intake-top{padding:22px 0 0}
+    .intake-top{padding:22px 0 0;position:relative;z-index:2}
     .intake-top .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
     .intake-logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
     .intake-logo img{width:36px;height:36px;object-fit:contain}
     .intake-logo span{font-family:"Barlow Condensed",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-weight:800;letter-spacing:.08em}
     .intake-logo em{font-style:normal;color:var(--ember)}
-    .intake-main{flex:1;display:flex;align-items:center}
-    .intake-card{max-width:1060px;margin:0 auto}
-    .intake-head{padding:18px 0 28px}
-    .intake-head h1{margin:10px 0 10px}
-    .intake-head p{max-width:62ch}
-    .intake-note{margin-top:10px;opacity:.9}
+    .intake-main{flex:1;display:flex;align-items:center;padding:24px 0 48px}
+    .intake-card{max-width:1060px;margin:0 auto;width:100%}
+
+    .intake-view{display:none;animation:fadeUp .45s ease both}
+    .intake-view.is-active{display:block}
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(14px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .welcome-hero{
+      position:relative;
+      padding:clamp(28px,6vw,56px) clamp(20px,4vw,40px);
+      border-radius:6px;
+      background:linear-gradient(145deg,#fff 0%,#faf8f6 48%,#f3efeb 100%);
+      border:1px solid rgba(16,19,24,.08);
+      box-shadow:0 24px 64px rgba(16,19,24,.07);
+      overflow:hidden;
+    }
+    .welcome-hero::before{
+      content:"";
+      position:absolute;
+      right:-80px;
+      top:-60px;
+      width:min(42vw,320px);
+      height:120%;
+      background:var(--ember);
+      transform:skewX(-12deg);
+      opacity:.06;
+      pointer-events:none;
+    }
+    .welcome-hero::after{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:4px;
+      background:var(--ember);
+      border-radius:6px 0 0 6px;
+    }
+    .welcome-inner{position:relative;max-width:640px}
+    .welcome-hero h1{
+      font-family:"Barlow Condensed",system-ui,sans-serif;
+      font-weight:800;
+      font-size:clamp(2.4rem,5.5vw,3.75rem);
+      line-height:1.02;
+      letter-spacing:-.02em;
+      margin:14px 0 18px;
+    }
+    .welcome-hero h1 em{font-style:italic;color:var(--ember);font-weight:800}
+    .welcome-lead{
+      font-size:clamp(1rem,2.2vw,1.125rem);
+      line-height:1.65;
+      color:rgba(16,19,24,.72);
+      max-width:52ch;
+      margin-bottom:28px;
+    }
+    .welcome-steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin:0 0 32px;
+      padding:0;
+      list-style:none;
+    }
+    @media(max-width:720px){.welcome-steps{grid-template-columns:1fr}}
+    .welcome-steps li{
+      padding:16px 14px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(16,19,24,.07);
+      border-radius:4px;
+    }
+    .welcome-steps strong{
+      display:block;
+      font-family:"Barlow Condensed",sans-serif;
+      font-size:.72rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--ember);
+      margin-bottom:6px;
+    }
+    .welcome-steps span{display:block;font-size:.875rem;line-height:1.45;color:rgba(16,19,24,.68)}
+    .welcome-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+    .welcome-actions .btn{padding:14px 28px;font-size:.95rem}
+    .welcome-note{font-size:.8125rem;color:rgba(16,19,24,.5);max-width:36ch;line-height:1.5}
+
+    .plans-toolbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:8px;
+    }
+    .plans-back{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:0;
+      border:0;
+      background:none;
+      font:inherit;
+      font-size:.875rem;
+      font-weight:500;
+      color:rgba(255,255,255,.72);
+      cursor:pointer;
+      transition:color .2s;
+    }
+    .plans-back:hover{color:#fff}
+    .plans-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+    .intake-head{padding:8px 0 20px}
+    .intake-head h1{margin:10px 0 10px;font-size:clamp(1.85rem,3.5vw,2.5rem)}
+    .intake-head p{max-width:62ch;color:rgba(255,255,255,.72)}
+
     .intake-plans .plans-grid{grid-template-columns:1fr;gap:14px;max-width:440px;margin-left:auto;margin-right:auto}
     @media(min-width:1100px){.intake-plans .plans-grid{grid-template-columns:repeat(3,1fr);max-width:none;gap:2px}}
     .intake-plans .plan{min-width:0}
@@ -35,8 +144,9 @@
     .intake-plans .feat-detail{display:block;margin-top:.35rem;font-size:.8125rem;line-height:1.5;opacity:.88}
     .intake-plans .plan:not(.featured) .feat-detail{color:#5c5c5c}
     .intake-plans .plan.featured .feat-detail{color:rgba(255,255,255,.62)}
-    .intake-plans{margin-top:18px}
+    .intake-plans{margin-top:4px}
     .intake-plans .plan .plan-cta a{width:100%;text-align:center}
+
     .intake-footer{padding:22px 0 28px;color:rgba(255,255,255,.72)}
     .intake-footer small{display:block;line-height:1.6}
   </style>
@@ -54,117 +164,191 @@
 
     <main class="intake-main">
       <div class="container intake-card">
-        <div class="intake-head">
-          <div class="ph-kicker">Intake</div>
-          <h1>Choose Your Plan.<br>Complete The Matching Form.</h1>
-          <p>Pick the plan you purchased (or intend to purchase). Prices are shown up front.</p>
-        </div>
 
-        <section class="pricing-section intake-plans">
-          <div class="plans-grid">
-            <div class="plan" id="starter">
-              <div class="plan-header">
-                <div class="plan-top">
-                  <span class="plan-tag">Starter</span>
-                  <h3 class="plan-name">Starter</h3>
-                  <div class="plan-price">
-                    <span class="plan-amount">$250</span>
-                    <span class="plan-period">/mo</span>
-                  </div>
-                  <div class="plan-setup">Website build valued at $2,000 — <strong>included at no setup cost</strong></div>
-                </div>
-              </div>
-              <div class="plan-body">
-                <div class="plan-features">
-                  <ul class="feat-list">
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">5-page professional website</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">1 homeowner-focused article per month</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Clear page titles and section headings on every page</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Basic sitemap.xml and robots.txt</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">5 gallery photos on the home page<span class="feat-detail">No separate Gallery page on Starter.</span></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 2 testimonials</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Monthly status updates and a clear performance snapshot</span></li>
-                  </ul>
-                </div>
-                <div class="plan-cta">
-                  <a href="/intake-form-starter" class="btn btn-outline-dark">Start Starter Intake</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="plan featured" id="enhanced">
-              <div class="plan-header">
-                <div class="plan-top">
-                  <span class="plan-tag">Most Popular</span>
-                  <h3 class="plan-name">Enhanced</h3>
-                  <div class="plan-price">
-                    <span class="plan-amount">$550</span>
-                    <span class="plan-period">/mo</span>
-                  </div>
-                  <div class="plan-setup">Website build valued at $3,000 — <strong>included at no setup cost</strong></div>
-                </div>
-              </div>
-              <div class="plan-body">
-                <div class="plan-features">
-                  <ul class="feat-list">
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>Everything in Starter</strong></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>11-page professional website</strong><span class="feat-detail">8 core pages plus 3 dedicated service URLs.</span></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">2 homeowner-focused articles per month</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 6 priority services called out on the site</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Gallery on home and Gallery page<span class="feat-detail">Up to 10 photos with carousel layouts.</span></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 4 testimonials</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Structured business data and a detailed traffic snapshot</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Priority update requests</span></li>
-                  </ul>
-                </div>
-                <div class="plan-cta">
-                  <a href="/intake-form-enhanced" class="btn btn-ember">Start Enhanced Intake</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="plan" id="premium">
-              <div class="plan-header">
-                <div class="plan-top">
-                  <span class="plan-tag">Premium</span>
-                  <h3 class="plan-name">Premium</h3>
-                  <div class="plan-price">
-                    <span class="plan-amount">$1,497</span>
-                    <span class="plan-period">/mo</span>
-                  </div>
-                  <div class="plan-setup">Website build valued at $5,000 — <strong>included at no setup cost</strong></div>
-                </div>
-              </div>
-              <div class="plan-body">
-                <div class="plan-features">
-                  <ul class="feat-list">
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>Everything in Enhanced</strong></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>16-page authority website</strong><span class="feat-detail">6 dedicated service detail pages (priorities #1–#6), core site pages, service area, and 3 city-specific SEO pages.</span></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">4 homeowner-focused articles per month</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>Up to 10 ordered service priorities</strong><span class="feat-detail">Deepest SEO on #1–#4. Priorities #5–#10 on your services hub and across the site.</span></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Gallery on home and Gallery page<span class="feat-detail">Up to 25 photos with carousel layouts.</span></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Dedicated testimonials page</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Optional help with listings and post-launch visibility</span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Copy tuned for search today<span class="feat-detail">Including AI-assisted results where it matters.</span></span></li>
-                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 8 testimonials</span></li>
-                  </ul>
-                </div>
-                <div class="plan-cta">
-                  <a href="/intake-form-premium" class="btn btn-outline-dark">Start Premium Intake</a>
-                </div>
+        <!-- Welcome -->
+        <section class="intake-view is-active" id="welcome-view" aria-label="Welcome">
+          <div class="welcome-hero">
+            <div class="welcome-inner">
+              <div class="ph-kicker">Client intake</div>
+              <h1>Welcome.<br>Let&rsquo;s build <em>your</em> site.</h1>
+              <p class="welcome-lead">You&rsquo;re in the right place. This short intake tells us about your business so we can design your website and SEO plan. Most clients finish in under 20 minutes.</p>
+              <ol class="welcome-steps">
+                <li><strong>Step 1</strong><span>Confirm your plan</span></li>
+                <li><strong>Step 2</strong><span>Complete the intake form</span></li>
+                <li><strong>Step 3</strong><span>We start your build</span></li>
+              </ol>
+              <div class="welcome-actions">
+                <button type="button" class="btn btn-primary" id="enter-intake-btn">
+                  Begin intake
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+                <p class="welcome-note">Have your logo, photos, and service area details handy if you can.</p>
               </div>
             </div>
           </div>
         </section>
+
+        <!-- Plan picker -->
+        <section class="intake-view" id="plans-view" aria-label="Choose your plan" hidden>
+          <div class="plans-toolbar">
+            <button type="button" class="plans-back" id="back-to-welcome">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Back
+            </button>
+          </div>
+          <div class="intake-head">
+            <div class="ph-kicker">Choose your plan</div>
+            <h1>Pick The Plan You&rsquo;re On.<br>Then Open Your Form.</h1>
+            <p>Select Starter, Enhanced, or Premium — then continue to the matching intake.</p>
+          </div>
+
+          <section class="pricing-section intake-plans">
+            <div class="plans-grid">
+              <div class="plan" id="starter">
+                <div class="plan-header">
+                  <div class="plan-top">
+                    <span class="plan-tag">Starter</span>
+                    <h3 class="plan-name">Starter</h3>
+                    <div class="plan-price">
+                      <span class="plan-amount">$250</span>
+                      <span class="plan-period">/mo</span>
+                    </div>
+                    <div class="plan-setup">Website build valued at $2,000 — <strong>included at no setup cost</strong></div>
+                  </div>
+                </div>
+                <div class="plan-body">
+                  <div class="plan-features">
+                    <ul class="feat-list">
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">5-page professional website</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">1 homeowner-focused article per month</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Clear page titles and section headings on every page</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Basic sitemap.xml and robots.txt</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">5 gallery photos on the home page<span class="feat-detail">No separate Gallery page on Starter.</span></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 2 testimonials</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Monthly status updates and a clear performance snapshot</span></li>
+                    </ul>
+                  </div>
+                  <div class="plan-cta">
+                    <a href="/intake-form-starter" class="btn btn-outline-dark">Start Starter Intake</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="plan featured" id="enhanced">
+                <div class="plan-header">
+                  <div class="plan-top">
+                    <span class="plan-tag">Most Popular</span>
+                    <h3 class="plan-name">Enhanced</h3>
+                    <div class="plan-price">
+                      <span class="plan-amount">$550</span>
+                      <span class="plan-period">/mo</span>
+                    </div>
+                    <div class="plan-setup">Website build valued at $3,000 — <strong>included at no setup cost</strong></div>
+                  </div>
+                </div>
+                <div class="plan-body">
+                  <div class="plan-features">
+                    <ul class="feat-list">
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>Everything in Starter</strong></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>11-page professional website</strong><span class="feat-detail">8 core pages plus 3 dedicated service URLs.</span></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">2 homeowner-focused articles per month</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 6 priority services called out on the site</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Gallery on home and Gallery page<span class="feat-detail">Up to 10 photos with carousel layouts.</span></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 4 testimonials</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Structured business data and a detailed traffic snapshot</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Priority update requests</span></li>
+                    </ul>
+                  </div>
+                  <div class="plan-cta">
+                    <a href="/intake-form-enhanced" class="btn btn-ember">Start Enhanced Intake</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="plan" id="premium">
+                <div class="plan-header">
+                  <div class="plan-top">
+                    <span class="plan-tag">Premium</span>
+                    <h3 class="plan-name">Premium</h3>
+                    <div class="plan-price">
+                      <span class="plan-amount">$1,497</span>
+                      <span class="plan-period">/mo</span>
+                    </div>
+                    <div class="plan-setup">Website build valued at $5,000 — <strong>included at no setup cost</strong></div>
+                  </div>
+                </div>
+                <div class="plan-body">
+                  <div class="plan-features">
+                    <ul class="feat-list">
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>Everything in Enhanced</strong></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>16-page authority website</strong><span class="feat-detail">6 dedicated service detail pages (priorities #1–#6), core site pages, service area, and 3 city-specific SEO pages.</span></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">4 homeowner-focused articles per month</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text"><strong>Up to 10 ordered service priorities</strong><span class="feat-detail">Deepest SEO on #1–#4. Priorities #5–#10 on your services hub and across the site.</span></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Gallery on home and Gallery page<span class="feat-detail">Up to 25 photos with carousel layouts.</span></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Dedicated testimonials page</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Optional help with listings and post-launch visibility</span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Copy tuned for search today<span class="feat-detail">Including AI-assisted results where it matters.</span></span></li>
+                      <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-text">Up to 8 testimonials</span></li>
+                    </ul>
+                  </div>
+                  <div class="plan-cta">
+                    <a href="/intake-form-premium" class="btn btn-outline-dark">Start Premium Intake</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
       </div>
     </main>
 
     <footer class="intake-footer">
       <div class="container">
-        <small>If you received this link, you’re in the right place. If you need help, reply to the email that sent you this page.</small>
+        <small>If you received this link, you&rsquo;re in the right place. Questions? Reply to the email that sent you here.</small>
       </div>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var welcome = document.getElementById('welcome-view');
+      var plans = document.getElementById('plans-view');
+      var enterBtn = document.getElementById('enter-intake-btn');
+      var backBtn = document.getElementById('back-to-welcome');
+
+      function showPlans(updateHash) {
+        welcome.classList.remove('is-active');
+        welcome.hidden = true;
+        plans.classList.add('is-active');
+        plans.hidden = false;
+        if (updateHash !== false) {
+          if (location.hash !== '#plans') history.pushState({ step: 'plans' }, '', '#plans');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function showWelcome(updateHash) {
+        plans.classList.remove('is-active');
+        plans.hidden = true;
+        welcome.classList.add('is-active');
+        welcome.hidden = false;
+        if (updateHash !== false) {
+          if (location.hash) history.pushState({ step: 'welcome' }, '', location.pathname);
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      enterBtn.addEventListener('click', function () { showPlans(true); });
+      backBtn.addEventListener('click', function () { showWelcome(true); });
+
+      window.addEventListener('popstate', function () {
+        if (location.hash === '#plans') showPlans(false);
+        else showWelcome(false);
+      });
+
+      if (location.hash === '#plans') showPlans(false);
+    })();
+  </script>
 </body>
 </html>
-

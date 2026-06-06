@@ -4,10 +4,10 @@ Private client intake portal for **https://intakes.getahana.com**.
 
 ## Pages
 
-| URL | File |
+| URL | Step |
 |-----|------|
-| `/` | Plan picker landing (`index.html`) |
-| `/intake-form-starter` | Starter intake |
+| `/` | Welcome landing → **Begin intake** → plan picker |
+| `/intake-form-starter` | Starter intake form |
 | `/intake-form-enhanced` | Enhanced intake |
 | `/intake-form-premium` | Premium intake |
 
