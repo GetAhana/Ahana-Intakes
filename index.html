@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahana — Intake Forms</title>
+  <meta name="description" content="Choose your plan and complete the matching intake form.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=1">
+  <style>
+    .intake-shell{min-height:100vh;display:flex;flex-direction:column}
+    .intake-top{padding:22px 0 0}
+    .intake-top .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .intake-logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+    .intake-logo img{width:36px;height:36px;object-fit:contain}
+    .intake-logo span{font-family:"Barlow Condensed",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-weight:800;letter-spacing:.08em}
+    .intake-logo em{font-style:normal;color:var(--ember)}
+    .intake-main{flex:1;display:flex;align-items:center}
+    .intake-card{max-width:1060px;margin:0 auto}
+    .intake-head{padding:18px 0 28px}
+    .intake-head h1{margin:10px 0 10px}
+    .intake-head p{max-width:62ch}
+    .intake-note{margin-top:10px;opacity:.9}
+    .intake-plans{margin-top:18px}
+    .intake-plans .plan .plan-cta a{width:100%;text-align:center}
+    .intake-footer{padding:22px 0 28px;color:rgba(255,255,255,.72)}
+    .intake-footer small{display:block;line-height:1.6}
+  </style>
+</head>
+<body class="theme-sleek">
+  <div class="intake-shell">
+    <header class="intake-top">
+      <div class="container">
+        <a class="intake-logo" href="https://www.getahana.com/" aria-label="Ahana">
+          <img src="/favicon.svg" alt="" width="36" height="36">
+          <span>AHA<em>NA</em></span>
+        </a>
+      </div>
+    </header>
+
+    <main class="intake-main">
+      <div class="container intake-card">
+        <div class="intake-head">
+          <div class="ph-kicker">Intake</div>
+          <h1>Choose Your Plan.<br>Complete The Matching Form.</h1>
+          <p>Pick the plan you purchased (or intend to purchase). Prices are shown up front. Each option routes to the correct intake form URL. Every intake includes <strong>hero slogan &amp; optional subheadline</strong> (Photos step) plus <strong>typical response time</strong> for the Contact page (Technical step).</p>
+        </div>
+
+        <section class="pricing-section intake-plans">
+          <div class="plans-grid">
+            <div class="plan" id="starter">
+              <div class="plan-header">
+                <div class="plan-top">
+                  <span class="plan-tag">Starter</span>
+                  <h3 class="plan-name">Starter</h3>
+                  <div class="plan-price">
+                    <span class="plan-amount">$250</span>
+                    <span class="plan-period">/mo</span>
+                  </div>
+                  <div class="plan-setup">Website build valued at $2,000 — <strong>included at no setup cost</strong></div>
+                </div>
+              </div>
+              <div class="plan-body">
+                <div class="plan-features">
+                  <ul class="feat-list">
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>5-page professional website</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>1 homeowner-focused article per month</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Clear page titles and section headings on every page</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Basic sitemap.xml &amp; robots.txt</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>5 intake gallery photos on the home page (no separate Gallery page)</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 2 testimonials</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Monthly status updates and a clear performance snapshot</li>
+                  </ul>
+                </div>
+                <div class="plan-cta">
+                  <a href="/intake-form-starter" class="btn btn-outline-dark">Start Starter Intake</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan featured" id="enhanced">
+              <div class="plan-header">
+                <div class="plan-top">
+                  <span class="plan-tag">Most Popular</span>
+                  <h3 class="plan-name">Enhanced</h3>
+                  <div class="plan-price">
+                    <span class="plan-amount">$550</span>
+                    <span class="plan-period">/mo</span>
+                  </div>
+                  <div class="plan-setup">Website build valued at $3,000 — <strong>included at no setup cost</strong></div>
+                </div>
+              </div>
+              <div class="plan-body">
+                <div class="plan-features">
+                  <ul class="feat-list">
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><strong>Everything in Starter</strong></li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>11-page professional website (8 core + 3 dedicated service URLs)</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>2 homeowner-focused articles per month</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 6 priority services called out on the site</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Intake gallery (up to 10) on home + Gallery page carousels</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 4 testimonials</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Structured business data where appropriate + a detailed traffic snapshot</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Priority update requests</li>
+                  </ul>
+                </div>
+                <div class="plan-cta">
+                  <a href="/intake-form-enhanced" class="btn btn-ember">Start Enhanced Intake</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan" id="premium">
+              <div class="plan-header">
+                <div class="plan-top">
+                  <span class="plan-tag">Premium</span>
+                  <h3 class="plan-name">Premium</h3>
+                  <div class="plan-price">
+                    <span class="plan-amount">$1,497</span>
+                    <span class="plan-period">/mo</span>
+                  </div>
+                  <div class="plan-setup">Website build valued at $5,000 — <strong>included at no setup cost</strong></div>
+                </div>
+              </div>
+              <div class="plan-body">
+                <div class="plan-features">
+                  <ul class="feat-list">
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><strong>Everything in Enhanced</strong></li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>16-page authority website — <strong>6 pages are dedicated service detail URLs</strong> (priorities #1–#6); plus core site pages, service area, and <strong>3 city-specific pages</strong></li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>4 homeowner-focused articles per month</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 10 ordered service priorities — <strong>#5–#10</strong> on your services hub and site-wide; <strong>strongest SEO depth on #1–#4</strong></li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Intake gallery (up to 25) on home + Gallery page carousels</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Dedicated testimonials page</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Optional help with listings and getting the new site noticed after launch</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Copy and structure tuned for how people search today—including AI-assisted results where it matters</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 8 testimonials</li>
+                  </ul>
+                </div>
+                <div class="plan-cta">
+                  <a href="/intake-form-premium" class="btn btn-outline-dark">Start Premium Intake</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="intake-footer">
+      <div class="container">
+        <small>If you received this link, you’re in the right place. If you need help, reply to the email that sent you this page.</small>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
+

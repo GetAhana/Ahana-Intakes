@@ -1,0 +1,9 @@
+# Canonical host + HTTPS
+http://intakes.getahana.com/*     https://intakes.getahana.com/:splat  301!
+https://www.intakes.getahana.com/*  https://intakes.getahana.com/:splat  301!
+
+# Clean URLs (extensionless)
+/index.html                       /                                   301!
+/intake-form-starter.html           /intake-form-starter                301!
+/intake-form-enhanced.html          /intake-form-enhanced               301!
+/intake-form-premium.html           /intake-form-premium                301!

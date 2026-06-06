@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ahana - Premium Intake Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --obs:#1A1A1B; --ember:#FF5733; --embdk:#D94420;
+      --slate:#707070; --wh:#FFFFFF; --off:#F7F7F7;
+      --bdr:#E0E0E0; --bdrdark:#2E2E2F;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Inter",sans-serif;background:var(--obs);color:var(--wh);min-height:100vh;-webkit-font-smoothing:antialiased}
+    .hdr{background:var(--obs);border-bottom:1px solid var(--bdrdark);padding:3rem 1.5rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+    .hdr::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:300px;height:1px;background:linear-gradient(90deg,transparent,var(--ember),transparent)}
+    .logo-wrap{display:inline-flex;align-items:center;gap:.6rem;margin-bottom:1.75rem}
+    .logo-box{width:36px;height:36px;border-radius:8px;background:var(--ember);display:flex;align-items:center;justify-content:center}
+    .logo-name{font-family:"Syne",sans-serif;font-size:1.35rem;font-weight:800;color:var(--wh)}
+    .logo-name em{font-style:normal;color:var(--ember)}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,87,51,.1);border:1px solid rgba(255,87,51,.25);color:var(--ember);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.38rem .9rem;border-radius:20px;margin-bottom:1.25rem}
+    .hdr h1{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;color:var(--wh);letter-spacing:-.02em;margin-bottom:.75rem}
+    .hdr h1 em{font-style:normal;color:var(--ember)}
+    .hdr p{color:rgba(255,255,255,.5);font-size:.97rem;max-width:610px;margin:0 auto;line-height:1.7}
+
+    .pg-wrap{background:#111112;border-bottom:1px solid var(--bdrdark);padding:1.1rem 0 1.4rem;position:sticky;top:0;z-index:99}
+    .pg-inner{max-width:900px;margin:0 auto;padding:0 1.5rem}
+    .pg-labels{display:flex;justify-content:space-between;margin-bottom:.55rem;gap:.75rem}
+    .pg-lbl{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.2);transition:color .3s;white-space:nowrap}
+    .pg-lbl.active{color:var(--ember)}
+    .pg-lbl.done{color:rgba(255,255,255,.4)}
+    .pg-track{height:3px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
+    .pg-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--ember),#ff8c6e);border-radius:99px;transition:width .4s ease}
+
+    .fw{max-width:900px;margin:0 auto;padding:2.5rem 1.5rem 7rem}
+    .sc{display:none;background:var(--wh);color:var(--obs);border-radius:16px;padding:2.5rem;animation:su .35s ease both}
+    .sc.active{display:block}
+    @keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+    .sec-eye{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;background:rgba(255,87,51,.1);border:1px solid rgba(255,87,51,.2);color:var(--ember);font-size:.78rem;font-weight:700;margin-bottom:.8rem}
+    .sec-title{font-family:"Syne",sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;color:var(--obs);margin-bottom:.3rem}
+    .sec-sub{font-size:.88rem;color:var(--slate);line-height:1.65;margin-bottom:1.75rem;padding-bottom:1.5rem;border-bottom:1px solid var(--bdr)}
+    .callout{background:rgba(255,87,51,.05);border-left:3px solid var(--ember);padding:.8rem 1rem;border-radius:0 8px 8px 0;margin-bottom:1.5rem;font-size:.84rem;color:#555;line-height:1.6}
+    .callout strong{color:var(--ember)}
+
+    .field{margin-bottom:1.3rem}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:520px){.frow{grid-template-columns:1fr}}
+    .flabel{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#444;margin-bottom:.42rem}
+    .flabel .req{color:var(--ember);margin-left:.15rem}
+    .flabel .tip{float:right;font-size:.68rem;font-weight:600;text-transform:none;letter-spacing:0;color:var(--slate);background:#f0f0f0;padding:.12rem .5rem;border-radius:10px}
+    .field input[type=text],.field input[type=tel],.field input[type=email],.field input[type=url],.field input[type=number],.field select,.field textarea{
+      display:block;width:100%;padding:.78rem 1rem;background:var(--wh);
+      border:1.5px solid var(--bdr);border-radius:9px;font-family:"Inter",sans-serif;font-size:.95rem;color:var(--obs);
+      transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none
+    }
+    .field input::placeholder,.field textarea::placeholder{color:#bbb}
+    .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--ember);box-shadow:0 0 0 3px rgba(255,87,51,.1)}
+    .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23707070' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer}
+    .field textarea{resize:vertical;min-height:88px;line-height:1.6}
+    .hint{font-size:.77rem;color:var(--slate);margin-top:.38rem;line-height:1.5}
+
+    .og{display:flex;flex-direction:column;gap:.45rem}
+    .og.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+    @media(max-width:480px){.og.two-col{grid-template-columns:1fr}}
+    .oi{display:grid;grid-template-columns:18px 1fr;align-items:start;gap:.65rem;padding:.85rem 1rem;border:1.5px solid var(--bdr);border-radius:9px;cursor:pointer;user-select:none;transition:border-color .18s,background .18s}
+    .oi:hover{border-color:rgba(255,87,51,.4);background:rgba(255,87,51,.025)}
+    .oi input[type=radio],.oi input[type=checkbox]{display:block;width:16px;height:16px;margin:2px 0 0 0;padding:0;flex-shrink:0;accent-color:var(--ember);cursor:pointer}
+    .oi:has(input:checked){border-color:var(--ember);background:rgba(255,87,51,.04)}
+    .ot{display:flex;flex-direction:column;gap:.1rem}
+    .om{font-size:.9rem;font-weight:600;color:var(--obs);line-height:1.3}
+    .os{font-size:.78rem;color:var(--slate);line-height:1.45;margin-top:.15rem}
+
+    .cond{display:none}
+    .cond.on{display:block;animation:su .28s ease both}
+
+    .upload-zone{display:block;border:2px dashed var(--bdr);border-radius:10px;padding:1.7rem 1rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+    .upload-zone:hover{border-color:var(--ember);background:rgba(255,87,51,.025)}
+    .upload-zone svg{color:var(--ember);margin-bottom:.5rem}
+    .uz-t{font-size:.88rem;font-weight:700;color:var(--obs)}
+    .uz-s{font-size:.77rem;color:var(--slate);margin-top:.15rem}
+    .upload-zone input[type=file]{display:none}
+
+    .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;gap:1rem}
+    .btn-back{background:transparent;border:1.5px solid var(--bdr);color:var(--slate);font-family:"Inter",sans-serif;font-size:.9rem;font-weight:600;padding:.7rem 1.4rem;border-radius:9px;cursor:pointer;transition:border-color .2s,color .2s;display:flex;align-items:center;gap:.4rem}
+    .btn-back:hover{border-color:var(--obs);color:var(--obs)}
+    .btn-next{background:var(--ember);color:var(--wh);border:none;font-family:"Inter",sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.01em;padding:.75rem 1.75rem;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:.45rem;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(255,87,51,.3)}
+    .btn-next:hover{background:var(--embdk);transform:translateY(-1px)}
+    .btn-submit{background:var(--obs);color:var(--wh);border:none;font-family:"Inter",sans-serif;font-size:.9rem;font-weight:700;padding:.75rem 1.75rem;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:.45rem;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+    .btn-submit:hover{background:#2d2d2e;transform:translateY(-1px)}
+
+    #done{display:none;max-width:560px;margin:0 auto;padding:4rem 1.5rem 7rem;text-align:center}
+    .done-icon{width:72px;height:72px;border-radius:50%;margin:0 auto 1.75rem;background:rgba(255,87,51,.1);border:2px solid rgba(255,87,51,.3);display:flex;align-items:center;justify-content:center}
+    #done h2{font-family:"Syne",sans-serif;font-size:2.2rem;font-weight:800;letter-spacing:-.02em;color:var(--wh);margin-bottom:.7rem}
+    #done>p{color:rgba(255,255,255,.5);max-width:420px;margin:0 auto 2rem;line-height:1.7}
+    .nxt-card{background:var(--wh);border-radius:14px;padding:1.75rem;text-align:left;color:var(--obs)}
+    .nxt-card h3{font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:1.1rem}
+    .ni{display:flex;gap:.85rem;padding:.7rem 0;border-bottom:1px solid var(--bdr)}
+    .ni:last-child{border-bottom:none}
+    .nd{width:26px;height:26px;flex-shrink:0;border-radius:7px;background:rgba(255,87,51,.1);border:1px solid rgba(255,87,51,.2);color:var(--ember);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .ni p{font-size:.86rem;color:var(--slate);line-height:1.6}
+    .ni p strong{color:var(--obs)}
+    @media(max-width:620px){.sc{padding:1.75rem 1.25rem}.hdr{padding:2.25rem 1.25rem 2.75rem}}
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo-wrap">
+    <div class="logo-box">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+    </div>
+    <span class="logo-name">Ahana<em>.</em></span>
+  </div>
+  <div class="badge">
+    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    Premium intake · ~15 minutes
+  </div>
+  <h1>Let's Build Your<br/><em>Premium Site.</em></h1>
+  <p>Premium is a <strong>14-page</strong> site: <strong>six</strong> standalone URLs (<code>service-1.html</code> … <code>service-6.html</code>) map to your <strong>first six priority lines</strong>. On <code>services.html</code>, the hub adds <strong>four more core cards</strong> for priorities #7–#10 (no extra detail URLs), then an <strong>Additional services</strong> list from your “other services” field. The intake must supply <strong>all</strong> copy for the six detail pages—including <strong>before/after image pairs</strong> for each—and map which testimonials truly reference each service so the “Homeowners mention …” block can render without guesswork. AI only polishes wording, Title Case headings, SEO, schema, robots, and sitemap from what you provide.</p>
+</header>
+
+<div class="pg-wrap">
+  <div class="pg-inner">
+    <div class="pg-labels">
+      <span class="pg-lbl active" id="pl-1">Essentials</span>
+      <span class="pg-lbl" id="pl-2">Priorities</span>
+      <span class="pg-lbl" id="pl-3">Services</span>
+      <span class="pg-lbl" id="pl-4">Coverage</span>
+      <span class="pg-lbl" id="pl-5">Story</span>
+      <span class="pg-lbl" id="pl-6">Photos</span>
+      <span class="pg-lbl" id="pl-7">Testimonials</span>
+      <span class="pg-lbl" id="pl-8">Technical</span>
+    </div>
+    <div class="pg-track"><div class="pg-fill" id="pgf"></div></div>
+  </div>
+</div>
+
+<div class="fw" id="fw">
+
+  <div class="sc active" id="s1">
+    <div class="sec-eye">1</div>
+    <h2 class="sec-title">Business Essentials</h2>
+    <p class="sec-sub">What should appear on your website and in local listings.</p>
+
+    <div class="field"><label class="flabel">Package <span class="req">*</span></label><input type="text" id="pkg" value="Premium" readonly/></div>
+    <div class="field"><label class="flabel">Legal Business Name <span class="req">*</span></label><input type="text" id="biz-name" placeholder="e.g. Houston Roofers LLC"/></div>
+    <div class="frow">
+      <div class="field"><label class="flabel">Owner Name <span class="req">*</span></label><input type="text" id="owner-name"/></div>
+      <div class="field"><label class="flabel">Business Phone <span class="req">*</span></label><input type="tel" id="biz-phone"/></div>
+    </div>
+    <div class="field"><label class="flabel">Business Email <span class="req">*</span></label><input type="email" id="biz-email"/></div>
+
+    <div class="frow">
+      <div class="field"><label class="flabel">Primary City <span class="req">*</span></label><input type="text" id="biz-city" placeholder="Houston"/></div>
+      <div class="field"><label class="flabel">State <span class="req">*</span></label><input type="text" id="biz-state" placeholder="TX" maxlength="2"/></div>
+    </div>
+    <div class="field"><label class="flabel">Business address (match how you list it publicly)</label><input type="text" id="biz-address"/></div>
+    <div class="field"><label class="flabel">Year Founded</label><input type="number" id="biz-year" min="1950" max="2035"/></div>
+    <div class="frow">
+      <div class="field"><label class="flabel">ZIP (schema)</label><input type="text" id="biz-zip" maxlength="10"/></div>
+      <div class="field"><label class="flabel">Public / short business name <span class="req">*</span></label><input type="text" id="biz-short" placeholder="Nav &amp; logo text"/></div>
+    </div>
+    <div class="field"><label class="flabel">License line (footer / kickers)</label><input type="text" id="license-line"/></div>
+
+    <div class="field">
+      <label class="flabel">Brand Colors <span class="req">*</span> <span class="tip">Up to 2 hex codes</span></label>
+      <input type="text" id="brand-colors" placeholder="#FF5733, #1A1A1B"/>
+    </div>
+
+    <div class="field">
+      <label class="flabel">Do you have a logo? <span class="req">*</span></label>
+      <div class="og">
+        <label class="oi"><input type="radio" name="has-logo" value="yes-file" onchange="showLogo(this.value)"/><div class="ot"><span class="om">Yes — I’ll upload the file</span></div></label>
+        <label class="oi"><input type="radio" name="has-logo" value="yes-link" onchange="showLogo(this.value)"/><div class="ot"><span class="om">Yes — I’ll send a Drive/Dropbox link</span></div></label>
+        <label class="oi"><input type="radio" name="has-logo" value="no" onchange="showLogo(this.value)"/><div class="ot"><span class="om">No logo yet</span></div></label>
+      </div>
+    </div>
+    <div class="field cond" id="logo-upload">
+      <label class="flabel">Upload Logo File</label>
+      <label class="upload-zone" for="logo-file">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        <p class="uz-t">Click to upload your logo</p>
+        <p class="uz-s" id="logo-fn">PNG, SVG, or PDF · Max 10MB</p>
+        <input type="file" id="logo-file" accept=".png,.svg,.pdf,.jpg,.jpeg" onchange="setFn(this,'logo-fn')"/>
+      </label>
+    </div>
+    <div class="field cond" id="logo-link-f"><label class="flabel">Logo File Link</label><input type="url" id="logo-link" placeholder="https://drive.google.com/..."/></div>
+
+    <div class="form-nav"><span></span><button class="btn-next" onclick="goTo(2)">Next: Priorities →</button></div>
+  </div>
+
+  <div class="sc" id="s2">
+    <div class="sec-eye">2</div>
+    <h2 class="sec-title">Your Top Service Priorities (Premium)</h2>
+    <p class="sec-sub">List up to <strong>10 services in priority order</strong> (#1 = most important). Order matters: we use this list for navigation, your services hub, and how pages link together.</p>
+    <div class="callout"><strong>Premium — first six vs the rest.</strong> The <strong>first six</strong> lines below become your six <strong>dedicated service detail pages</strong> (full standalone URLs). Those six also get the <strong>strongest SEO push</strong>—deeper copy, structured FAQs, internal links, and article tie-ins. Lines <strong>#7–#10</strong> still appear across your site (services hub, cross-links, etc.) but <strong>do not</strong> get their own detail pages; SEO depth is weighted toward #1–#6.</div>
+    <div class="callout"><strong>Be specific.</strong> Put the work you want ranked and called for most in slots <strong>#1–#6</strong>. Name exact offers (e.g. “TPO commercial flat roof,” not just “roofing”). List <strong>services only</strong>; we already capture your primary city elsewhere and will mention your area naturally so you don’t repeat the city on every line.</div>
+
+    <div class="field"><label class="flabel">Top service #1 <span class="req">*</span></label><input type="text" id="kw1" placeholder="Highest-priority service"/></div>
+    <div class="field"><label class="flabel">Top service #2 <span class="req">*</span></label><input type="text" id="kw2"/></div>
+    <div class="field"><label class="flabel">Top service #3 <span class="req">*</span></label><input type="text" id="kw3"/></div>
+    <div class="field"><label class="flabel">Top service #4 <span class="req">*</span></label><input type="text" id="kw4" placeholder="Required — dedicated service-4.html"/></div>
+    <div class="field"><label class="flabel">Top service #5 <span class="req">*</span></label><input type="text" id="kw5" placeholder="Required — dedicated service-5.html"/></div>
+    <div class="field"><label class="flabel">Top service #6 <span class="req">*</span></label><input type="text" id="kw6" placeholder="Required — dedicated service-6.html"/></div>
+    <div class="field"><label class="flabel">Top service #7</label><input type="text" id="kw7"/></div>
+    <div class="field"><label class="flabel">Top service #8</label><input type="text" id="kw8"/></div>
+    <div class="field"><label class="flabel">Top service #9</label><input type="text" id="kw9"/></div>
+    <div class="field"><label class="flabel">Top service #10</label><input type="text" id="kw10"/></div>
+
+    <div class="field"><label class="flabel">Competitors / Inspiration URLs (optional)</label><textarea id="inspo" rows="3"></textarea></div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(1)">← Back</button><button class="btn-next" onclick="goTo(3)">Next: Services →</button></div>
+  </div>
+
+  <div class="sc" id="s3">
+    <div class="sec-eye">3</div>
+    <h2 class="sec-title">Your Service Profile</h2>
+    <p class="sec-sub">Premium sites can support richer detail on each service you list above.</p>
+
+    <div class="field">
+      <label class="flabel">Primary Trade / Industry <span class="req">*</span></label>
+      <select id="primary-trade" onchange="toggleOther(this.value)">
+        <option value="" disabled selected>Choose your trade…</option>
+        <option>Roofing</option>
+        <option>General Contracting / Remodeling</option>
+        <option>HVAC / Heating &amp; Cooling</option>
+        <option>Plumbing</option>
+        <option>Electrical</option>
+        <option value="other">Other — I’ll describe it</option>
+      </select>
+      <div class="cond" id="other-trade" style="margin-top:.5rem"><input type="text" id="other-tin"/></div>
+    </div>
+    <div class="field"><label class="flabel">Primary service label (home H1 — before city / accent) <span class="req">*</span></label><input type="text" id="primary-svc-hero" placeholder="e.g. Roofing"/></div>
+
+    <div class="field"><label class="flabel">Service #1 <span class="req">*</span></label><input type="text" id="s1n"/></div>
+    <div class="field"><label class="flabel">Describe Service #1</label><textarea id="s1d" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Service #2 <span class="req">*</span></label><input type="text" id="s2n"/></div>
+    <div class="field"><label class="flabel">Describe Service #2</label><textarea id="s2d" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Service #3 <span class="req">*</span></label><input type="text" id="s3n"/></div>
+    <div class="field"><label class="flabel">Describe Service #3</label><textarea id="s3d" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Service #4 name <span class="req">*</span> <span class="tip">= service-4.html</span></label><input type="text" id="s4n"/></div>
+    <div class="field"><label class="flabel">Describe Service #4 (hub teaser)</label><textarea id="s4d" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Service #5 name <span class="req">*</span> <span class="tip">= service-5.html</span></label><input type="text" id="s5n"/></div>
+    <div class="field"><label class="flabel">Describe Service #5 (hub teaser)</label><textarea id="s5d" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Service #6 name <span class="req">*</span> <span class="tip">= service-6.html</span></label><input type="text" id="s6n"/></div>
+    <div class="field"><label class="flabel">Describe Service #6 (hub teaser)</label><textarea id="s6d" rows="2"></textarea></div>
+
+    <p class="flabel" style="margin:1rem 0 .35rem">Hub-only priorities #7–#10 (no <code>service-7.html</code> — cards on <code>services.html</code> only)</p>
+    <div class="field"><label class="flabel">Service #7 name</label><input type="text" id="s7n" placeholder="Matches top service #7 when possible"/></div>
+    <div class="field"><label class="flabel">Service #7 hub paragraph</label><textarea id="s7d" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Service #8 name</label><input type="text" id="s8n"/></div>
+    <div class="field"><label class="flabel">Service #8 hub paragraph</label><textarea id="s8d" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Service #9 name</label><input type="text" id="s9n"/></div>
+    <div class="field"><label class="flabel">Service #9 hub paragraph</label><textarea id="s9d" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Service #10 name</label><input type="text" id="s10n"/></div>
+    <div class="field"><label class="flabel">Service #10 hub paragraph</label><textarea id="s10d" rows="3"></textarea></div>
+
+    <div class="field"><label class="flabel">Other Services You Offer</label><textarea id="svc-other" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Additional services block — intro paragraph</label><textarea id="addl-svc-intro" rows="2" placeholder="Shown above the bullet list on services.html"></textarea></div>
+    <div class="field"><label class="flabel">Additional services block — list title (optional)</label><input type="text" id="addl-svc-title" placeholder="e.g. Other work we quote and handle"/></div>
+
+    <div class="callout" style="margin-top:1.25rem"><strong>Six dedicated service URLs.</strong> Each block below feeds <code>service-N.html</code> (before/after uploads are in the Photos step). If a testimonial does not mention that service, do not check it in the Testimonials step—otherwise the “Homeowners mention” section cannot render truthfully.</div>
+
+    <details class="field" style="border:1px solid var(--bdr);border-radius:10px;padding:.75rem 1rem;margin-top:.5rem;background:#fafafa">
+      <summary style="font-weight:800;cursor:pointer">Priority #1 → service-1.html (copy)</summary>
+      <div style="margin-top:1rem">
+        <div class="field"><label class="flabel">Page H1 (can differ from card title)</label><input type="text" id="pd1_h1"/></div>
+        <div class="field"><label class="flabel">Opening intro paragraphs</label><textarea id="pd1_intro" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Process — intro line under “How we handle…”</label><textarea id="pd1_pintro" rows="2"></textarea></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 1 title</label><input type="text" id="pd1_s1t"/></div><div class="field"><label class="flabel">Step 1 detail</label><textarea id="pd1_s1b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 2 title</label><input type="text" id="pd1_s2t"/></div><div class="field"><label class="flabel">Step 2 detail</label><textarea id="pd1_s2b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 3 title</label><input type="text" id="pd1_s3t"/></div><div class="field"><label class="flabel">Step 3 detail</label><textarea id="pd1_s3b" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Signs you need this — intro</label><textarea id="pd1_sgintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Signs — one bullet per line (up to 5)</label><textarea id="pd1_signs" rows="4" placeholder="Line 1&#10;Line 2…"></textarea></div>
+        <div class="field"><label class="flabel">Before/after section intro</label><textarea id="pd1_gintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">FAQ Q1 / A1</label><div class="frow"><input type="text" id="pd1_fq1" placeholder="Question"/><textarea id="pd1_fa1" rows="2" placeholder="Answer"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q2 / A2</label><div class="frow"><input type="text" id="pd1_fq2"/><textarea id="pd1_fa2" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q3 / A3</label><div class="frow"><input type="text" id="pd1_fq3"/><textarea id="pd1_fa3" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">“Homeowners mention …” intro (only used if testimonials mapped)</label><textarea id="pd1_tintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Related services blurb</label><textarea id="pd1_rintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Bottom CTA copy</label><textarea id="pd1_cta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">SEO title tag</label><input type="text" id="pd1_seot"/></div>
+        <div class="field"><label class="flabel">Meta description</label><textarea id="pd1_meta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Schema / JSON-LD service description (short)</label><textarea id="pd1_schema" rows="2"></textarea></div>
+      </div>
+    </details>
+    <details class="field" style="border:1px solid var(--bdr);border-radius:10px;padding:.75rem 1rem;margin-top:.5rem;background:#fafafa">
+      <summary style="font-weight:800;cursor:pointer">Priority #2 → service-2.html (copy)</summary>
+      <div style="margin-top:1rem">
+        <div class="field"><label class="flabel">Page H1</label><input type="text" id="pd2_h1"/></div>
+        <div class="field"><label class="flabel">Opening intro</label><textarea id="pd2_intro" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Process intro</label><textarea id="pd2_pintro" rows="2"></textarea></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 1 title</label><input type="text" id="pd2_s1t"/></div><div class="field"><label class="flabel">Step 1 detail</label><textarea id="pd2_s1b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 2 title</label><input type="text" id="pd2_s2t"/></div><div class="field"><label class="flabel">Step 2 detail</label><textarea id="pd2_s2b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 3 title</label><input type="text" id="pd2_s3t"/></div><div class="field"><label class="flabel">Step 3 detail</label><textarea id="pd2_s3b" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Signs intro</label><textarea id="pd2_sgintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Signs (one per line)</label><textarea id="pd2_signs" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Before/after section intro</label><textarea id="pd2_gintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">FAQ Q1 / A1</label><div class="frow"><input type="text" id="pd2_fq1"/><textarea id="pd2_fa1" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q2 / A2</label><div class="frow"><input type="text" id="pd2_fq2"/><textarea id="pd2_fa2" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q3 / A3</label><div class="frow"><input type="text" id="pd2_fq3"/><textarea id="pd2_fa3" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Homeowners-mentions intro</label><textarea id="pd2_tintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Related services blurb</label><textarea id="pd2_rintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Bottom CTA copy</label><textarea id="pd2_cta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">SEO title</label><input type="text" id="pd2_seot"/></div>
+        <div class="field"><label class="flabel">Meta description</label><textarea id="pd2_meta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Schema description</label><textarea id="pd2_schema" rows="2"></textarea></div>
+      </div>
+    </details>
+    <details class="field" style="border:1px solid var(--bdr);border-radius:10px;padding:.75rem 1rem;margin-top:.5rem;background:#fafafa">
+      <summary style="font-weight:800;cursor:pointer">Priority #3 → service-3.html (copy)</summary>
+      <div style="margin-top:1rem">
+        <div class="field"><label class="flabel">Page H1</label><input type="text" id="pd3_h1"/></div>
+        <div class="field"><label class="flabel">Opening intro</label><textarea id="pd3_intro" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Process intro</label><textarea id="pd3_pintro" rows="2"></textarea></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 1 title</label><input type="text" id="pd3_s1t"/></div><div class="field"><label class="flabel">Step 1 detail</label><textarea id="pd3_s1b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 2 title</label><input type="text" id="pd3_s2t"/></div><div class="field"><label class="flabel">Step 2 detail</label><textarea id="pd3_s2b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 3 title</label><input type="text" id="pd3_s3t"/></div><div class="field"><label class="flabel">Step 3 detail</label><textarea id="pd3_s3b" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Signs intro</label><textarea id="pd3_sgintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Signs (one per line)</label><textarea id="pd3_signs" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Before/after section intro</label><textarea id="pd3_gintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">FAQ Q1 / A1</label><div class="frow"><input type="text" id="pd3_fq1"/><textarea id="pd3_fa1" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q2 / A2</label><div class="frow"><input type="text" id="pd3_fq2"/><textarea id="pd3_fa2" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q3 / A3</label><div class="frow"><input type="text" id="pd3_fq3"/><textarea id="pd3_fa3" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Homeowners-mentions intro</label><textarea id="pd3_tintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Related services blurb</label><textarea id="pd3_rintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Bottom CTA copy</label><textarea id="pd3_cta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">SEO title</label><input type="text" id="pd3_seot"/></div>
+        <div class="field"><label class="flabel">Meta description</label><textarea id="pd3_meta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Schema description</label><textarea id="pd3_schema" rows="2"></textarea></div>
+      </div>
+    </details>
+    <details class="field" style="border:1px solid var(--bdr);border-radius:10px;padding:.75rem 1rem;margin-top:.5rem;background:#fafafa">
+      <summary style="font-weight:800;cursor:pointer">Priority #4 → service-4.html (copy)</summary>
+      <div style="margin-top:1rem">
+        <div class="field"><label class="flabel">Page H1</label><input type="text" id="pd4_h1"/></div>
+        <div class="field"><label class="flabel">Opening intro</label><textarea id="pd4_intro" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Process intro</label><textarea id="pd4_pintro" rows="2"></textarea></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 1 title</label><input type="text" id="pd4_s1t"/></div><div class="field"><label class="flabel">Step 1 detail</label><textarea id="pd4_s1b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 2 title</label><input type="text" id="pd4_s2t"/></div><div class="field"><label class="flabel">Step 2 detail</label><textarea id="pd4_s2b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 3 title</label><input type="text" id="pd4_s3t"/></div><div class="field"><label class="flabel">Step 3 detail</label><textarea id="pd4_s3b" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Signs intro</label><textarea id="pd4_sgintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Signs (one per line)</label><textarea id="pd4_signs" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Before/after section intro</label><textarea id="pd4_gintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">FAQ Q1 / A1</label><div class="frow"><input type="text" id="pd4_fq1"/><textarea id="pd4_fa1" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q2 / A2</label><div class="frow"><input type="text" id="pd4_fq2"/><textarea id="pd4_fa2" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q3 / A3</label><div class="frow"><input type="text" id="pd4_fq3"/><textarea id="pd4_fa3" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Homeowners-mentions intro</label><textarea id="pd4_tintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Related services blurb</label><textarea id="pd4_rintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Bottom CTA copy</label><textarea id="pd4_cta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">SEO title</label><input type="text" id="pd4_seot"/></div>
+        <div class="field"><label class="flabel">Meta description</label><textarea id="pd4_meta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Schema description</label><textarea id="pd4_schema" rows="2"></textarea></div>
+      </div>
+    </details>
+    <details class="field" style="border:1px solid var(--bdr);border-radius:10px;padding:.75rem 1rem;margin-top:.5rem;background:#fafafa">
+      <summary style="font-weight:800;cursor:pointer">Priority #5 → service-5.html (copy)</summary>
+      <div style="margin-top:1rem">
+        <div class="field"><label class="flabel">Page H1</label><input type="text" id="pd5_h1"/></div>
+        <div class="field"><label class="flabel">Opening intro</label><textarea id="pd5_intro" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Process intro</label><textarea id="pd5_pintro" rows="2"></textarea></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 1 title</label><input type="text" id="pd5_s1t"/></div><div class="field"><label class="flabel">Step 1 detail</label><textarea id="pd5_s1b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 2 title</label><input type="text" id="pd5_s2t"/></div><div class="field"><label class="flabel">Step 2 detail</label><textarea id="pd5_s2b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 3 title</label><input type="text" id="pd5_s3t"/></div><div class="field"><label class="flabel">Step 3 detail</label><textarea id="pd5_s3b" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Signs intro</label><textarea id="pd5_sgintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Signs (one per line)</label><textarea id="pd5_signs" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Before/after section intro</label><textarea id="pd5_gintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">FAQ Q1 / A1</label><div class="frow"><input type="text" id="pd5_fq1"/><textarea id="pd5_fa1" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q2 / A2</label><div class="frow"><input type="text" id="pd5_fq2"/><textarea id="pd5_fa2" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q3 / A3</label><div class="frow"><input type="text" id="pd5_fq3"/><textarea id="pd5_fa3" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Homeowners-mentions intro</label><textarea id="pd5_tintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Related services blurb</label><textarea id="pd5_rintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Bottom CTA copy</label><textarea id="pd5_cta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">SEO title</label><input type="text" id="pd5_seot"/></div>
+        <div class="field"><label class="flabel">Meta description</label><textarea id="pd5_meta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Schema description</label><textarea id="pd5_schema" rows="2"></textarea></div>
+      </div>
+    </details>
+    <details class="field" style="border:1px solid var(--bdr);border-radius:10px;padding:.75rem 1rem;margin-top:.5rem;background:#fafafa">
+      <summary style="font-weight:800;cursor:pointer">Priority #6 → service-6.html (copy)</summary>
+      <div style="margin-top:1rem">
+        <div class="field"><label class="flabel">Page H1</label><input type="text" id="pd6_h1"/></div>
+        <div class="field"><label class="flabel">Opening intro</label><textarea id="pd6_intro" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Process intro</label><textarea id="pd6_pintro" rows="2"></textarea></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 1 title</label><input type="text" id="pd6_s1t"/></div><div class="field"><label class="flabel">Step 1 detail</label><textarea id="pd6_s1b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 2 title</label><input type="text" id="pd6_s2t"/></div><div class="field"><label class="flabel">Step 2 detail</label><textarea id="pd6_s2b" rows="2"></textarea></div></div>
+        <div class="frow"><div class="field"><label class="flabel">Step 3 title</label><input type="text" id="pd6_s3t"/></div><div class="field"><label class="flabel">Step 3 detail</label><textarea id="pd6_s3b" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Signs intro</label><textarea id="pd6_sgintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Signs (one per line)</label><textarea id="pd6_signs" rows="4"></textarea></div>
+        <div class="field"><label class="flabel">Before/after section intro</label><textarea id="pd6_gintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">FAQ Q1 / A1</label><div class="frow"><input type="text" id="pd6_fq1"/><textarea id="pd6_fa1" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q2 / A2</label><div class="frow"><input type="text" id="pd6_fq2"/><textarea id="pd6_fa2" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">FAQ Q3 / A3</label><div class="frow"><input type="text" id="pd6_fq3"/><textarea id="pd6_fa3" rows="2"></textarea></div></div>
+        <div class="field"><label class="flabel">Homeowners-mentions intro</label><textarea id="pd6_tintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Related services blurb</label><textarea id="pd6_rintro" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Bottom CTA copy</label><textarea id="pd6_cta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">SEO title</label><input type="text" id="pd6_seot"/></div>
+        <div class="field"><label class="flabel">Meta description</label><textarea id="pd6_meta" rows="2"></textarea></div>
+        <div class="field"><label class="flabel">Schema description</label><textarea id="pd6_schema" rows="2"></textarea></div>
+      </div>
+    </details>
+
+    <div class="field">
+      <label class="flabel">Emergency / after-hours service?</label>
+      <div class="og">
+        <label class="oi"><input type="radio" name="emergency" value="yes-247"/><div class="ot"><span class="om">Yes — 24/7</span></div></label>
+        <label class="oi"><input type="radio" name="emergency" value="yes-limited"/><div class="ot"><span class="om">Yes — limited availability</span></div></label>
+        <label class="oi"><input type="radio" name="emergency" value="no"/><div class="ot"><span class="om">No — business hours only</span></div></label>
+      </div>
+    </div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(2)">← Back</button><button class="btn-next" onclick="goTo(4)">Next: Coverage →</button></div>
+  </div>
+
+  <div class="sc" id="s4">
+    <div class="sec-eye">4</div>
+    <h2 class="sec-title">Your Local Footprint</h2>
+    <p class="sec-sub">We use this for your service-area page, contact blocks, and the same address details everywhere they appear. Optional listing and indexing help after launch is coordinated separately.</p>
+
+    <div class="field"><label class="flabel">Primary city to feature <span class="req">*</span></label><input type="text" id="pcity"/></div>
+    <div class="field"><label class="flabel">All Cities / Neighborhoods You Serve <span class="req">*</span></label><textarea id="scities" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Zip Codes (optional)</label><textarea id="szips" rows="2"></textarea></div>
+
+    <div class="field">
+      <label class="flabel">Google Business Profile? <span class="req">*</span></label>
+      <div class="og">
+        <label class="oi"><input type="radio" name="gbp" value="yes-claimed"/><div class="ot"><span class="om">Yes — claimed &amp; verified</span></div></label>
+        <label class="oi"><input type="radio" name="gbp" value="yes-unclaimed"/><div class="ot"><span class="om">Yes — but not claimed yet</span></div></label>
+        <label class="oi"><input type="radio" name="gbp" value="no"/><div class="ot"><span class="om">No</span></div></label>
+      </div>
+    </div>
+    <div class="field"><label class="flabel">Google Business Profile Link (optional)</label><input type="url" id="gbp-link"/></div>
+    <div class="frow">
+      <div class="field"><label class="flabel">Review Rating (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.5 – 4.9</option><option>4.0 – 4.4</option><option>Under 4.0</option><option>No reviews yet</option></select></div>
+      <div class="field"><label class="flabel">Number of Reviews (optional)</label><input type="number" id="rvcount" min="0"/></div>
+    </div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(3)">← Back</button><button class="btn-next" onclick="goTo(5)">Next: Story →</button></div>
+  </div>
+
+  <div class="sc" id="s5">
+    <div class="sec-eye">5</div>
+    <h2 class="sec-title">Your Story &Amp; Trust Signals</h2>
+    <p class="sec-sub">AI will produce premium-level copy polish and consistent tone across 16 pages.</p>
+
+    <div class="field"><label class="flabel">Years of experience <span class="req">*</span></label><input type="text" id="yexp"/></div>
+    <div class="field"><label class="flabel">Why did you start this business? <span class="req">*</span></label><textarea id="bstory" rows="4"></textarea></div>
+
+    <div class="field">
+      <label class="flabel">Top 3 reasons customers choose you <span class="req">*</span></label>
+      <div class="frow">
+        <div class="field"><label class="flabel">Reason 1 title</label><input type="text" id="u1t"/></div>
+        <div class="field"><label class="flabel">Reason 1 detail</label><textarea id="u1d" rows="2"></textarea></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label class="flabel">Reason 2 title</label><input type="text" id="u2t"/></div>
+        <div class="field"><label class="flabel">Reason 2 detail</label><textarea id="u2d" rows="2"></textarea></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label class="flabel">Reason 3 title</label><input type="text" id="u3t"/></div>
+        <div class="field"><label class="flabel">Reason 3 detail</label><textarea id="u3d" rows="2"></textarea></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="flabel">How it works (3 steps) <span class="req">*</span></label>
+      <div class="field"><label class="flabel">Step 1</label><input type="text" id="p1"/></div>
+      <div class="field"><label class="flabel">Step 2</label><input type="text" id="p2"/></div>
+      <div class="field"><label class="flabel">Step 3</label><input type="text" id="p3"/></div>
+    </div>
+
+    <div class="field">
+      <label class="flabel">Core Values <span class="tip">Check all that apply</span></label>
+      <div class="og two-col">
+        <label class="oi"><input type="checkbox" name="vals" value="integrity"/><div class="ot"><span class="om">Integrity</span></div></label>
+        <label class="oi"><input type="checkbox" name="vals" value="family"/><div class="ot"><span class="om">Family-Owned</span></div></label>
+        <label class="oi"><input type="checkbox" name="vals" value="community"/><div class="ot"><span class="om">Community First</span></div></label>
+        <label class="oi"><input type="checkbox" name="vals" value="veteran"/><div class="ot"><span class="om">Veteran-Owned</span></div></label>
+        <label class="oi"><input type="checkbox" name="vals" value="excellence"/><div class="ot"><span class="om">Excellence</span></div></label>
+        <label class="oi"><input type="checkbox" name="vals" value="honest-pricing"/><div class="ot"><span class="om">Honest Pricing</span></div></label>
+      </div>
+    </div>
+    <div class="field"><label class="flabel">Licenses / certifications (optional)</label><textarea id="creds" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Guarantees / warranties (optional)</label><input type="text" id="guar"/></div>
+
+    <div class="callout" style="margin-top:1.5rem"><strong>Premium — hub &amp; supporting pages.</strong> These fields map to the non–service-detail templates (home, services hub, gallery, testimonials, about, articles, service area, contact).</div>
+    <div class="field"><label class="flabel">Home hero subheadline <span class="req">*</span></label><textarea id="hero-sub-pr" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Home H1 accent (second line in span)</label><input type="text" id="hero-accent-pr" placeholder="e.g. Clear communication." value="Clear communication."/></div>
+    <div class="field"><label class="flabel">Keyword intent blurbs (home cards) — line 1</label><textarea id="ki1" rows="2" placeholder="For priority #1 card body…"></textarea></div>
+    <div class="field"><label class="flabel">Keyword intent — line 2</label><textarea id="ki2" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Keyword intent — line 3</label><textarea id="ki3" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Keyword intent — line 4</label><textarea id="ki4" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Services hub H1 prefix (before “in {{City}}”)</label><input type="text" id="svc-hub-h1" placeholder="e.g. Roofing services" value="Roofing services"/></div>
+    <div class="field"><label class="flabel">Services hub intro <span class="req">*</span></label><textarea id="svc-hub-intro" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Services hub — card long copy #1 (links to service-1)</label><textarea id="hub1-long" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Card long copy #2</label><textarea id="hub2-long" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Card long copy #3</label><textarea id="hub3-long" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Card long copy #4</label><textarea id="hub4-long" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Card long copy #5 (links to service-5)</label><textarea id="hub5-long" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Card long copy #6</label><textarea id="hub6-long" rows="3"></textarea></div>
+    <div class="frow">
+      <div class="field"><label class="flabel">Detail link CTA #1</label><input type="text" id="hub1-cta" placeholder="View service details →" value="View service details →"/></div>
+      <div class="field"><label class="flabel">Detail link CTA #2</label><input type="text" id="hub2-cta" value="View service details →"/></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="flabel">Detail link CTA #3</label><input type="text" id="hub3-cta" value="View service details →"/></div>
+      <div class="field"><label class="flabel">Detail link CTA #4</label><input type="text" id="hub4-cta" value="View service details →"/></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="flabel">Detail link CTA #5</label><input type="text" id="hub5-cta" value="View service details →"/></div>
+      <div class="field"><label class="flabel">Detail link CTA #6</label><input type="text" id="hub6-cta" value="View service details →"/></div>
+    </div>
+    <div class="field"><label class="flabel">Services hub — “Most popular” section intro (optional)</label><textarea id="prem-hub-pop-intro" rows="2" placeholder="Paragraph under the six detail-page cards"></textarea></div>
+    <div class="field"><label class="flabel">Services hub — “Additional core” section intro (optional)</label><textarea id="prem-hub-core-intro" rows="2" placeholder="Paragraph above priorities #7–#10 hub cards"></textarea></div>
+    <p class="flabel" style="margin:1rem 0 .5rem">About page</p>
+    <div class="frow">
+      <div class="field"><label class="flabel">About H1 — first line</label><input type="text" id="about-h1-l1" value="Craftsmanship you can trust,"/></div>
+      <div class="field"><label class="flabel">About H1 — accent (span)</label><input type="text" id="about-h1-ac2" value="local accountability"/></div>
+    </div>
+    <div class="field"><label class="flabel">About lead</label><textarea id="about-lead-pr" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">About story H2</label><input type="text" id="about-h2-pr"/></div>
+    <div class="field"><label class="flabel">About long story</label><textarea id="about-long-pr" rows="4"></textarea></div>
+    <div class="field"><label class="flabel">Values intro</label><textarea id="values-intro-pr" rows="2"></textarea></div>
+    <div class="frow"><div class="field"><label class="flabel">Value 1</label><input type="text" id="v1p"/></div><div class="field"><label class="flabel">Value 2</label><input type="text" id="v2p"/></div></div>
+    <div class="frow"><div class="field"><label class="flabel">Value 3</label><input type="text" id="v3p"/></div><div class="field"><label class="flabel">Value 4</label><input type="text" id="v4p"/></div></div>
+    <p class="flabel" style="margin:1rem 0 .5rem">Articles hub (4 posts on Premium template)</p>
+    <div class="field"><label class="flabel">Articles intro</label><textarea id="art-intro-pr" rows="2"></textarea></div>
+    <div class="frow"><div class="field"><label class="flabel">Post 1 title</label><input type="text" id="p1t"/></div><div class="field"><label class="flabel">Post 1 date</label><input type="text" id="p1d"/></div></div>
+    <div class="field"><label class="flabel">Post 1 excerpt</label><textarea id="p1x" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Post 1 URL</label><input type="url" id="p1u"/></div>
+    <div class="frow"><div class="field"><label class="flabel">Post 2 title</label><input type="text" id="p2t"/></div><div class="field"><label class="flabel">Post 2 date</label><input type="text" id="p2d"/></div></div>
+    <div class="field"><label class="flabel">Post 2 excerpt</label><textarea id="p2x" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Post 2 URL</label><input type="url" id="p2u"/></div>
+    <div class="frow"><div class="field"><label class="flabel">Post 3 title</label><input type="text" id="p3t"/></div><div class="field"><label class="flabel">Post 3 date</label><input type="text" id="p3d"/></div></div>
+    <div class="field"><label class="flabel">Post 3 excerpt</label><textarea id="p3x" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Post 3 URL</label><input type="url" id="p3u"/></div>
+    <div class="frow"><div class="field"><label class="flabel">Post 4 title</label><input type="text" id="p4t"/></div><div class="field"><label class="flabel">Post 4 date</label><input type="text" id="p4d"/></div></div>
+    <div class="field"><label class="flabel">Post 4 excerpt</label><textarea id="p4x" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Post 4 URL</label><input type="url" id="p4u"/></div>
+    <p class="flabel" style="margin:1rem 0 .5rem">Service area &amp; contact</p>
+    <div class="field"><label class="flabel">Service area nav label</label><input type="text" id="sa-nav-pr" value="Service Area"/></div>
+    <div class="field"><label class="flabel">Service area short headline (H1 span)</label><input type="text" id="sa-short-pr"/></div>
+    <div class="field"><label class="flabel">Service area intro</label><textarea id="sa-intro-pr" rows="4"></textarea></div>
+    <div class="field"><label class="flabel">Contact lead</label><textarea id="contact-lead-pr" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Contact call column</label><textarea id="contact-call-pr" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Contact form intro</label><textarea id="contact-form-pr" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Gallery page intro (under H1)</label><textarea id="gal-intro-pr" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Footer tagline</label><input type="text" id="footer-tag-pr"/></div>
+    <div class="field"><label class="flabel">Testimonials page intro (under H1)</label><textarea id="tintro-pr" rows="3"></textarea></div>
+    <div class="field"><label class="flabel">Google reviews section — supporting paragraph</label><textarea id="google-rev-p" rows="2" placeholder="Shown above the Google Profile link…"></textarea></div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(4)">← Back</button><button class="btn-next" onclick="goTo(6)">Next: Photos →</button></div>
+  </div>
+
+  <div class="sc" id="s6">
+    <div class="sec-eye">6</div>
+    <h2 class="sec-title">Photos &Amp; Visual Assets</h2>
+    <p class="sec-sub">Upload images directly. <strong>No captions.</strong> Premium supports a large carousel gallery.</p>
+    <div class="callout"><strong>Premium limit:</strong> up to <strong>25</strong> gallery photos (carousel).</div>
+
+    <div class="callout"><strong>Required before/after pairs</strong> for each dedicated service page (priorities #1–#6). Use real project photos for that service; filenames are captured in JSON for the build.</div>
+    <div class="frow">
+      <div class="field">
+        <label class="flabel">Priority #1 — BEFORE photo</label>
+        <label class="upload-zone" for="ba1b"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg><p class="uz-t">Before</p><p class="uz-s" id="ba1b-fn">No file</p><input type="file" id="ba1b" accept="image/*" onchange="setFn(this,'ba1b-fn')"/></label>
+      </div>
+      <div class="field">
+        <label class="flabel">Priority #1 — AFTER photo</label>
+        <label class="upload-zone" for="ba1a"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg><p class="uz-t">After</p><p class="uz-s" id="ba1a-fn">No file</p><input type="file" id="ba1a" accept="image/*" onchange="setFn(this,'ba1a-fn')"/></label>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="field">
+        <label class="flabel">Priority #2 — BEFORE</label>
+        <label class="upload-zone" for="ba2b"><p class="uz-t">Before</p><p class="uz-s" id="ba2b-fn">No file</p><input type="file" id="ba2b" accept="image/*" onchange="setFn(this,'ba2b-fn')"/></label>
+      </div>
+      <div class="field">
+        <label class="flabel">Priority #2 — AFTER</label>
+        <label class="upload-zone" for="ba2a"><p class="uz-t">After</p><p class="uz-s" id="ba2a-fn">No file</p><input type="file" id="ba2a" accept="image/*" onchange="setFn(this,'ba2a-fn')"/></label>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="field">
+        <label class="flabel">Priority #3 — BEFORE</label>
+        <label class="upload-zone" for="ba3b"><p class="uz-t">Before</p><p class="uz-s" id="ba3b-fn">No file</p><input type="file" id="ba3b" accept="image/*" onchange="setFn(this,'ba3b-fn')"/></label>
+      </div>
+      <div class="field">
+        <label class="flabel">Priority #3 — AFTER</label>
+        <label class="upload-zone" for="ba3a"><p class="uz-t">After</p><p class="uz-s" id="ba3a-fn">No file</p><input type="file" id="ba3a" accept="image/*" onchange="setFn(this,'ba3a-fn')"/></label>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="field">
+        <label class="flabel">Priority #4 — BEFORE</label>
+        <label class="upload-zone" for="ba4b"><p class="uz-t">Before</p><p class="uz-s" id="ba4b-fn">No file</p><input type="file" id="ba4b" accept="image/*" onchange="setFn(this,'ba4b-fn')"/></label>
+      </div>
+      <div class="field">
+        <label class="flabel">Priority #4 — AFTER</label>
+        <label class="upload-zone" for="ba4a"><p class="uz-t">After</p><p class="uz-s" id="ba4a-fn">No file</p><input type="file" id="ba4a" accept="image/*" onchange="setFn(this,'ba4a-fn')"/></label>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="field">
+        <label class="flabel">Priority #5 — BEFORE</label>
+        <label class="upload-zone" for="ba5b"><p class="uz-t">Before</p><p class="uz-s" id="ba5b-fn">No file</p><input type="file" id="ba5b" accept="image/*" onchange="setFn(this,'ba5b-fn')"/></label>
+      </div>
+      <div class="field">
+        <label class="flabel">Priority #5 — AFTER</label>
+        <label class="upload-zone" for="ba5a"><p class="uz-t">After</p><p class="uz-s" id="ba5a-fn">No file</p><input type="file" id="ba5a" accept="image/*" onchange="setFn(this,'ba5a-fn')"/></label>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="field">
+        <label class="flabel">Priority #6 — BEFORE</label>
+        <label class="upload-zone" for="ba6b"><p class="uz-t">Before</p><p class="uz-s" id="ba6b-fn">No file</p><input type="file" id="ba6b" accept="image/*" onchange="setFn(this,'ba6b-fn')"/></label>
+      </div>
+      <div class="field">
+        <label class="flabel">Priority #6 — AFTER</label>
+        <label class="upload-zone" for="ba6a"><p class="uz-t">After</p><p class="uz-s" id="ba6a-fn">No file</p><input type="file" id="ba6a" accept="image/*" onchange="setFn(this,'ba6a-fn')"/></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="flabel">Hero / Banner Image (upload)</label>
+      <p class="hint" style="margin-bottom:.65rem">This is the <strong>large background image behind your homepage headline</strong>—your brand’s first visual. Best: <strong>wide landscape</strong>, high resolution, good light—crew at work, a premium finished job, or your <strong>wrapped fleet</strong> at a recognizable local property. Avoid logo-only, cluttered office shots, or stock-looking images with no tie to your real work.</p>
+      <label class="upload-zone" for="hero-file">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        <p class="uz-t">Upload hero / banner image</p>
+        <p class="uz-s" id="hero-fn">JPG/PNG/WebP</p>
+        <input type="file" id="hero-file" accept="image/*" onchange="setFn(this,'hero-fn')"/>
+      </label>
+    </div>
+    <div class="field">
+      <label class="flabel">Owner / Team photos (upload)</label>
+      <label class="upload-zone" for="team-files">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        <p class="uz-t">Upload team photos</p>
+        <p class="uz-s" id="team-fn">Multiple allowed</p>
+        <input type="file" id="team-files" accept="image/*" multiple onchange="setMultiFn(this,'team-fn')"/>
+      </label>
+    </div>
+    <div class="field">
+      <label class="flabel">Truck / vehicle photos (upload)</label>
+      <label class="upload-zone" for="truck-files">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        <p class="uz-t">Upload truck/vehicle photos</p>
+        <p class="uz-s" id="truck-fn">Multiple allowed</p>
+        <input type="file" id="truck-files" accept="image/*" multiple onchange="setMultiFn(this,'truck-fn')"/>
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="flabel">Gallery photos (upload) <span class="req">*</span> <span class="tip">Up to 25</span></label>
+      <label class="upload-zone" for="gallery-files">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        <p class="uz-t">Upload gallery photos</p>
+        <p class="uz-s" id="gallery-fn">0 selected</p>
+        <input type="file" id="gallery-files" accept="image/*" multiple onchange="enforceMaxFiles(this,25,'gallery-fn')"/>
+      </label>
+      <p class="hint">These files populate the <strong>homepage gallery carousel</strong> and the <strong>Gallery</strong> page carousel (same set, up to 25). No captions — we’ll add short, accurate image descriptions from what’s in each photo.</p>
+    </div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(5)">← Back</button><button class="btn-next" onclick="goTo(7)">Next: Testimonials →</button></div>
+  </div>
+
+  <div class="sc" id="s7">
+    <div class="sec-eye">7</div>
+    <h2 class="sec-title">Testimonials (Premium)</h2>
+    <p class="sec-sub">Premium supports up to <strong>8 testimonials</strong> and generates a dedicated testimonials page with a professional “Wall of Love” style carousel.</p>
+
+    <div class="field"><label class="flabel">Testimonials page label (optional)</label><input type="text" id="tpage" value="Wall of Love" /></div>
+
+    <div class="callout"><strong>Note:</strong> Paste raw reviews — AI will normalize tone and grammar only. For each review, check which <strong>dedicated service page (1–6)</strong> it clearly references so we can populate “Homeowners mention …” without guessing.</div>
+
+    <div class="field"><label class="flabel">Testimonial #1 Name <span class="req">*</span></label><input type="text" id="t1n"/></div>
+    <div class="field"><label class="flabel">Testimonial #1 City</label><input type="text" id="t1c"/></div>
+    <div class="field"><label class="flabel">Testimonial #1 Text <span class="req">*</span></label><textarea id="t1t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages (only if this text references that service)</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map1" value="1"/><div class="ot"><span class="om">#1 service-1</span></div></label><label class="oi"><input type="checkbox" name="map1" value="2"/><div class="ot"><span class="om">#2 service-2</span></div></label><label class="oi"><input type="checkbox" name="map1" value="3"/><div class="ot"><span class="om">#3 service-3</span></div></label><label class="oi"><input type="checkbox" name="map1" value="4"/><div class="ot"><span class="om">#4 service-4</span></div></label><label class="oi"><input type="checkbox" name="map1" value="5"/><div class="ot"><span class="om">#5 service-5</span></div></label><label class="oi"><input type="checkbox" name="map1" value="6"/><div class="ot"><span class="om">#6 service-6</span></div></label></div></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #2 Name <span class="req">*</span></label><input type="text" id="t2n"/></div>
+    <div class="field"><label class="flabel">Testimonial #2 City</label><input type="text" id="t2c"/></div>
+    <div class="field"><label class="flabel">Testimonial #2 Text <span class="req">*</span></label><textarea id="t2t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map2" value="1"/><div class="ot"><span class="om">#1</span></div></label><label class="oi"><input type="checkbox" name="map2" value="2"/><div class="ot"><span class="om">#2</span></div></label><label class="oi"><input type="checkbox" name="map2" value="3"/><div class="ot"><span class="om">#3</span></div></label><label class="oi"><input type="checkbox" name="map2" value="4"/><div class="ot"><span class="om">#4</span></div></label><label class="oi"><input type="checkbox" name="map2" value="5"/><div class="ot"><span class="om">#5</span></div></label><label class="oi"><input type="checkbox" name="map2" value="6"/><div class="ot"><span class="om">#6</span></div></label></div></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #3 Name</label><input type="text" id="t3n"/></div>
+    <div class="field"><label class="flabel">Testimonial #3 City</label><input type="text" id="t3c"/></div>
+    <div class="field"><label class="flabel">Testimonial #3 Text</label><textarea id="t3t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map3" value="1"/><div class="ot"><span class="om">#1</span></div></label><label class="oi"><input type="checkbox" name="map3" value="2"/><div class="ot"><span class="om">#2</span></div></label><label class="oi"><input type="checkbox" name="map3" value="3"/><div class="ot"><span class="om">#3</span></div></label><label class="oi"><input type="checkbox" name="map3" value="4"/><div class="ot"><span class="om">#4</span></div></label><label class="oi"><input type="checkbox" name="map3" value="5"/><div class="ot"><span class="om">#5</span></div></label><label class="oi"><input type="checkbox" name="map3" value="6"/><div class="ot"><span class="om">#6</span></div></label></div></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #4 Name</label><input type="text" id="t4n"/></div>
+    <div class="field"><label class="flabel">Testimonial #4 City</label><input type="text" id="t4c"/></div>
+    <div class="field"><label class="flabel">Testimonial #4 Text</label><textarea id="t4t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map4" value="1"/><div class="ot"><span class="om">#1</span></div></label><label class="oi"><input type="checkbox" name="map4" value="2"/><div class="ot"><span class="om">#2</span></div></label><label class="oi"><input type="checkbox" name="map4" value="3"/><div class="ot"><span class="om">#3</span></div></label><label class="oi"><input type="checkbox" name="map4" value="4"/><div class="ot"><span class="om">#4</span></div></label><label class="oi"><input type="checkbox" name="map4" value="5"/><div class="ot"><span class="om">#5</span></div></label><label class="oi"><input type="checkbox" name="map4" value="6"/><div class="ot"><span class="om">#6</span></div></label></div></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #5 Name</label><input type="text" id="t5n"/></div>
+    <div class="field"><label class="flabel">Testimonial #5 City</label><input type="text" id="t5c"/></div>
+    <div class="field"><label class="flabel">Testimonial #5 Text</label><textarea id="t5t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map5" value="1"/><div class="ot"><span class="om">#1</span></div></label><label class="oi"><input type="checkbox" name="map5" value="2"/><div class="ot"><span class="om">#2</span></div></label><label class="oi"><input type="checkbox" name="map5" value="3"/><div class="ot"><span class="om">#3</span></div></label><label class="oi"><input type="checkbox" name="map5" value="4"/><div class="ot"><span class="om">#4</span></div></label><label class="oi"><input type="checkbox" name="map5" value="5"/><div class="ot"><span class="om">#5</span></div></label><label class="oi"><input type="checkbox" name="map5" value="6"/><div class="ot"><span class="om">#6</span></div></label></div></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #6 Name</label><input type="text" id="t6n"/></div>
+    <div class="field"><label class="flabel">Testimonial #6 City</label><input type="text" id="t6c"/></div>
+    <div class="field"><label class="flabel">Testimonial #6 Text</label><textarea id="t6t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map6" value="1"/><div class="ot"><span class="om">#1</span></div></label><label class="oi"><input type="checkbox" name="map6" value="2"/><div class="ot"><span class="om">#2</span></div></label><label class="oi"><input type="checkbox" name="map6" value="3"/><div class="ot"><span class="om">#3</span></div></label><label class="oi"><input type="checkbox" name="map6" value="4"/><div class="ot"><span class="om">#4</span></div></label><label class="oi"><input type="checkbox" name="map6" value="5"/><div class="ot"><span class="om">#5</span></div></label><label class="oi"><input type="checkbox" name="map6" value="6"/><div class="ot"><span class="om">#6</span></div></label></div></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #7 Name</label><input type="text" id="t7n"/></div>
+    <div class="field"><label class="flabel">Testimonial #7 City</label><input type="text" id="t7c"/></div>
+    <div class="field"><label class="flabel">Testimonial #7 Text</label><textarea id="t7t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map7" value="1"/><div class="ot"><span class="om">#1</span></div></label><label class="oi"><input type="checkbox" name="map7" value="2"/><div class="ot"><span class="om">#2</span></div></label><label class="oi"><input type="checkbox" name="map7" value="3"/><div class="ot"><span class="om">#3</span></div></label><label class="oi"><input type="checkbox" name="map7" value="4"/><div class="ot"><span class="om">#4</span></div></label><label class="oi"><input type="checkbox" name="map7" value="5"/><div class="ot"><span class="om">#5</span></div></label><label class="oi"><input type="checkbox" name="map7" value="6"/><div class="ot"><span class="om">#6</span></div></label></div></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #8 Name</label><input type="text" id="t8n"/></div>
+    <div class="field"><label class="flabel">Testimonial #8 City</label><input type="text" id="t8c"/></div>
+    <div class="field"><label class="flabel">Testimonial #8 Text</label><textarea id="t8t" rows="3"></textarea></div>
+    <div class="field" style="background:#fafafa;border-radius:10px;padding:.85rem 1rem;border:1px solid var(--bdr)"><span class="flabel">Maps to detail pages</span><div class="og two-col" style="margin-top:.55rem"><label class="oi"><input type="checkbox" name="map8" value="1"/><div class="ot"><span class="om">#1</span></div></label><label class="oi"><input type="checkbox" name="map8" value="2"/><div class="ot"><span class="om">#2</span></div></label><label class="oi"><input type="checkbox" name="map8" value="3"/><div class="ot"><span class="om">#3</span></div></label><label class="oi"><input type="checkbox" name="map8" value="4"/><div class="ot"><span class="om">#4</span></div></label><label class="oi"><input type="checkbox" name="map8" value="5"/><div class="ot"><span class="om">#5</span></div></label><label class="oi"><input type="checkbox" name="map8" value="6"/><div class="ot"><span class="om">#6</span></div></label></div></div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(6)">← Back</button><button class="btn-next" onclick="goTo(8)">Next: Technical →</button></div>
+  </div>
+
+  <div class="sc" id="s8">
+    <div class="sec-eye">8</div>
+    <h2 class="sec-title">Technical Setup</h2>
+    <p class="sec-sub">Domain, existing site, and preview delivery.</p>
+
+    <div class="field">
+      <label class="flabel">Do you already have a domain name? <span class="req">*</span></label>
+      <div class="og">
+        <label class="oi"><input type="radio" name="has-dom" value="yes" onchange="toggleDom('yes')"/><div class="ot"><span class="om">Yes</span></div></label>
+        <label class="oi"><input type="radio" name="has-dom" value="no-new" onchange="toggleDom('no')"/><div class="ot"><span class="om">No</span></div></label>
+        <label class="oi"><input type="radio" name="has-dom" value="no-idea" onchange="toggleDom('no')"/><div class="ot"><span class="om">Not sure</span></div></label>
+      </div>
+    </div>
+    <div class="cond" id="dom-exist">
+      <div class="field"><label class="flabel">Your Domain Name</label><input type="text" id="dom-name"/></div>
+      <div class="field"><label class="flabel">Registrar (optional)</label><input type="text" id="dom-reg"/></div>
+    </div>
+    <div class="cond" id="dom-new"><div class="field"><label class="flabel">Preferred Domain Name(s)</label><input type="text" id="dom-pref"/></div></div>
+
+    <div class="field">
+      <label class="flabel">Do you have an existing website? <span class="req">*</span></label>
+      <div class="og">
+        <label class="oi"><input type="radio" name="has-site" value="yes"/><div class="ot"><span class="om">Yes</span></div></label>
+        <label class="oi"><input type="radio" name="has-site" value="no"/><div class="ot"><span class="om">No</span></div></label>
+      </div>
+    </div>
+    <div class="field"><label class="flabel">Existing Website URL (optional)</label><input type="url" id="old-url"/></div>
+    <div class="field"><label class="flabel">Email for Your Site Preview <span class="req">*</span></label><input type="email" id="proof-email"/></div>
+    <div class="field"><label class="flabel">Anything else?</label><textarea id="notes" rows="4"></textarea></div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="goTo(7)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">Submit &amp; Build</button>
+    </div>
+  </div>
+</div>
+
+<div id="done">
+  <div class="done-icon"><svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="var(--ember)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+  <h2>You’Re All Set!</h2>
+  <p>We’ve got everything we need to generate your Premium website.</p>
+  <div class="nxt-card">
+    <h3>What Happens Now</h3>
+    <div class="ni"><div class="nd">1</div><p><strong>We lay out your 14-page site.</strong> Six URLs are dedicated service-detail pages (your intake priorities #1–#6); the rest are home, hub, gallery, testimonials, about, articles, service area, and contact—with clear linking between all of them.</p></div>
+    <div class="ni"><div class="nd">2</div><p><strong>We generate Premium pages and assets.</strong> Large gallery carousel, dedicated testimonials page, sitemap and robots files.</p></div>
+    <div class="ni"><div class="nd">3</div><p><strong>Optional launch support.</strong> After go-live we can help with listings and indexing using the same address and phone you provided here.</p></div>
+  </div>
+</div>
+
+<script src="intake-submit.js"></script>
+<script>
+  var cur=1, TOTAL=8;
+  function goTo(n){
+    document.getElementById("s"+cur).classList.remove("active");
+    cur=n;
+    document.getElementById("s"+n).classList.add("active");
+    document.getElementById("pgf").style.width=(((n-1)/TOTAL)*100)+"%";
+    for(var i=1;i<=TOTAL;i++){
+      var e=document.getElementById("pl-"+i);
+      e.classList.remove("active","done");
+      if(i===n)e.classList.add("active");
+      else if(i<n)e.classList.add("done");
+    }
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  function showLogo(v){
+    document.getElementById("logo-upload").classList.toggle("on",v==="yes-file");
+    document.getElementById("logo-link-f").classList.toggle("on",v==="yes-link");
+  }
+  function toggleOther(v){document.getElementById("other-trade").classList.toggle("on",v==="other");}
+  function toggleDom(t){
+    document.getElementById("dom-exist").classList.toggle("on",t==="yes");
+    document.getElementById("dom-new").classList.toggle("on",t==="no");
+  }
+  function setFn(input,id){if(input.files && input.files.length)document.getElementById(id).textContent="✓ "+input.files[0].name;}
+  function setMultiFn(input,id){
+    var n=(input.files && input.files.length)||0;
+    document.getElementById(id).textContent = n ? ("✓ "+n+" file(s) selected") : "No files selected";
+  }
+  function enforceMaxFiles(input,max,id){
+    var files = Array.prototype.slice.call(input.files || []);
+    if(files.length>max){
+      alert("Premium allows up to "+max+" gallery photos. Please re-select "+max+" or fewer.");
+      input.value="";
+      document.getElementById(id).textContent="0 selected";
+      return;
+    }
+    document.getElementById(id).textContent = files.length+" selected";
+  }
+  function g(id){var e=document.getElementById(id);return e?e.value.trim():"";}
+  function fn(id){var el=document.getElementById(id),f=el&&el.files&&el.files[0];return f?f.name:"";}
+  function svcMap(slot){
+    return [].slice.call(document.querySelectorAll('input[name="map'+slot+'"]:checked')).map(function(x){return parseInt(x.value,10);});
+  }
+  function collectPd(i){
+    var p="pd"+i+"_";
+    return{
+      priorityIndex:i,
+      mapsToUrl:"service-"+i+".html",
+      h1:g(p+"h1"),
+      intro:g(p+"intro"),
+      processIntro:g(p+"pintro"),
+      steps:[{title:g(p+"s1t"),body:g(p+"s1b")},{title:g(p+"s2t"),body:g(p+"s2b")},{title:g(p+"s3t"),body:g(p+"s3b")}],
+      signsIntro:g(p+"sgintro"),
+      signLines:g(p+"signs").split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean).slice(0,5),
+      beforeAfterSectionIntro:g(p+"gintro"),
+      faqs:[{q:g(p+"fq1"),a:g(p+"fa1")},{q:g(p+"fq2"),a:g(p+"fa2")},{q:g(p+"fq3"),a:g(p+"fa3")}],
+      homeownersMentionIntro:g(p+"tintro"),
+      relatedServicesIntro:g(p+"rintro"),
+      bottomCtaCopy:g(p+"cta"),
+      seoTitle:g(p+"seot"),
+      metaDescription:g(p+"meta"),
+      schemaDescription:g(p+"schema")
+    };
+  }
+  function submitForm(){
+    var kws=[g("kw1"),g("kw2"),g("kw3"),g("kw4"),g("kw5"),g("kw6"),g("kw7"),g("kw8"),g("kw9"),g("kw10")].filter(Boolean).slice(0,10);
+    var tpage=g("tpage")||"Wall of Love";
+    var tSlots=[
+      {name:g("t1n"),city:g("t1c"),text:g("t1t"),mappedServiceDetailIndexes:svcMap(1)},
+      {name:g("t2n"),city:g("t2c"),text:g("t2t"),mappedServiceDetailIndexes:svcMap(2)},
+      {name:g("t3n"),city:g("t3c"),text:g("t3t"),mappedServiceDetailIndexes:svcMap(3)},
+      {name:g("t4n"),city:g("t4c"),text:g("t4t"),mappedServiceDetailIndexes:svcMap(4)},
+      {name:g("t5n"),city:g("t5c"),text:g("t5t"),mappedServiceDetailIndexes:svcMap(5)},
+      {name:g("t6n"),city:g("t6c"),text:g("t6t"),mappedServiceDetailIndexes:svcMap(6)},
+      {name:g("t7n"),city:g("t7c"),text:g("t7t"),mappedServiceDetailIndexes:svcMap(7)},
+      {name:g("t8n"),city:g("t8c"),text:g("t8t"),mappedServiceDetailIndexes:svcMap(8)}
+    ].filter(function(t){return t.name||t.text;}).slice(0,8);
+    var data={
+      package:g("pkg"),
+      business:{
+        legalName:g("biz-name"),
+        publicName:g("biz-short"),
+        ownerName:g("owner-name"),
+        phone:g("biz-phone"),
+        email:g("biz-email"),
+        address:g("biz-address"),
+        city:g("biz-city"),
+        state:g("biz-state"),
+        zip:g("biz-zip"),
+        yearFounded:g("biz-year"),
+        brandColors:g("brand-colors"),
+        licenseFooterLine:g("license-line"),
+        logo:{
+          choice:(document.querySelector("input[name=has-logo]:checked")||{}).value||"",
+          link:g("logo-link"),
+          fileName:(document.getElementById("logo-file").files[0]||{}).name||""
+        }
+      },
+      primaryServiceHeroLabel:g("primary-svc-hero"),
+      seo:{
+        primaryKeywords:kws,
+        inspirationUrls:g("inspo").split("\n").map(function(s){return s.trim();}).filter(Boolean)
+      },
+      services:{
+        primaryTrade:(g("primary-trade")==="other"?g("other-tin"):g("primary-trade")),
+        emergency:(document.querySelector("input[name=emergency]:checked")||{}).value||"",
+        service1:{name:g("s1n"),desc:g("s1d")},
+        service2:{name:g("s2n"),desc:g("s2d")},
+        service3:{name:g("s3n"),desc:g("s3d")},
+        service4:{name:g("s4n"),desc:g("s4d")},
+        service5:{name:g("s5n"),desc:g("s5d")},
+        service6:{name:g("s6n"),desc:g("s6d")},
+        service7:{name:g("s7n"),desc:g("s7d")},
+        service8:{name:g("s8n"),desc:g("s8d")},
+        service9:{name:g("s9n"),desc:g("s9d")},
+        service10:{name:g("s10n"),desc:g("s10d")},
+        otherServices:g("svc-other"),
+        additionalServicesIntro:g("addl-svc-intro"),
+        additionalServicesTitle:g("addl-svc-title")
+      },
+      serviceDetailPages:[collectPd(1),collectPd(2),collectPd(3),collectPd(4),collectPd(5),collectPd(6)],
+      location:{
+        primaryCity:g("pcity"),
+        serviceCities:g("scities"),
+        serviceZips:g("szips"),
+        gbp:(document.querySelector("input[name=gbp]:checked")||{}).value||"",
+        gbpLink:g("gbp-link"),
+        reviewRating:g("rvrat"),
+        reviewCount:g("rvcount")
+      },
+      story:{
+        yearsExperience:g("yexp"),
+        whyStarted:g("bstory"),
+        usp:[
+          {title:g("u1t"),detail:g("u1d")},
+          {title:g("u2t"),detail:g("u2d")},
+          {title:g("u3t"),detail:g("u3d")}
+        ],
+        process:{step1:g("p1"),step2:g("p2"),step3:g("p3")},
+        values:[].slice.call(document.querySelectorAll("input[name=vals]:checked")).map(function(c){return c.value;}),
+        credentials:g("creds"),
+        guarantee:g("guar")
+      },
+      siteContent:{
+        hero:{subheadline:g("hero-sub-pr"),h1Accent:g("hero-accent-pr"),keywordIntentBlurbs:[g("ki1"),g("ki2"),g("ki3"),g("ki4")]},
+        servicesHub:{h1Prefix:g("svc-hub-h1"),intro:g("svc-hub-intro"),cardLongCopy:[g("hub1-long"),g("hub2-long"),g("hub3-long"),g("hub4-long"),g("hub5-long"),g("hub6-long")],detailCtas:[g("hub1-cta"),g("hub2-cta"),g("hub3-cta"),g("hub4-cta"),g("hub5-cta"),g("hub6-cta")],hubPopularIntro:g("prem-hub-pop-intro"),hubCoreIntro:g("prem-hub-core-intro")},
+        about:{h1Line1:g("about-h1-l1"),h1Accent:g("about-h1-ac2"),lead:g("about-lead-pr"),storyHeadline:g("about-h2-pr"),storyLong:g("about-long-pr"),valuesIntro:g("values-intro-pr"),valueLines:[g("v1p"),g("v2p"),g("v3p"),g("v4p")]},
+        articlesHub:{intro:g("art-intro-pr"),posts:[{title:g("p1t"),excerpt:g("p1x"),date:g("p1d"),url:g("p1u")},{title:g("p2t"),excerpt:g("p2x"),date:g("p2d"),url:g("p2u")},{title:g("p3t"),excerpt:g("p3x"),date:g("p3d"),url:g("p3u")},{title:g("p4t"),excerpt:g("p4x"),date:g("p4d"),url:g("p4u")}]},
+        serviceArea:{navLabel:g("sa-nav-pr"),shortHeadline:g("sa-short-pr"),intro:g("sa-intro-pr")},
+        contact:{lead:g("contact-lead-pr"),callCopy:g("contact-call-pr"),formIntro:g("contact-form-pr")},
+        gallery:{intro:g("gal-intro-pr")},
+        footer:{tagline:g("footer-tag-pr")},
+        testimonialsPage:{intro:g("tintro-pr"),googleSectionBody:g("google-rev-p")}
+      },
+      photos:{
+        heroFileName:(document.getElementById("hero-file").files[0]||{}).name||"",
+        teamFileNames:[].slice.call(document.getElementById("team-files").files||[]).map(function(f){return f.name;}),
+        truckFileNames:[].slice.call(document.getElementById("truck-files").files||[]).map(function(f){return f.name;}),
+        galleryFileNames:[].slice.call(document.getElementById("gallery-files").files||[]).map(function(f){return f.name;}),
+        galleryLimit:25,
+        galleryPresentation:"carousel",
+        serviceBeforeAfterPairs:[
+          {servicePriority:1,beforeFileName:fn("ba1b"),afterFileName:fn("ba1a")},
+          {servicePriority:2,beforeFileName:fn("ba2b"),afterFileName:fn("ba2a")},
+          {servicePriority:3,beforeFileName:fn("ba3b"),afterFileName:fn("ba3a")},
+          {servicePriority:4,beforeFileName:fn("ba4b"),afterFileName:fn("ba4a")},
+          {servicePriority:5,beforeFileName:fn("ba5b"),afterFileName:fn("ba5a")},
+          {servicePriority:6,beforeFileName:fn("ba6b"),afterFileName:fn("ba6a")}
+        ],
+        note:"No photo captions collected. Alt text may be inferred from pixels only; never invent project facts."
+      },
+      testimonials:{
+        testimonialsPage:{enabled:true,label:tpage,urlSlug:"/testimonials/"},
+        items:tSlots.map(function(t){return{name:t.name,city:t.city,text:t.text,mappedServiceDetailIndexes:t.mappedServiceDetailIndexes||[]};})
+      },
+      technical:{
+        hasDomain:(document.querySelector("input[name=has-dom]:checked")||{}).value||"",
+        domainName:g("dom-name"),
+        domainRegistrar:g("dom-reg"),
+        domainPreferences:g("dom-pref"),
+        hasExistingSite:(document.querySelector("input[name=has-site]:checked")||{}).value||"",
+        existingUrl:g("old-url"),
+        previewEmail:g("proof-email"),
+        notes:g("notes")
+      },
+      premiumOps:{
+        priorityIndexing:true,
+        localCitations:true
+      },
+      submittedAt:new Date().toISOString()
+    };
+    ahanaSubmitIntake('premium', data, TOTAL)
+    .catch(function(){
+      alert('Error submitting form. Please try again.');
+    });
+  }
+</script>
+</body>
+</html>
+
