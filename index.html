@@ -14,7 +14,7 @@
   <style>
     .intake-shell{min-height:100vh;display:flex;flex-direction:column}
     .intake-main{flex:1;display:flex;align-items:center;padding:32px 0 48px}
-    .intake-card{max-width:1120px;margin:0 auto;width:100%}
+    .intake-card{max-width:1200px;margin:0 auto;width:100%}
 
     .intake-view{display:none;animation:fadeUp .45s ease both}
     .intake-view.is-active{display:block}
@@ -248,7 +248,7 @@
       border-bottom:1px solid rgba(16,19,24,.08);
     }
     .plan-picker-setup em{font-style:normal;color:#0EA371;font-weight:600}
-    .plan-picker-highlights{
+    .plan-picker-card .feat-list{
       list-style:none;
       margin:0;
       padding:0;
@@ -256,24 +256,28 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-      min-height:6.5rem;
     }
-    .plan-picker-highlights li{
+    .plan-picker-card .feat-list li{
       display:flex;
       align-items:flex-start;
-      gap:9px;
-      font-size:.875rem;
+      gap:10px;
+      font-size:.8125rem;
       line-height:1.45;
       color:rgba(16,19,24,.72);
+      font-weight:400;
     }
-    .plan-picker-highlights li::before{
-      content:"";
-      width:6px;height:6px;
+    .plan-picker-card .f-check{
+      width:17px;
+      height:17px;
       border-radius:50%;
-      background:var(--ember);
+      background:#F0FDF4;
       flex-shrink:0;
-      margin-top:.45em;
+      margin-top:1px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
+    .plan-picker-card .f-check svg{width:8px;height:8px}
     .plan-picker-foot{
       flex-shrink:0;
       margin-top:22px;
@@ -371,10 +375,14 @@
                     <div class="plan-picker-price"><strong>$250</strong><span>/mo</span></div>
                     <p class="plan-picker-setup">Website build valued at $2,000 — <em>included at no setup cost</em></p>
                   </div>
-                  <ul class="plan-picker-highlights">
-                    <li>5-page website built for local search</li>
-                    <li>1 SEO article per month</li>
-                    <li>Best for getting online fast with solid fundamentals</li>
+                  <ul class="feat-list">
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>5-page professional website</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>1 SEO blog post per month</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Keyword-optimized H1/H2/H3 structure</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Basic sitemap.xml &amp; robots.txt</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>5-photo gallery (no carousel)</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 2 testimonials</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Monthly status updates + SEMrush-based optimization</li>
                   </ul>
                   <div class="plan-picker-foot">
                     <a href="/intake-form-starter" class="plan-picker-cta">Start Starter intake</a>
@@ -388,10 +396,14 @@
                     <div class="plan-picker-price"><strong>$550</strong><span>/mo</span></div>
                     <p class="plan-picker-setup">Website build valued at $3,000 — <em>included at no setup cost</em></p>
                   </div>
-                  <ul class="plan-picker-highlights">
-                    <li>11-page site with dedicated service pages</li>
-                    <li>2 SEO articles per month + stronger local visibility</li>
-                    <li>Best for trades ready to grow calls in their market</li>
+                  <ul class="feat-list">
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>11-page professional website (8 core + 3 dedicated service URLs)</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>2 SEO-optimized blog posts per month</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 6 primary service keywords</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Gallery up to 10 photos</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 4 testimonials</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Advanced schema markup + detailed SEMrush report</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Priority update requests</li>
                   </ul>
                   <div class="plan-picker-foot">
                     <a href="/intake-form-enhanced" class="plan-picker-cta">Start Enhanced intake</a>
@@ -405,10 +417,15 @@
                     <div class="plan-picker-price"><strong>$1,497</strong><span>/mo</span></div>
                     <p class="plan-picker-setup">Website build valued at $5,000 — <em>included at no setup cost</em></p>
                   </div>
-                  <ul class="plan-picker-highlights">
-                    <li>16-page authority site + city-specific SEO pages</li>
-                    <li>4 SEO articles per month + deepest service-page SEO</li>
-                    <li>Best for dominating search across your service area</li>
+                  <ul class="feat-list">
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>16-page authority website (core site + 6 dedicated service URLs + service area + 3 city-specific pages)</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>4 SEO-optimized blog posts per month</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 10 primary service keywords</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Carousel gallery up to 25 photos</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Dedicated testimonials page with carousel</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Priority indexing &amp; local citations</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>AI search optimization (AI Overviews, answer engines &amp; similar discovery)</li>
+                    <li><span class="f-check"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Up to 8 testimonials</li>
                   </ul>
                   <div class="plan-picker-foot">
                     <a href="/intake-form-premium" class="plan-picker-cta">Start Premium intake</a>
