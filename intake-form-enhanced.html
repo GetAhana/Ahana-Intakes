@@ -3,134 +3,46 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ahana - Enhanced Intake Form</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
-  <style>
-    :root{
-      --obs:#1A1A1B; --ember:#FF5733; --embdk:#D94420;
-      --slate:#707070; --wh:#FFFFFF; --off:#F7F7F7;
-      --bdr:#E0E0E0; --bdrdark:#2E2E2F;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Inter",sans-serif;background:var(--obs);color:var(--wh);min-height:100vh;-webkit-font-smoothing:antialiased}
-    .hdr{background:var(--obs);border-bottom:1px solid var(--bdrdark);padding:3rem 1.5rem 3.5rem;text-align:center;position:relative;overflow:hidden}
-    .hdr::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:300px;height:1px;background:linear-gradient(90deg,transparent,var(--ember),transparent)}
-    .logo-wrap{display:inline-flex;align-items:center;gap:.6rem;margin-bottom:1.75rem}
-    .logo-box{width:36px;height:36px;border-radius:8px;background:var(--ember);display:flex;align-items:center;justify-content:center}
-    .logo-name{font-family:"Syne",sans-serif;font-size:1.35rem;font-weight:800;color:var(--wh)}
-    .logo-name em{font-style:normal;color:var(--ember)}
-    .badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,87,51,.1);border:1px solid rgba(255,87,51,.25);color:var(--ember);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.38rem .9rem;border-radius:20px;margin-bottom:1.25rem}
-    .hdr h1{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;color:var(--wh);letter-spacing:-.02em;margin-bottom:.75rem}
-    .hdr h1 em{font-style:normal;color:var(--ember)}
-    .hdr p{color:rgba(255,255,255,.5);font-size:.97rem;max-width:560px;margin:0 auto;line-height:1.7}
-
-    .pg-wrap{background:#111112;border-bottom:1px solid var(--bdrdark);padding:1.1rem 0 1.4rem;position:sticky;top:0;z-index:99}
-    .pg-inner{max-width:820px;margin:0 auto;padding:0 1.5rem}
-    .pg-labels{display:flex;justify-content:space-between;margin-bottom:.55rem;gap:.75rem}
-    .pg-lbl{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.2);transition:color .3s;white-space:nowrap}
-    .pg-lbl.active{color:var(--ember)}
-    .pg-lbl.done{color:rgba(255,255,255,.4)}
-    .pg-track{height:3px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
-    .pg-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--ember),#ff8c6e);border-radius:99px;transition:width .4s ease}
-
-    .fw{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 7rem}
-    .sc{display:none;background:var(--wh);color:var(--obs);border-radius:16px;padding:2.5rem;animation:su .35s ease both}
-    .sc.active{display:block}
-    @keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-    .sec-eye{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;background:rgba(255,87,51,.1);border:1px solid rgba(255,87,51,.2);color:var(--ember);font-size:.78rem;font-weight:700;margin-bottom:.8rem}
-    .sec-title{font-family:"Syne",sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;color:var(--obs);margin-bottom:.3rem}
-    .sec-sub{font-size:.88rem;color:var(--slate);line-height:1.65;margin-bottom:1.75rem;padding-bottom:1.5rem;border-bottom:1px solid var(--bdr)}
-    .callout{background:rgba(255,87,51,.05);border-left:3px solid var(--ember);padding:.8rem 1rem;border-radius:0 8px 8px 0;margin-bottom:1.5rem;font-size:.84rem;color:#555;line-height:1.6}
-    .callout strong{color:var(--ember)}
-
-    .field{margin-bottom:1.3rem}
-    .frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-    @media(max-width:520px){.frow{grid-template-columns:1fr}}
-    .flabel{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#444;margin-bottom:.42rem}
-    .flabel .req{color:var(--ember);margin-left:.15rem}
-    .flabel .tip{float:right;font-size:.68rem;font-weight:600;text-transform:none;letter-spacing:0;color:var(--slate);background:#f0f0f0;padding:.12rem .5rem;border-radius:10px}
-    .field input[type=text],.field input[type=tel],.field input[type=email],.field input[type=url],.field input[type=number],.field select,.field textarea{
-      display:block;width:100%;padding:.78rem 1rem;background:var(--wh);
-      border:1.5px solid var(--bdr);border-radius:9px;font-family:"Inter",sans-serif;font-size:.95rem;color:var(--obs);
-      transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none
-    }
-    .field input::placeholder,.field textarea::placeholder{color:#bbb}
-    .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--ember);box-shadow:0 0 0 3px rgba(255,87,51,.1)}
-    .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23707070' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer}
-    .field textarea{resize:vertical;min-height:88px;line-height:1.6}
-    .hint{font-size:.77rem;color:var(--slate);margin-top:.38rem;line-height:1.5}
-
-    .og{display:flex;flex-direction:column;gap:.45rem}
-    .og.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
-    @media(max-width:480px){.og.two-col{grid-template-columns:1fr}}
-    .oi{display:grid;grid-template-columns:18px 1fr;align-items:start;gap:.65rem;padding:.85rem 1rem;border:1.5px solid var(--bdr);border-radius:9px;cursor:pointer;user-select:none;transition:border-color .18s,background .18s}
-    .oi:hover{border-color:rgba(255,87,51,.4);background:rgba(255,87,51,.025)}
-    .oi input[type=radio],.oi input[type=checkbox]{display:block;width:16px;height:16px;margin:2px 0 0 0;padding:0;flex-shrink:0;accent-color:var(--ember);cursor:pointer}
-    .oi:has(input:checked){border-color:var(--ember);background:rgba(255,87,51,.04)}
-    .ot{display:flex;flex-direction:column;gap:.1rem}
-    .om{font-size:.9rem;font-weight:600;color:var(--obs);line-height:1.3}
-    .os{font-size:.78rem;color:var(--slate);line-height:1.45;margin-top:.15rem}
-
-    .cond{display:none}
-    .cond.on{display:block;animation:su .28s ease both}
-
-    .upload-zone{display:block;border:2px dashed var(--bdr);border-radius:10px;padding:1.7rem 1rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
-    .upload-zone:hover{border-color:var(--ember);background:rgba(255,87,51,.025)}
-    .upload-zone svg{color:var(--ember);margin-bottom:.5rem}
-    .uz-t{font-size:.88rem;font-weight:700;color:var(--obs)}
-    .uz-s{font-size:.77rem;color:var(--slate);margin-top:.15rem}
-    .upload-zone input[type=file]{display:none}
-
-    .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;gap:1rem}
-    .btn-back{background:transparent;border:1.5px solid var(--bdr);color:var(--slate);font-family:"Inter",sans-serif;font-size:.9rem;font-weight:600;padding:.7rem 1.4rem;border-radius:9px;cursor:pointer;transition:border-color .2s,color .2s;display:flex;align-items:center;gap:.4rem}
-    .btn-back:hover{border-color:var(--obs);color:var(--obs)}
-    .btn-next{background:var(--ember);color:var(--wh);border:none;font-family:"Inter",sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.01em;padding:.75rem 1.75rem;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:.45rem;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(255,87,51,.3)}
-    .btn-next:hover{background:var(--embdk);transform:translateY(-1px)}
-    .btn-submit{background:var(--obs);color:var(--wh);border:none;font-family:"Inter",sans-serif;font-size:.9rem;font-weight:700;padding:.75rem 1.75rem;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:.45rem;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-    .btn-submit:hover{background:#2d2d2e;transform:translateY(-1px)}
-
-    #done{display:none;max-width:560px;margin:0 auto;padding:4rem 1.5rem 7rem;text-align:center}
-    .done-icon{width:72px;height:72px;border-radius:50%;margin:0 auto 1.75rem;background:rgba(255,87,51,.1);border:2px solid rgba(255,87,51,.3);display:flex;align-items:center;justify-content:center}
-    #done h2{font-family:"Syne",sans-serif;font-size:2.2rem;font-weight:800;letter-spacing:-.02em;color:var(--wh);margin-bottom:.7rem}
-    #done>p{color:rgba(255,255,255,.5);max-width:420px;margin:0 auto 2rem;line-height:1.7}
-    .nxt-card{background:var(--wh);border-radius:14px;padding:1.75rem;text-align:left;color:var(--obs)}
-    .nxt-card h3{font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:1.1rem}
-    .ni{display:flex;gap:.85rem;padding:.7rem 0;border-bottom:1px solid var(--bdr)}
-    .ni:last-child{border-bottom:none}
-    .nd{width:26px;height:26px;flex-shrink:0;border-radius:7px;background:rgba(255,87,51,.1);border:1px solid rgba(255,87,51,.2);color:var(--ember);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center}
-    .ni p{font-size:.86rem;color:var(--slate);line-height:1.6}
-    .ni p strong{color:var(--obs)}
-    @media(max-width:620px){.sc{padding:1.75rem 1.25rem}.hdr{padding:2.25rem 1.25rem 2.75rem}}
-  </style>
+  <title>Website questionnaire — Enhanced</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=4">
+  <link rel="stylesheet" href="/intake-forms.css?v=1">
 </head>
-<body>
+<body class="theme-sleek intake-form-page">
 
 <header class="hdr">
   <div class="logo-wrap">
-    <div class="logo-box">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+    <span class="logo-name">AHA<em>NA</em></span>
+    <div class="badge">
+      <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Enhanced plan · ~11 minutes
     </div>
-    <span class="logo-name">Ahana<em>.</em></span>
   </div>
-  <div class="badge">
-    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-    Enhanced intake · ~12 minutes
-  </div>
-  <h1>Let's Build Your<br/><em>Enhanced Site.</em></h1>
-  <p>Enhanced matches the <strong>11-page</strong> scaffold: <strong>three</strong> dedicated service URLs (<code>service-1.html</code> … <code>service-3.html</code>) for your <strong>first three priority lines</strong>, plus core hub pages (home, services hub, gallery, testimonials, about, articles, contact, service area). On <code>services.html</code>, the hub is split into <strong>Most popular</strong> (those three links), <strong>Additional core</strong> (priorities #4–#6, cards only), then <strong>Additional services</strong> from your “other services” list. This form collects copy for <strong>every section</strong> so the builder never has to invent policies, timelines, or warranty details. AI may polish tone, apply Title Case to headings, and tune SEO, schema, robots, and sitemap from your facts only.</p>
+  <h1>Enhanced helps you own more searches in your market.<br/><em>More services ranked. More proof. More customers choosing you.</em></h1>
+  <p class="hdr-includes"><strong>Your plan:</strong> 11-page site — gallery, testimonials page, service-area map, 3 dedicated service pages, 2 articles/month.</p>
+  <ul class="hdr-points">
+    <li>Rank for multiple services — not just one line — and capture buyers at every stage of search</li>
+    <li>Answer objections before the call with dedicated service pages, reviews, and real project photos</li>
+    <li>Dominate “near me” and service-area searches with a map and localized copy</li>
+    <li>Look like the established shop in town while competitors still run a basic 5-page site</li>
+  </ul>
+  <p class="hdr-cta">Each step below feeds pages that bring you more qualified leads. Plain English is fine — we polish everything.</p>
 </header>
 
 <div class="pg-wrap">
   <div class="pg-inner">
     <div class="pg-labels">
-      <span class="pg-lbl active" id="pl-1">Essentials</span>
-      <span class="pg-lbl" id="pl-2">Priorities</span>
-      <span class="pg-lbl" id="pl-3">Services</span>
-      <span class="pg-lbl" id="pl-4">Coverage</span>
-      <span class="pg-lbl" id="pl-5">Story</span>
-      <span class="pg-lbl" id="pl-6">Photos</span>
-      <span class="pg-lbl" id="pl-7">Testimonials</span>
-      <span class="pg-lbl" id="pl-8">Technical</span>
+      <button type="button" class="pg-lbl active" id="pl-1" onclick="goTo(1)">You &amp; business</button>
+      <button type="button" class="pg-lbl" id="pl-2" onclick="goTo(2)">What you do</button>
+      <button type="button" class="pg-lbl" id="pl-3" onclick="goTo(3)">Where you work</button>
+      <button type="button" class="pg-lbl" id="pl-4" onclick="goTo(4)">Your story &amp; highlights</button>
+      <button type="button" class="pg-lbl" id="pl-5" onclick="goTo(5)">Photos</button>
+      <button type="button" class="pg-lbl" id="pl-6" onclick="goTo(6)">Reviews</button>
+      <button type="button" class="pg-lbl" id="pl-7" onclick="goTo(7)">Domain &amp; email</button>
+      <button type="button" class="pg-lbl" id="pl-8" onclick="goTo(8)">Check answers</button>
     </div>
     <div class="pg-track"><div class="pg-fill" id="pgf"></div></div>
   </div>
@@ -140,32 +52,78 @@
 
   <div class="sc active" id="s1">
     <div class="sec-eye">1</div>
-    <h2 class="sec-title">Business Essentials</h2>
-    <p class="sec-sub">What should appear on your website and in local listings.</p>
+    <h2 class="sec-title">You &amp; your business</h2>
+    <p class="sec-sub"><strong>Why this matters:</strong> Consistent business details build trust with Google and with callers comparing options. Get this right and every page, listing, and search result reinforces that you’re the real local pro.</p>
 
-    <div class="field"><label class="flabel">Package <span class="req">*</span></label><input type="text" id="pkg" value="Enhanced" readonly/></div>
-    <div class="field"><label class="flabel">Legal Business Name <span class="req">*</span></label><input type="text" id="biz-name" placeholder="e.g. Houston Roofers LLC"/></div>
-    <div class="frow">
-      <div class="field"><label class="flabel">Owner Name <span class="req">*</span></label><input type="text" id="owner-name"/></div>
-      <div class="field"><label class="flabel">Business Phone <span class="req">*</span></label><input type="tel" id="biz-phone"/></div>
+    <div class="bv-wrap">
+      <div class="bv-main">
+        <div class="bv-head">
+          <label class="flabel" id="bv-legend">Brand tone for your site copy <span class="req">*</span></label>
+          <p class="hint" style="margin-top:0">This guides how we draft headlines, service blurbs, and FAQs. You can always refine wording later.</p>
+        </div>
+        <div class="og bv-radios" role="radiogroup" aria-labelledby="bv-legend">
+          <label class="oi"><input type="radio" name="brand-voice" value="direct" checked onchange="updateBrandVoicePreview()"/><div class="ot"><span class="om">Direct &amp; no-nonsense</span><span class="os">Short lines, minimal fluff, next steps spelled out.</span></div></label>
+          <label class="oi"><input type="radio" name="brand-voice" value="neighborly" onchange="updateBrandVoicePreview()"/><div class="ot"><span class="om">Neighborly &amp; steady</span><span class="os">Warm local crew, we/our voice, low hype.</span></div></label>
+          <label class="oi"><input type="radio" name="brand-voice" value="professional" onchange="updateBrandVoicePreview()"/><div class="ot"><span class="om">Professional &amp; precise</span><span class="os">Calm, credible, process- and credentials-forward.</span></div></label>
+          <label class="oi"><input type="radio" name="brand-voice" value="premium" onchange="updateBrandVoicePreview()"/><div class="ot"><span class="om">Premium &amp; understated</span><span class="os">Polished phrasing, quiet confidence, no hard sell.</span></div></label>
+          <label class="oi"><input type="radio" name="brand-voice" value="bold" onchange="updateBrandVoicePreview()"/><div class="ot"><span class="om">Bold &amp; high-energy</span><span class="os">Punchy CTAs and momentum — still honest, never spammy.</span></div></label>
+        </div>
+      </div>
+      <aside class="bv-preview" aria-live="polite" aria-atomic="true">
+        <div class="bv-preview-k">Sample in this tone</div>
+        <p class="bv-preview-text" id="bv-preview-text"></p>
+        <p class="bv-preview-cap" id="bv-preview-cap"></p>
+      </aside>
     </div>
-    <div class="field"><label class="flabel">Business Email <span class="req">*</span></label><input type="email" id="biz-email"/></div>
+
+    <div class="field" style="margin-bottom:1.25rem;padding-bottom:0;border-bottom:none">
+      <button type="button" class="btn-dev-prefill" onclick="ahanaApplyEnhancedDevPrefill()">Autofill (dev — bare-bones sample)</button>
+      <p class="dev-prefill-note">Fills <strong>every</strong> field with short, generic answers (thin copy, stock photos) so you can test the pipeline without a “perfect” intake. Remove this button, <code>ahanaApplyEnhancedDevPrefill</code>, <code>ahanaDevFetchStockToInput</code>, and <code>ahanaSyncDevR2UploadLabels</code> before launch.</p>
+    </div>
+
+    <div class="field"><label class="flabel">Plan <span class="req">*</span></label><input type="text" id="pkg" value="Enhanced" readonly placeholder="eg. Enhanced"></div>
+    <div class="field"><label class="flabel">Official business name <span class="req">*</span></label><input type="text" id="biz-name" placeholder="eg. As registered — e.g. Houston Roofers LLC"/></div>
+    <div class="frow">
+      <div class="field"><label class="flabel">Owner’s name <span class="req">*</span></label><input type="text" id="owner-name" placeholder="eg. Maria Garcia"></div>
+      <div class="field"><label class="flabel">Phone number <span class="req">*</span></label><input type="tel" id="biz-phone" placeholder="eg. (713) 555-0198"></div>
+    </div>
+    <div class="field"><label class="flabel">Email <span class="req">*</span></label><input type="email" id="biz-email" placeholder="eg. hello@houstonroofers.com"></div>
 
     <div class="frow">
-      <div class="field"><label class="flabel">Primary City <span class="req">*</span></label><input type="text" id="biz-city" placeholder="Houston"/></div>
-      <div class="field"><label class="flabel">State <span class="req">*</span></label><input type="text" id="biz-state" placeholder="TX" maxlength="2"/></div>
+      <div class="field"><label class="flabel">Main city or town <span class="req">*</span></label><input type="text" id="biz-city" placeholder="eg. Houston"/></div>
+      <div class="field"><label class="flabel">State <span class="req">*</span></label><input type="text" id="biz-state" placeholder="eg. TX" maxlength="2"/></div>
     </div>
-    <div class="field"><label class="flabel">Business address (match how you list it publicly)</label><input type="text" id="biz-address"/></div>
-    <div class="field"><label class="flabel">Year Founded</label><input type="number" id="biz-year" min="1950" max="2035"/></div>
+    <div class="field"><label class="flabel">Street address (if you use one)</label><input type="text" id="biz-address" placeholder="eg. 1234 Main St, Houston (or leave blank if you are mobile-only)"/></div>
+    <div class="field"><label class="flabel">Year you started (optional)</label><input type="number" id="biz-year" min="1950" max="2035" placeholder="eg. 2010"></div>
     <div class="frow">
-      <div class="field"><label class="flabel">ZIP (schema)</label><input type="text" id="biz-zip" maxlength="10"/></div>
-      <div class="field"><label class="flabel">Public / short business name <span class="req">*</span></label><input type="text" id="biz-short" placeholder="Nav &amp; logo text"/></div>
+      <div class="field"><label class="flabel">ZIP code</label><input type="text" id="biz-zip" maxlength="10" placeholder="eg. 77001"/></div>
+      <div class="field"><label class="flabel">Name customers know you by <span class="req">*</span></label><input type="text" id="biz-short" placeholder="eg. Houston Roofers"/></div>
     </div>
-    <div class="field"><label class="flabel">License line (kicker + footer)</label><input type="text" id="license-line" placeholder="e.g. Licensed &amp; Insured · TX #12345"/></div>
+    <div class="field"><label class="flabel">License or “licensed &amp; insured” line (optional)</label><input type="text" id="license-line" placeholder="eg. Licensed &amp; insured · License #12345"/></div>
 
     <div class="field">
-      <label class="flabel">Brand Colors <span class="req">*</span> <span class="tip">Up to 2 hex codes</span></label>
-      <input type="text" id="brand-colors" placeholder="#FF5733, #1A1A1B"/>
+      <label class="flabel">Your two main brand colors <span class="req">*</span> <span class="tip">Main + second</span></label>
+      <p class="hint" style="margin-bottom:.7rem">Pick colors that match your truck, shirts, or logo. Click the <strong>color square</strong> or type a code like #FF5733 if you already have one.</p>
+
+      <div class="frow" style="gap:1rem">
+        <div class="field" style="flex:1">
+          <label class="flabel">Main color</label>
+          <div class="frow" style="gap:.6rem;align-items:center">
+            <input type="text" id="brand-primary-hex" placeholder="eg. #FF5733" style="flex:1"/>
+            <input type="color" id="brand-primary-picker" value="#FF5733" style="width:46px;height:42px;padding:0;border:0;background:transparent">
+          </div>
+        </div>
+
+        <div class="field" style="flex:1">
+          <label class="flabel">Second color</label>
+          <div class="frow" style="gap:.6rem;align-items:center">
+            <input type="text" id="brand-accent-hex" placeholder="eg. #1A1A1B" style="flex:1"/>
+            <input type="color" id="brand-accent-picker" value="#1A1A1B" style="width:46px;height:42px;padding:0;border:0;background:transparent">
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="brand-colors" value=""/>
     </div>
 
     <div class="field">
@@ -176,47 +134,48 @@
         <label class="oi"><input type="radio" name="has-logo" value="no" onchange="showLogo(this.value)"/><div class="ot"><span class="om">No logo yet</span></div></label>
       </div>
     </div>
+    <div class="field cond" id="logo-format-guide">
+      <div class="logo-format-panel">
+        <p class="logo-format-title">Transparent PNG (best for your header)</p>
+        <p class="logo-format-body">Please upload a <strong>PNG with a transparent background</strong> when you can—it keeps your logo sharp on our light header bar. If yours has a solid white or colored box behind the mark, use <a href="https://www.remove.bg/" target="_blank" rel="noopener noreferrer">Remove.bg</a><span class="logo-tip-wrap" tabindex="0"><button type="button" class="logo-tip-trigger" aria-label="Remove.bg steps">?</button><span class="logo-tip-bubble" role="tooltip">Upload your logo to Remove.bg, download the PNG they give you, then upload that PNG here (or attach the same file if you’re sending a link).</span></span> to remove the background, then use the file they give you below.</p>
+      </div>
+    </div>
     <div class="field cond" id="logo-upload">
-      <label class="flabel">Upload Logo File</label>
+      <label class="flabel">Upload your logo</label>
       <label class="upload-zone" for="logo-file">
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
         <p class="uz-t">Click to upload your logo</p>
-        <p class="uz-s" id="logo-fn">PNG, SVG, or PDF · Max 10MB</p>
-        <input type="file" id="logo-file" accept=".png,.svg,.pdf,.jpg,.jpeg" onchange="setFn(this,'logo-fn')"/>
+        <p class="uz-s" id="logo-fn" data-default="PNG, SVG, or PDF · Max 10MB">PNG, SVG, or PDF · Max 10MB</p>
+        <div class="uz-spinner-slot" aria-hidden="true"><span class="upload-spin"></span></div>
+        <p class="uz-error-msg" role="alert"></p>
+        <input type="file" id="logo-file" accept=".png,.svg,.pdf,.jpg,.jpeg" onchange="onAhanaLogoFileChange(this);"/>
       </label>
     </div>
-    <div class="field cond" id="logo-link-f"><label class="flabel">Logo File Link</label><input type="url" id="logo-link" placeholder="https://drive.google.com/..."/></div>
+    <div class="field cond" id="logo-link-f"><label class="flabel">Link to your logo file</label><input type="url" id="logo-link" placeholder="eg. https://drive.google.com/..."/></div>
 
-    <div class="form-nav"><span></span><button class="btn-next" onclick="goTo(2)">Next: Priorities →</button></div>
+    <div class="field cond" id="logo-show-name-wrap">
+      <label class="flabel">Show your company name next to the logo in the website header?</label>
+      <p class="hint" style="margin-bottom:.55rem">If your logo already spells out the business name in a custom font, choose <strong>No — logo only</strong>. If you want the short site name beside the mark, choose <strong>Yes</strong> (no period after the name when a logo is shown).</p>
+      <div class="og">
+        <label class="oi"><input type="radio" name="logo-show-name" value="yes" checked/><div class="ot"><span class="om">Yes — name beside the logo</span></div></label>
+        <label class="oi"><input type="radio" name="logo-show-name" value="no"/><div class="ot"><span class="om">No — logo only</span></div></label>
+      </div>
+    </div>
+
+    <div class="form-nav"><span></span><button class="btn-next" onclick="goTo(2)">Next: What you do →</button></div>
   </div>
 
   <div class="sc" id="s2">
     <div class="sec-eye">2</div>
-    <h2 class="sec-title">Your Top Service Priorities (Enhanced)</h2>
-    <p class="sec-sub">List up to <strong>6 services in priority order</strong> (#1 = most important). We use this to structure your service pages, headlines, and how pages link to each other.</p>
+    <h2 class="sec-title">What you do</h2>
+    <p class="sec-sub"><strong>Why this matters:</strong> Each service you list is a door for new customers to find you. Your <strong>top 3</strong> get full dedicated pages that rank on their own; services 4–6 still sell on your hub. Order by what you want <strong>more calls for</strong> — #1 first.</p>
 
-    <div class="callout"><strong>Be specific.</strong> The more precise the service (material, job type, residential vs commercial), the easier it is for homeowners to see you’re the right fit. List the <strong>work</strong> only—no need to repeat your city; we already capture it elsewhere and will mention your area naturally in copy.</div>
-    <div class="field"><label class="flabel">Top service #1 <span class="req">*</span></label><input type="text" id="kw1" placeholder="e.g. Metal roof installation"/></div>
-    <div class="field"><label class="flabel">Top service #2 <span class="req">*</span></label><input type="text" id="kw2" placeholder="e.g. Hail damage inspections"/></div>
-    <div class="field"><label class="flabel">Top service #3 <span class="req">*</span></label><input type="text" id="kw3" placeholder="e.g. Skylight replacement"/></div>
-    <div class="field"><label class="flabel">Top service #4</label><input type="text" id="kw4" placeholder="Optional"/></div>
-    <div class="field"><label class="flabel">Top service #5</label><input type="text" id="kw5" placeholder="Optional"/></div>
-    <div class="field"><label class="flabel">Top service #6</label><input type="text" id="kw6" placeholder="Optional"/></div>
-
-    <div class="field"><label class="flabel">Competitors / Inspiration URLs (optional)</label><textarea id="inspo" rows="3" placeholder="Paste URLs (one per line)..."></textarea></div>
-
-    <div class="form-nav"><button class="btn-back" onclick="goTo(1)">← Back</button><button class="btn-next" onclick="goTo(3)">Next: Services →</button></div>
-  </div>
-
-  <div class="sc" id="s3">
-    <div class="sec-eye">3</div>
-    <h2 class="sec-title">Your Service Profile</h2>
-    <p class="sec-sub">Tell us the services you want the most calls for.</p>
+    <div class="field"><label class="flabel">Websites you like (optional)</label><textarea id="inspo" rows="3" placeholder="eg. Paste links, one per line — could be a competitor or any site whose look you like."></textarea></div>
 
     <div class="field">
-      <label class="flabel">Primary Trade / Industry <span class="req">*</span></label>
+      <label class="flabel">Main type of work <span class="req">*</span></label>
       <select id="primary-trade" onchange="toggleOther(this.value)">
-        <option value="" disabled selected>Choose your trade…</option>
+        <option value="" disabled selected>Pick your trade…</option>
         <option>Roofing</option>
         <option>General Contracting / Remodeling</option>
         <option>HVAC / Heating &amp; Cooling</option>
@@ -224,31 +183,24 @@
         <option>Electrical</option>
         <option value="other">Other — I’ll describe it</option>
       </select>
-      <div class="cond" id="other-trade" style="margin-top:.5rem"><input type="text" id="other-tin"/></div>
+      <div class="cond" id="other-trade" style="margin-top:.5rem"><input type="text" id="other-tin" placeholder="eg. Custom trade name"></div>
     </div>
 
-    <div class="field"><label class="flabel">Service #1 <span class="req">*</span></label><input type="text" id="s1n"/></div>
-    <div class="field"><label class="flabel">Describe Service #1</label><textarea id="s1d" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Service #2 <span class="req">*</span></label><input type="text" id="s2n"/></div>
-    <div class="field"><label class="flabel">Describe Service #2</label><textarea id="s2d" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Service #3 <span class="req">*</span></label><input type="text" id="s3n"/></div>
-    <div class="field"><label class="flabel">Describe Service #3</label><textarea id="s3d" rows="2"></textarea></div>
-    <div class="callout"><strong>Three dedicated service URLs.</strong> Priorities <strong>#1–#3</strong> populate <code>service-1.html</code> … <code>service-3.html</code> with full detail-page SEO (process, signs, FAQs, before/after when you provide photo pairs in the Photos step or clear notes). Put your strongest offers in those first three lines.</div>
-    <div class="callout"><strong>Services #4–#6</strong> map to the remaining grid slots on <code>services.html</code> and the home grid (no separate detail URLs). Names should match priority lines #4–#6 when you use them.</div>
-    <div class="frow">
-      <div class="field"><label class="flabel">Service #4 name</label><input type="text" id="s4n"/></div>
-      <div class="field"><label class="flabel">Service #4 short description</label><textarea id="s4d" rows="2"></textarea></div>
-    </div>
-    <div class="frow">
-      <div class="field"><label class="flabel">Service #5 name</label><input type="text" id="s5n"/></div>
-      <div class="field"><label class="flabel">Service #5 short description</label><textarea id="s5d" rows="2"></textarea></div>
-    </div>
-    <div class="frow">
-      <div class="field"><label class="flabel">Service #6 name</label><input type="text" id="s6n"/></div>
-      <div class="field"><label class="flabel">Service #6 short description</label><textarea id="s6d" rows="2"></textarea></div>
-    </div>
-    <div class="field"><label class="flabel">Other Services You Offer</label><textarea id="svc-other" rows="3"></textarea></div>
-    <div class="field"><label class="flabel">“Other services” card — intro (on Services page)</label><textarea id="addl-svc-intro" rows="2" placeholder="Shown above the bullet list of everything not in the top 6…"></textarea></div>
+    <div class="field"><label class="flabel">Service #1 <span class="req">*</span></label><input type="text" id="s1n" placeholder="eg. Roof repair"></div>
+    <div class="field"><label class="flabel">Service #1 — in a sentence or two, what’s included?</label><textarea id="s1d" rows="2" placeholder="eg. Leak patches, storm damage, and emergency tarping"></textarea></div>
+    <div class="field"><label class="flabel">Service #2 <span class="req">*</span></label><input type="text" id="s2n" placeholder="eg. Roof replacement"></div>
+    <div class="field"><label class="flabel">Service #2 — in a sentence or two, what’s included?</label><textarea id="s2d" rows="2" placeholder="eg. Full tear-offs and re-roofs with manufacturer warranties"></textarea></div>
+    <div class="field"><label class="flabel">Service #3 <span class="req">*</span></label><input type="text" id="s3n" placeholder="eg. Gutter installation"></div>
+    <div class="field"><label class="flabel">Service #3 — in a sentence or two, what’s included?</label><textarea id="s3d" rows="2" placeholder="eg. Seamless aluminum gutters and downspout routing"></textarea></div>
+    <div class="callout"><strong>Your first three services get their own page.</strong> Put the work you most want calls for in #1–#3. We’ll expand your notes into full page text.</div>
+    <div class="callout"><strong>Services #4–#6</strong> still appear on your main Services list; they just don’t get a separate long page.</div>
+    <div class="field"><label class="flabel">Service #4</label><input type="text" id="s4n" placeholder="eg. Roof inspection"></div>
+    <div class="field"><label class="flabel">Service #4 — in a sentence or two, what’s included?</label><textarea id="s4d" rows="2" placeholder="eg. Photo reports for insurance and real estate"></textarea></div>
+    <div class="field"><label class="flabel">Service #5</label><input type="text" id="s5n" placeholder="eg. Skylight repair"></div>
+    <div class="field"><label class="flabel">Service #5 — in a sentence or two, what’s included?</label><textarea id="s5d" rows="2" placeholder="eg. Flashing, seals, and curb-mounted units"></textarea></div>
+    <div class="field"><label class="flabel">Service #6</label><input type="text" id="s6n" placeholder="eg. Commercial roofing"></div>
+    <div class="field"><label class="flabel">Service #6 — in a sentence or two, what’s included?</label><textarea id="s6d" rows="2" placeholder="eg. TPO and modified bitumen for flat roofs"></textarea></div>
+    <div class="field"><label class="flabel">Anything else you offer? (optional)</label><textarea id="svc-other" rows="3" placeholder="eg. Chimney flashing, skylights, attic insulation checks"></textarea></div>
 
     <div class="field">
       <label class="flabel">Emergency / after-hours service?</label>
@@ -259,68 +211,98 @@
       </div>
     </div>
 
-    <div class="form-nav"><button class="btn-back" onclick="goTo(2)">← Back</button><button class="btn-next" onclick="goTo(4)">Next: Coverage →</button></div>
+    <div class="form-nav"><button class="btn-back" onclick="goTo(1)">← Back</button><button class="btn-next" onclick="goTo(3)">Next: Where you work →</button></div>
+  </div>
+
+  <div class="sc" id="s3">
+    <div class="sec-eye">3</div>
+    <h2 class="sec-title">Where you work</h2>
+    <p class="sec-sub"><strong>Why this matters:</strong> Enhanced includes a service-area page and map — the cities you name here are how we prove you cover the ground homeowners search, so you show up across your whole territory, not just one zip.</p>
+
+    <div class="field"><label class="flabel">Towns and neighborhoods you serve <span class="req">*</span></label><textarea id="scities" rows="3" placeholder="eg. Houston, Pearland, Sugar Land, Katy"></textarea><p class="hint">Separate with commas. Include your main city here too.</p></div>
+    <div class="field"><label class="flabel">ZIP codes you cover (optional)</label><textarea id="szips" rows="2" placeholder="eg. 77006, 77581, 77479"></textarea></div>
+
+    <div class="field">
+      <label class="flabel">Do you show up on Google Maps / have a Google listing? <span class="req">*</span></label>
+      <div class="og">
+        <label class="oi"><input type="radio" name="gbp" value="yes-claimed"/><div class="ot"><span class="om">Yes — I manage it in Google</span></div></label>
+        <label class="oi"><input type="radio" name="gbp" value="yes-unclaimed"/><div class="ot"><span class="om">Yes — it’s there but I don’t run it yet</span></div></label>
+        <label class="oi"><input type="radio" name="gbp" value="no"/><div class="ot"><span class="om">No</span></div></label>
+      </div>
+    </div>
+    <div class="field"><label class="flabel">Link to your Google listing (optional)</label><input type="url" id="gbp-link" placeholder="eg. https://maps.google.com/?cid=..."></div>
+    <div class="frow">
+      <div class="field"><label class="flabel">Star rating on Google (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.9</option><option>4.8</option><option>4.7</option><option>4.6</option><option>4.5</option><option>4.4</option><option>4.3</option><option>4.2</option><option>4.1</option><option>4.0</option><option>3.9</option><option>3.8</option><option>3.7</option><option>3.6</option><option>3.5</option><option>3.4</option><option>3.3</option><option>3.2</option><option>3.1</option><option>3.0</option><option>Rather not say</option><option>No reviews yet</option></select><p class="hint" style="margin-top:.45rem">Rough average is fine. Pick <strong>Rather not say</strong> if you prefer not to show a number.</p></div>
+      <div class="field"><label class="flabel">About how many Google reviews? (optional)</label><input type="number" id="rvcount" min="0" placeholder="eg. 47"></div>
+    </div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(2)">← Back</button><button class="btn-next" onclick="goTo(4)">Next: Your story &amp; highlights →</button></div>
   </div>
 
   <div class="sc" id="s4">
     <div class="sec-eye">4</div>
-    <h2 class="sec-title">Your Local Footprint</h2>
-    <p class="sec-sub">We use this for your service-area page, contact blocks, and consistent address details across the site.</p>
+    <h2 class="sec-title">Your story &amp; highlights</h2>
+    <p class="sec-sub"><strong>Why this matters:</strong> Homeowners hire crews they relate to. Your story, process, and selling points are what turn a visitor into a caller when they’re comparing three quotes — short notes are enough; we craft the finished copy.</p>
 
-    <div class="field"><label class="flabel">Primary city to feature <span class="req">*</span></label><input type="text" id="pcity"/></div>
-    <div class="field"><label class="flabel">All Cities / Neighborhoods You Serve <span class="req">*</span></label><textarea id="scities" rows="3"></textarea></div>
-    <div class="field"><label class="flabel">Zip Codes (optional)</label><textarea id="szips" rows="2"></textarea></div>
+    <div class="field"><label class="flabel">Why did you start this business? <span class="req">*</span></label><textarea id="bstory" rows="4" placeholder="eg. We started after years in the trades and saw homeowners needed honest crews who show up when they say they will."></textarea></div>
 
     <div class="field">
-      <label class="flabel">Google Business Profile? <span class="req">*</span></label>
+      <label class="flabel">Three reasons customers choose you <span class="req">*</span></label>
+      <p class="hint" style="margin-bottom:1rem">These show on your <strong>Services</strong> page. Name each strength in a few words, then say what you actually do.</p>
+      <div class="point-block">
+        <p class="point-block-title">Reason 1</p>
+        <div class="field" style="margin-bottom:.9rem"><label class="flabel">Name it in a few words</label><input type="text" id="u1t" placeholder="eg. Fast response"></div>
+        <div class="field"><label class="flabel">What you do for the customer</label><textarea id="u1d" rows="2" placeholder="eg. Same-week visits for most calls; emergency leaks get priority when slots allow."></textarea></div>
+      </div>
+      <div class="point-block">
+        <p class="point-block-title">Reason 2</p>
+        <div class="field" style="margin-bottom:.9rem"><label class="flabel">Name it in a few words</label><input type="text" id="u2t" placeholder="eg. Clear pricing"></div>
+        <div class="field"><label class="flabel">What you do for the customer</label><textarea id="u2d" rows="2" placeholder="eg. Written estimates before work starts — no surprise line items at the end."></textarea></div>
+      </div>
+      <div class="point-block">
+        <p class="point-block-title">Reason 3</p>
+        <div class="field" style="margin-bottom:.9rem"><label class="flabel">Name it in a few words</label><input type="text" id="u3t" placeholder="eg. Clean job sites"></div>
+        <div class="field"><label class="flabel">What you do for the customer</label><textarea id="u3d" rows="2" placeholder="eg. Floor protection, daily cleanup, and photos when we finish."></textarea></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="flabel">When someone hires you, what are the usual steps? <span class="req">*</span></label>
+      <p class="hint" style="margin-bottom:1rem">From first call or message to job done — keep it simple.</p>
+      <div class="field"><label class="flabel">Step 1</label><input type="text" id="p1" placeholder="eg. Call/text us and we schedule a same-week visit"/></div>
+      <div class="field"><label class="flabel">Step 2</label><input type="text" id="p2" placeholder="eg. We inspect, explain options, and give a clear written estimate"/></div>
+      <div class="field"><label class="flabel">Step 3</label><input type="text" id="p3" placeholder="eg. We complete the work, clean up, and you approve before payment"/></div>
+    </div>
+
+    <div class="callout" style="margin-top:1.25rem"><strong>Hours, estimates &amp; warranty</strong> — shown on your Contact page, footer, and FAQs.</div>
+    <div class="field">
+      <label class="flabel">Regular business hours <span class="req">*</span></label>
+      <textarea id="biz-hours" rows="2" placeholder="eg. Mon–Fri 7:30am–5pm · Sat 8am–12pm · Closed Sun"></textarea>
+      <p class="hint">Separate from 24/7 emergency service if you offer that.</p>
+    </div>
+    <div class="field">
+      <label class="flabel">Quotes, estimates &amp; on-site visits <span class="req">*</span></label>
+      <p class="hint" style="margin-bottom:.55rem">What should customers expect before they book?</p>
       <div class="og">
-        <label class="oi"><input type="radio" name="gbp" value="yes-claimed"/><div class="ot"><span class="om">Yes — claimed &amp; verified</span></div></label>
-        <label class="oi"><input type="radio" name="gbp" value="yes-unclaimed"/><div class="ot"><span class="om">Yes — but not claimed yet</span></div></label>
-        <label class="oi"><input type="radio" name="gbp" value="no"/><div class="ot"><span class="om">No</span></div></label>
+        <label class="oi"><input type="radio" name="estimates-policy" value="free-estimates" checked onchange="refreshEstimatesNotesVisibility()"/><div class="ot"><span class="om">Free estimates — no charge for quotes or visits</span></div></label>
+        <label class="oi"><input type="radio" name="estimates-policy" value="free-estimates-trip-applies" onchange="refreshEstimatesNotesVisibility()"/><div class="ot"><span class="om">Free quotes — trip or diagnostic fee may apply (often credited to the job)</span></div></label>
+        <label class="oi"><input type="radio" name="estimates-policy" value="paid-diagnostic" onchange="refreshEstimatesNotesVisibility()"/><div class="ot"><span class="om">We charge for on-site visits / diagnostics</span></div></label>
+        <label class="oi"><input type="radio" name="estimates-policy" value="case-by-case" onchange="refreshEstimatesNotesVisibility()"/><div class="ot"><span class="om">It depends — I'll explain below</span></div></label>
       </div>
     </div>
-    <div class="field"><label class="flabel">Google Business Profile Link (optional)</label><input type="url" id="gbp-link"/></div>
-    <div class="frow">
-      <div class="field"><label class="flabel">Review Rating (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.5 – 4.9</option><option>4.0 – 4.4</option><option>Under 4.0</option><option>No reviews yet</option></select></div>
-      <div class="field"><label class="flabel">Number of Reviews (optional)</label><input type="number" id="rvcount" min="0"/></div>
+    <div class="field cond" id="estimates-notes-wrap">
+      <label class="flabel">Explain your estimate / visit policy</label>
+      <textarea id="estimates-notes" rows="3" placeholder="eg. $89 dispatch after hours; free in-home estimates Mon–Fri."></textarea>
     </div>
-
-    <div class="form-nav"><button class="btn-back" onclick="goTo(3)">← Back</button><button class="btn-next" onclick="goTo(5)">Next: Story →</button></div>
-  </div>
-
-  <div class="sc" id="s5">
-    <div class="sec-eye">5</div>
-    <h2 class="sec-title">Your Story &Amp; Trust Signals</h2>
-    <p class="sec-sub">We’ll polish tone, tighten copy, and format so it reads well on the page.</p>
-
-    <div class="field"><label class="flabel">Years of experience <span class="req">*</span></label><input type="text" id="yexp"/></div>
-    <div class="field"><label class="flabel">Why did you start this business? <span class="req">*</span></label><textarea id="bstory" rows="4"></textarea></div>
+    <div class="field">
+      <label class="flabel">Warranty &amp; guarantee details <span class="tip">Optional but helpful</span></label>
+      <textarea id="warranty-details" rows="3" placeholder="eg. Labor: 2-year workmanship on repairs and installs we perform. Parts: manufacturer warranty on materials (shingles, fixtures, equipment) when registered per label. Limits: prior damage, normal wear, storm-only temp work unless noted in writing."></textarea>
+      <p class="hint">Used anywhere the site mentions warranties so copy stays accurate.</p>
+    </div>
+    <div class="field"><label class="flabel">How customers request warranty service (optional)</label><input type="text" id="warranty-claim" placeholder="eg. Call with your invoice — same number as our main line"/></div>
 
     <div class="field">
-      <label class="flabel">Top 3 reasons customers choose you <span class="req">*</span></label>
-      <div class="frow">
-        <div class="field"><label class="flabel">Reason 1 title</label><input type="text" id="u1t"/></div>
-        <div class="field"><label class="flabel">Reason 1 detail</label><textarea id="u1d" rows="2"></textarea></div>
-      </div>
-      <div class="frow">
-        <div class="field"><label class="flabel">Reason 2 title</label><input type="text" id="u2t"/></div>
-        <div class="field"><label class="flabel">Reason 2 detail</label><textarea id="u2d" rows="2"></textarea></div>
-      </div>
-      <div class="frow">
-        <div class="field"><label class="flabel">Reason 3 title</label><input type="text" id="u3t"/></div>
-        <div class="field"><label class="flabel">Reason 3 detail</label><textarea id="u3d" rows="2"></textarea></div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="flabel">How it works (3 steps) <span class="req">*</span></label>
-      <div class="field"><label class="flabel">Step 1</label><input type="text" id="p1"/></div>
-      <div class="field"><label class="flabel">Step 2</label><input type="text" id="p2"/></div>
-      <div class="field"><label class="flabel">Step 3</label><input type="text" id="p3"/></div>
-    </div>
-
-    <div class="field">
-      <label class="flabel">Core Values <span class="tip">Check all that apply</span></label>
+      <label class="flabel">What matters to your team? <span class="tip">Check any that fit</span></label>
       <div class="og two-col">
         <label class="oi"><input type="checkbox" name="vals" value="integrity"/><div class="ot"><span class="om">Integrity</span></div></label>
         <label class="oi"><input type="checkbox" name="vals" value="family"/><div class="ot"><span class="om">Family-Owned</span></div></label>
@@ -330,149 +312,101 @@
         <label class="oi"><input type="checkbox" name="vals" value="honest-pricing"/><div class="ot"><span class="om">Honest Pricing</span></div></label>
       </div>
     </div>
-    <div class="field"><label class="flabel">Licenses / certifications (optional)</label><textarea id="creds" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Guarantees / warranties (optional)</label><input type="text" id="guar"/></div>
+    <div class="field"><label class="flabel">Other values to mention (optional)</label><textarea id="vals-other" rows="2" placeholder="eg. Communication, cleanliness, punctuality, respect for your home"></textarea></div>
+    <div class="field"><label class="flabel">One line about your warranty (optional)</label><input type="text" id="guar" placeholder="eg. 2-year workmanship on our installs"></div>
 
-    <div class="callout" style="margin-top:1.5rem"><strong>Enhanced — page &amp; section copy.</strong> Fill each field you use on the live site. Leave optional lines blank only if you accept neutral placeholder copy later (better: write something specific).</div>
+    <div class="callout" style="margin-top:1.5rem"><strong>Home page.</strong> The next fields are what people see first when they land on your site.</div>
 
-    <div class="field"><label class="flabel">Primary service label (home H1 — before “you can…”) <span class="req">*</span></label><input type="text" id="primary-svc-hero" placeholder="e.g. Roofing"/></div>
-    <div class="field"><label class="flabel">Home hero — H1 accent phrase (inside span)</label><input type="text" id="hero-h1-accent" placeholder="e.g. count on" value="count on"/></div>
-    <div class="field"><label class="flabel">Home hero subheadline <span class="req">*</span></label><textarea id="hero-sub-enh" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Warranty pill — short value (e.g. “10-year workmanship”)</label><input type="text" id="warranty-short" placeholder="Exact words for the warranty tile"/></div>
+    <div class="field"><label class="flabel">Slogan or motto (optional)</label><input type="text" id="hero-h1-accent" placeholder="eg. Quality you can trust"/></div>
+    <div class="field"><label class="flabel">Describe your business in a sentence or two <span class="req">*</span></label><textarea id="hero-sub-enh" rows="3" placeholder="eg. Family plumbing in Phoenix — same-day leak repair, upfront pricing, and we leave the work area clean.&#10;&#10;eg. Houston roofers for storm damage and replacements — we show up on time and explain every option before we start."></textarea></div>
 
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Home hero — three “proof” tiles (titles &amp; sublines)</p>
-    <div class="frow">
-      <div class="field"><label class="flabel">Tile 1 title</label><input type="text" id="hp1t" placeholder="e.g. Fast response"/></div>
-      <div class="field"><label class="flabel">Tile 1 value</label><input type="text" id="hp1v" placeholder="e.g. Same-week"/></div>
+    <p class="flabel" style="margin:1.1rem 0 .35rem">Three selling points on your Home page</p>
+    <p class="hint" style="margin-bottom:1rem">Near the top of your site. Same ideas as above are OK — we polish the wording.</p>
+    <div class="point-block">
+      <p class="point-block-title">Selling point 1</p>
+      <div class="frow">
+        <div class="field"><label class="flabel">Name it in a few words</label><input type="text" id="hp1t" placeholder="eg. Fast response"/></div>
+        <div class="field"><label class="flabel">Your promise in a few words</label><input type="text" id="hp1v" placeholder="eg. Same-day priority"/></div>
+      </div>
+      <div class="field"><label class="flabel">How you deliver it</label><textarea id="hp1s" rows="2" placeholder="eg. We answer urgent calls fast and give a realistic arrival window before we send a crew."></textarea></div>
     </div>
-    <div class="field"><label class="flabel">Tile 1 subline</label><textarea id="hp1s" rows="2"></textarea></div>
-    <div class="frow">
-      <div class="field"><label class="flabel">Tile 2 title</label><input type="text" id="hp2t"/></div>
-      <div class="field"><label class="flabel">Tile 2 value</label><input type="text" id="hp2v"/></div>
+    <div class="point-block">
+      <p class="point-block-title">Selling point 2</p>
+      <div class="frow">
+        <div class="field"><label class="flabel">Name it in a few words</label><input type="text" id="hp2t" placeholder="eg. Clear pricing"></div>
+        <div class="field"><label class="flabel">Your promise in a few words</label><input type="text" id="hp2v" placeholder="eg. Written estimate"></div>
+      </div>
+      <div class="field"><label class="flabel">How you deliver it</label><textarea id="hp2s" rows="2" placeholder="eg. You see scope and price in writing before we order materials or schedule the crew."></textarea></div>
     </div>
-    <div class="field"><label class="flabel">Tile 2 subline</label><textarea id="hp2s" rows="2"></textarea></div>
-    <div class="frow">
-      <div class="field"><label class="flabel">Tile 3 title</label><input type="text" id="hp3t"/></div>
-      <div class="field"><label class="flabel">Tile 3 value</label><input type="text" id="hp3v"/></div>
+    <div class="point-block">
+      <p class="point-block-title">Selling point 3</p>
+      <div class="frow">
+        <div class="field"><label class="flabel">Name it in a few words</label><input type="text" id="hp3t" placeholder="eg. Clean job sites"></div>
+        <div class="field"><label class="flabel">Your promise in a few words</label><input type="text" id="hp3v" placeholder="eg. Photo documented"></div>
+      </div>
+      <div class="field"><label class="flabel">How you deliver it</label><textarea id="hp3s" rows="2" placeholder="eg. We share before-and-after photos and leave driveways and work areas tidy when we finish."></textarea></div>
     </div>
-    <div class="field"><label class="flabel">Tile 3 subline</label><textarea id="hp3s" rows="2"></textarea></div>
 
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Home — trust bar (5 short phrases)</p>
-    <div class="field"><input type="text" id="tb1" placeholder="Trust item 1"/></div>
-    <div class="field"><input type="text" id="tb2" placeholder="Trust item 2"/></div>
-    <div class="field"><input type="text" id="tb3" placeholder="Trust item 3"/></div>
-    <div class="field"><input type="text" id="tb4" placeholder="Trust item 4"/></div>
-    <div class="field"><input type="text" id="tb5" placeholder="Trust item 5"/></div>
+    <p class="flabel" style="margin:1.1rem 0 .35rem">Quick facts (optional)</p>
+    <p class="hint" style="margin-bottom:.75rem">Short lines customers should notice right away — license, insurance, service area, etc.</p>
+    <div class="field"><label class="flabel">Fact 1</label><input type="text" id="tb1" placeholder="eg. Licensed &amp; insured"/></div>
+    <div class="field"><label class="flabel">Fact 2</label><input type="text" id="tb2" placeholder="eg. Local crew"/></div>
+    <div class="field"><label class="flabel">Fact 3</label><input type="text" id="tb3" placeholder="eg. Written estimates"/></div>
+    <div class="field"><label class="flabel">Fact 4</label><input type="text" id="tb4" placeholder="eg. Manufacturer partners"/></div>
+    <div class="field"><label class="flabel">Fact 5</label><input type="text" id="tb5" placeholder="eg. Emergency service"/></div>
 
-    <div class="field"><label class="flabel">Home — intro under Services H2</label><textarea id="home-svc-intro" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Home — intro under testimonials H2</label><textarea id="home-t-intro" rows="2"></textarea></div>
+    <div class="callout"><strong>We draft customer-facing copy for you.</strong> Home page intros, services page openings, FAQs, About text, contact blurbs, gallery intros, footer tagline, and blog previews are generated from your business details, services, service area, reviews, and the notes above — optimized in our site build step.</div>
 
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Services page (`services.html`)</p>
-    <div class="field"><label class="flabel">Services page intro <span class="req">*</span></label><textarea id="svc-page-intro" rows="3"></textarea></div>
-    <div class="field"><label class="flabel">Services hub — “Most popular” section intro (optional)</label><textarea id="svc-hub-popular-intro" rows="2" placeholder="Shown under the Most popular heading; defaults in the scaffold if blank."></textarea></div>
-    <div class="field"><label class="flabel">Services hub — “Additional core” section intro (optional)</label><textarea id="svc-hub-core-intro" rows="2" placeholder="Explains services #4–#6 (hub-only cards on Enhanced)."></textarea></div>
-    <div class="field"><label class="flabel">Service #1 long copy <span class="req">*</span></label><textarea id="svc1-long" rows="4"></textarea></div>
-    <div class="field"><label class="flabel">Service #2 long copy <span class="req">*</span></label><textarea id="svc2-long" rows="4"></textarea></div>
-    <div class="field"><label class="flabel">Service #3 long copy <span class="req">*</span></label><textarea id="svc3-long" rows="4"></textarea></div>
-    <div class="field"><label class="flabel">Service #4 long copy</label><textarea id="svc4-long" rows="3"></textarea></div>
-    <div class="field"><label class="flabel">Service #5 long copy</label><textarea id="svc5-long" rows="3"></textarea></div>
-    <div class="field"><label class="flabel">Service #6 long copy</label><textarea id="svc6-long" rows="3"></textarea></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Home FAQ (answers only — questions are fixed on template)</p>
-    <div class="field"><label class="flabel">Answer: Do you offer emergency service? <span class="req">*</span></label><textarea id="faq-em" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Answer: How fast can you come out? <span class="req">*</span></label><textarea id="faq-sched" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Answer: Do you provide free estimates? <span class="req">*</span></label><textarea id="faq-est" rows="2"></textarea></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">About page</p>
-    <div class="field"><label class="flabel">About H1 — accent (span)</label><input type="text" id="about-h1-ac" placeholder="e.g. Real Accountability" value="Real Accountability"/></div>
-    <div class="field"><label class="flabel">About lead <span class="req">*</span></label><textarea id="about-lead" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">About story H2</label><input type="text" id="about-h2"/></div>
-    <div class="field"><label class="flabel">About long story <span class="req">*</span></label><textarea id="about-long" rows="5"></textarea></div>
-    <div class="field"><label class="flabel">Values intro</label><textarea id="values-intro" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Value line 1 <span class="req">*</span></label><input type="text" id="v1"/></div>
-    <div class="field"><label class="flabel">Value line 2 <span class="req">*</span></label><input type="text" id="v2"/></div>
-    <div class="field"><label class="flabel">Value line 3 <span class="req">*</span></label><input type="text" id="v3"/></div>
-    <div class="field"><label class="flabel">Value line 4 <span class="req">*</span></label><input type="text" id="v4"/></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Articles hub (`articles.html`)</p>
-    <div class="field"><label class="flabel">Articles / blog intro <span class="req">*</span></label><textarea id="blog-intro" rows="2"></textarea></div>
-    <div class="frow"><div class="field"><label class="flabel">Post 1 title <span class="req">*</span></label><input type="text" id="b1t"/></div><div class="field"><label class="flabel">Post 1 date</label><input type="text" id="b1dt"/></div></div>
-    <div class="field"><label class="flabel">Post 1 excerpt <span class="req">*</span></label><textarea id="b1x" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Post 1 URL</label><input type="url" id="b1u"/></div>
-    <div class="frow"><div class="field"><label class="flabel">Post 2 title <span class="req">*</span></label><input type="text" id="b2t"/></div><div class="field"><label class="flabel">Post 2 date</label><input type="text" id="b2dt"/></div></div>
-    <div class="field"><label class="flabel">Post 2 excerpt <span class="req">*</span></label><textarea id="b2x" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Post 2 URL</label><input type="url" id="b2u"/></div>
-    <div class="frow"><div class="field"><label class="flabel">Post 3 title <span class="req">*</span></label><input type="text" id="b3t"/></div><div class="field"><label class="flabel">Post 3 date</label><input type="text" id="b3dt"/></div></div>
-    <div class="field"><label class="flabel">Post 3 excerpt <span class="req">*</span></label><textarea id="b3x" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Post 3 URL</label><input type="url" id="b3u"/></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Service area page</p>
-    <div class="field"><label class="flabel">Nav label for service area</label><input type="text" id="sa-nav" placeholder="e.g. Service Area" value="Service Area"/></div>
-    <div class="field"><label class="flabel">Service area short headline (H1 span)</label><input type="text" id="sa-short" placeholder="e.g. Greater Houston"/></div>
-    <div class="field"><label class="flabel">Service area intro <span class="req">*</span></label><textarea id="sa-intro" rows="4"></textarea></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Contact page</p>
-    <div class="field"><label class="flabel">Contact lead <span class="req">*</span></label><textarea id="contact-lead" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Call column copy <span class="req">*</span></label><textarea id="contact-call" rows="2"></textarea></div>
-    <div class="field"><label class="flabel">Form intro <span class="req">*</span></label><textarea id="contact-form-intro" rows="2"></textarea></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Gallery page</p>
-    <div class="field"><label class="flabel">Gallery intro (under H1)</label><textarea id="gal-intro" rows="2"></textarea></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Home CTA strip</p>
-    <div class="field"><label class="flabel">CTA intro <span class="req">*</span></label><textarea id="cta-intro" rows="2"></textarea></div>
-
-    <p class="flabel" style="margin:1.1rem 0 .5rem">Footer</p>
-    <div class="field"><label class="flabel">Footer tagline <span class="req">*</span></label><input type="text" id="footer-tag"/></div>
-
-    <div class="form-nav"><button class="btn-back" onclick="goTo(4)">← Back</button><button class="btn-next" onclick="goTo(6)">Next: Photos →</button></div>
+    <div class="form-nav"><button class="btn-back" onclick="goTo(3)">← Back</button><button class="btn-next" onclick="goTo(5)">Next: Photos →</button></div>
   </div>
 
-  <div class="sc" id="s6">
-    <div class="sec-eye">6</div>
-    <h2 class="sec-title">Photos &Amp; Visual Assets</h2>
-    <p class="sec-sub">Upload images directly. <strong>No captions.</strong> Enhanced includes a carousel gallery.</p>
-    <div class="callout"><strong>Enhanced limit:</strong> up to <strong>10</strong> gallery photos (carousel).</div>
-    <div class="callout"><strong>Optional before/after pairs</strong> for <code>service-1.html</code> … <code>service-3.html</code> (priorities #1–#3). Upload real project photos per service when you have them; filenames are captured in JSON for the build.</div>
+  <div class="sc" id="s5">
+    <div class="sec-eye">5</div>
+    <h2 class="sec-title">Photos</h2>
+    <p class="sec-sub"><strong>Why this matters:</strong> Nothing sells a service business like proof of real jobs. Gallery photos and before/after pairs on service pages help you win the customer who’s still on the fence — up to <strong>10 photos</strong> on Enhanced. No captions needed.</p>
+    <div class="callout"><strong>Gallery:</strong> you can upload up to <strong>10</strong> photos for the gallery section.</div>
+    <div class="callout"><strong>Before / after (optional):</strong> for your first three services, you can send a “before” and “after” pair for each. If you skip these, we leave that section off those pages.</div>
     <div class="frow">
       <div class="field">
-        <label class="flabel">Priority #1 — BEFORE</label>
-        <label class="upload-zone" for="eba1b"><p class="uz-t">Before</p><p class="uz-s" id="eba1b-fn">No file</p><input type="file" id="eba1b" accept="image/*" onchange="setFn(this,'eba1b-fn')"/></label>
+        <label class="flabel">Service #1 <span class="tip" data-svcname="1">(not set yet)</span> — BEFORE</label>
+        <label class="upload-zone" for="eba1b"><p class="uz-t">Before</p><p class="uz-s" id="eba1b-fn" data-default="No file">No file</p><input type="file" id="eba1b" accept="image/*" onchange="setFn(this,'eba1b-fn')"/></label>
       </div>
       <div class="field">
-        <label class="flabel">Priority #1 — AFTER</label>
-        <label class="upload-zone" for="eba1a"><p class="uz-t">After</p><p class="uz-s" id="eba1a-fn">No file</p><input type="file" id="eba1a" accept="image/*" onchange="setFn(this,'eba1a-fn')"/></label>
+        <label class="flabel">Service #1 <span class="tip" data-svcname="1">(not set yet)</span> — AFTER</label>
+        <label class="upload-zone" for="eba1a"><p class="uz-t">After</p><p class="uz-s" id="eba1a-fn" data-default="No file">No file</p><input type="file" id="eba1a" accept="image/*" onchange="setFn(this,'eba1a-fn')"/></label>
       </div>
     </div>
     <div class="frow">
       <div class="field">
-        <label class="flabel">Priority #2 — BEFORE</label>
-        <label class="upload-zone" for="eba2b"><p class="uz-t">Before</p><p class="uz-s" id="eba2b-fn">No file</p><input type="file" id="eba2b" accept="image/*" onchange="setFn(this,'eba2b-fn')"/></label>
+        <label class="flabel">Service #2 <span class="tip" data-svcname="2">(not set yet)</span> — BEFORE</label>
+        <label class="upload-zone" for="eba2b"><p class="uz-t">Before</p><p class="uz-s" id="eba2b-fn" data-default="No file">No file</p><input type="file" id="eba2b" accept="image/*" onchange="setFn(this,'eba2b-fn')"/></label>
       </div>
       <div class="field">
-        <label class="flabel">Priority #2 — AFTER</label>
-        <label class="upload-zone" for="eba2a"><p class="uz-t">After</p><p class="uz-s" id="eba2a-fn">No file</p><input type="file" id="eba2a" accept="image/*" onchange="setFn(this,'eba2a-fn')"/></label>
+        <label class="flabel">Service #2 <span class="tip" data-svcname="2">(not set yet)</span> — AFTER</label>
+        <label class="upload-zone" for="eba2a"><p class="uz-t">After</p><p class="uz-s" id="eba2a-fn" data-default="No file">No file</p><input type="file" id="eba2a" accept="image/*" onchange="setFn(this,'eba2a-fn')"/></label>
       </div>
     </div>
     <div class="frow">
       <div class="field">
-        <label class="flabel">Priority #3 — BEFORE</label>
-        <label class="upload-zone" for="eba3b"><p class="uz-t">Before</p><p class="uz-s" id="eba3b-fn">No file</p><input type="file" id="eba3b" accept="image/*" onchange="setFn(this,'eba3b-fn')"/></label>
+        <label class="flabel">Service #3 <span class="tip" data-svcname="3">(not set yet)</span> — BEFORE</label>
+        <label class="upload-zone" for="eba3b"><p class="uz-t">Before</p><p class="uz-s" id="eba3b-fn" data-default="No file">No file</p><input type="file" id="eba3b" accept="image/*" onchange="setFn(this,'eba3b-fn')"/></label>
       </div>
       <div class="field">
-        <label class="flabel">Priority #3 — AFTER</label>
-        <label class="upload-zone" for="eba3a"><p class="uz-t">After</p><p class="uz-s" id="eba3a-fn">No file</p><input type="file" id="eba3a" accept="image/*" onchange="setFn(this,'eba3a-fn')"/></label>
+        <label class="flabel">Service #3 <span class="tip" data-svcname="3">(not set yet)</span> — AFTER</label>
+        <label class="upload-zone" for="eba3a"><p class="uz-t">After</p><p class="uz-s" id="eba3a-fn" data-default="No file">No file</p><input type="file" id="eba3a" accept="image/*" onchange="setFn(this,'eba3a-fn')"/></label>
       </div>
     </div>
 
     <div class="field">
-      <label class="flabel">Hero / Banner Image (upload)</label>
-      <p class="hint" style="margin-bottom:.65rem">This is the <strong>large background image behind your homepage headline</strong>—the first impression for visitors. Best: a <strong>wide landscape</strong> shot (we crop for mobile and desktop), well lit—crew on a job, a standout finished install, or your <strong>branded truck</strong> at a real property. Avoid logo-only images, very dark interiors, or blurry snapshots.</p>
+      <label class="flabel">Big photo for the top of your home page</label>
+      <p class="hint" style="margin-bottom:.65rem">This is the <strong>wide picture behind the first words people see</strong> on your site. Good choices: crew on a job, a finished project, or your <strong>wrapped truck</strong> at a real home. Skip very dark rooms, logo-only images, or blurry shots.</p>
       <label class="upload-zone" for="hero-file">
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
-        <p class="uz-t">Upload hero / banner image</p>
-        <p class="uz-s" id="hero-fn">JPG/PNG/WebP</p>
-        <input type="file" id="hero-file" accept="image/*" onchange="setFn(this,'hero-fn')"/>
+        <p class="uz-t">Upload top-of-home-page photo</p>
+        <p class="uz-s" id="hero-fn" data-default="JPG/PNG/WebP">JPG/PNG/WebP</p>
+        <div class="uz-spinner-slot" aria-hidden="true"><span class="upload-spin"></span></div>
+        <p class="uz-error-msg" role="alert"></p>
+        <input type="file" id="hero-file" accept="image/*" onchange="onAhanaHeroFileChange(this);"/>
       </label>
     </div>
     <div class="field">
@@ -480,8 +414,10 @@
       <label class="upload-zone" for="team-files">
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
         <p class="uz-t">Upload team photos</p>
-        <p class="uz-s" id="team-fn">Multiple allowed</p>
-        <input type="file" id="team-files" accept="image/*" multiple onchange="setMultiFn(this,'team-fn')"/>
+        <p class="uz-s" id="team-fn" data-default="Multiple allowed">Multiple allowed</p>
+        <div class="uz-spinner-slot" aria-hidden="true"><span class="upload-spin"></span></div>
+        <p class="uz-error-msg" role="alert"></p>
+        <input type="file" id="team-files" accept="image/*" multiple onchange="onAhanaTeamFilesChange(this);"/>
       </label>
     </div>
     <div class="field">
@@ -489,61 +425,63 @@
       <label class="upload-zone" for="truck-files">
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
         <p class="uz-t">Upload truck/vehicle photos</p>
-        <p class="uz-s" id="truck-fn">Multiple allowed</p>
-        <input type="file" id="truck-files" accept="image/*" multiple onchange="setMultiFn(this,'truck-fn')"/>
+        <p class="uz-s" id="truck-fn" data-default="Multiple allowed">Multiple allowed</p>
+        <div class="uz-spinner-slot" aria-hidden="true"><span class="upload-spin"></span></div>
+        <p class="uz-error-msg" role="alert"></p>
+        <input type="file" id="truck-files" accept="image/*" multiple onchange="onAhanaTruckFilesChange(this);"/>
       </label>
     </div>
 
     <div class="field">
-      <label class="flabel">Gallery photos (upload) <span class="req">*</span> <span class="tip">Up to 10</span></label>
+      <label class="flabel">Gallery photos (upload) <span class="tip">Up to 10</span></label>
       <label class="upload-zone" for="gallery-files">
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
         <p class="uz-t">Upload gallery photos</p>
-        <p class="uz-s" id="gallery-fn">0 selected</p>
-        <input type="file" id="gallery-files" accept="image/*" multiple onchange="enforceMaxFiles(this,10,'gallery-fn')"/>
+        <p class="uz-s" id="gallery-fn" data-default="0 selected">0 selected</p>
+        <div class="uz-spinner-slot" aria-hidden="true"><span class="upload-spin"></span></div>
+        <p class="uz-error-msg" role="alert"></p>
+        <input type="file" id="gallery-files" accept="image/*" multiple onchange="onAhanaGalleryFilesChange(this,10);"/>
       </label>
-      <p class="hint">These files populate the <strong>homepage gallery carousel</strong> and the <strong>Gallery</strong> page carousel (same set, up to 10). No captions — we’ll add short, accurate image descriptions from what’s in each photo.</p>
+      <p class="hint">Optional. If you skip the gallery, we leave that section off. No captions needed — we’ll describe each photo in plain language.</p>
     </div>
 
-    <div class="form-nav"><button class="btn-back" onclick="goTo(5)">← Back</button><button class="btn-next" onclick="goTo(7)">Next: Testimonials →</button></div>
+    <div class="form-nav"><button class="btn-back" onclick="goTo(4)">← Back</button><button class="btn-next" onclick="goTo(6)">Next: Reviews →</button></div>
+  </div>
+
+  <div class="sc" id="s6">
+    <div class="sec-eye">6</div>
+    <h2 class="sec-title">Customer reviews</h2>
+    <p class="sec-sub"><strong>Why this matters:</strong> Social proof closes the gap between “looks good online” and “I’ll call them.” Enhanced gives you a full testimonials page plus home-page preview — up to <strong>five reviews</strong> that help you outshine competitors with none.</p>
+
+    <div class="callout"><strong>Tip:</strong> Paste reviews as you have them — even rough text. We’ll clean up wording without changing what the customer said. The reviews page title in the menu and the short intro at the top of that page are written for you from your answers here and elsewhere in the form.</div>
+
+    <div class="field"><label class="flabel">Review #1 — customer name <span class="req">*</span></label><input type="text" id="t1n" placeholder="eg. James R."></div>
+    <div class="field"><label class="flabel">Review #1 — town (optional)</label><input type="text" id="t1c" placeholder="eg. Pearland"></div>
+    <div class="field"><label class="flabel">Review #1 — what they said <span class="req">*</span></label><textarea id="t1t" rows="3" placeholder="eg. They fixed our leak the same week and left the yard cleaner than they found it."></textarea></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Review #2 — customer name <span class="req">*</span></label><input type="text" id="t2n" placeholder="eg. Linda M."></div>
+    <div class="field"><label class="flabel">Review #2 — town (optional)</label><input type="text" id="t2c" placeholder="eg. Sugar Land"></div>
+    <div class="field"><label class="flabel">Review #2 — what they said <span class="req">*</span></label><textarea id="t2t" rows="3" placeholder="eg. Estimate was clear, crew showed on time, and the new shingles look great."></textarea></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Review #3 — customer name</label><input type="text" id="t3n" placeholder="eg. Carlos D."></div>
+    <div class="field"><label class="flabel">Review #3 — town (optional)</label><input type="text" id="t3c" placeholder="eg. Katy"></div>
+    <div class="field"><label class="flabel">Review #3 — what they said</label><textarea id="t3t" rows="3" placeholder="eg. Insurance photos were thorough and helped our claim move faster."></textarea></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Review #4 — customer name</label><input type="text" id="t4n" placeholder="eg. Amy S."></div>
+    <div class="field"><label class="flabel">Review #4 — town (optional)</label><input type="text" id="t4c" placeholder="eg. Houston"></div>
+    <div class="field"><label class="flabel">Review #4 — what they said</label><textarea id="t4t" rows="3" placeholder="eg. Professional from first call to final walkthrough."></textarea></div>
+
+    <div class="field" style="margin-top:1.1rem"><label class="flabel">Review #5 — customer name</label><input type="text" id="t5n" placeholder="eg. Robert K."></div>
+    <div class="field"><label class="flabel">Review #5 — town (optional)</label><input type="text" id="t5c" placeholder="eg. Missouri City"></div>
+    <div class="field"><label class="flabel">Review #5 — what they said</label><textarea id="t5t" rows="3" placeholder="eg. Fair price and they explained every step before starting."></textarea></div>
+
+    <div class="form-nav"><button class="btn-back" onclick="goTo(5)">← Back</button><button class="btn-next" onclick="goTo(7)">Next: Domain &amp; email →</button></div>
   </div>
 
   <div class="sc" id="s7">
     <div class="sec-eye">7</div>
-    <h2 class="sec-title">Testimonials (Enhanced)</h2>
-    <p class="sec-sub">Enhanced supports up to <strong>5 testimonials</strong> on a dedicated page plus the home preview.</p>
-
-    <div class="callout"><strong>Tip:</strong> Paste raw reviews even if messy — AI will normalize tone and formatting without inventing facts.</div>
-    <div class="field"><label class="flabel">Testimonials nav / page label</label><input type="text" id="tpage-lbl" value="Testimonials" placeholder="e.g. Reviews"/></div>
-    <div class="field"><label class="flabel">Testimonials page intro (under H1) <span class="req">*</span></label><textarea id="tpage-intro" rows="3" placeholder="Sets expectations for the Wall-style page…"></textarea></div>
-
-    <div class="field"><label class="flabel">Testimonial #1 Name <span class="req">*</span></label><input type="text" id="t1n"/></div>
-    <div class="field"><label class="flabel">Testimonial #1 City</label><input type="text" id="t1c"/></div>
-    <div class="field"><label class="flabel">Testimonial #1 Text <span class="req">*</span></label><textarea id="t1t" rows="3"></textarea></div>
-
-    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #2 Name <span class="req">*</span></label><input type="text" id="t2n"/></div>
-    <div class="field"><label class="flabel">Testimonial #2 City</label><input type="text" id="t2c"/></div>
-    <div class="field"><label class="flabel">Testimonial #2 Text <span class="req">*</span></label><textarea id="t2t" rows="3"></textarea></div>
-
-    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #3 Name</label><input type="text" id="t3n"/></div>
-    <div class="field"><label class="flabel">Testimonial #3 City</label><input type="text" id="t3c"/></div>
-    <div class="field"><label class="flabel">Testimonial #3 Text</label><textarea id="t3t" rows="3"></textarea></div>
-
-    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #4 Name</label><input type="text" id="t4n"/></div>
-    <div class="field"><label class="flabel">Testimonial #4 City</label><input type="text" id="t4c"/></div>
-    <div class="field"><label class="flabel">Testimonial #4 Text</label><textarea id="t4t" rows="3"></textarea></div>
-
-    <div class="field" style="margin-top:1.1rem"><label class="flabel">Testimonial #5 Name</label><input type="text" id="t5n"/></div>
-    <div class="field"><label class="flabel">Testimonial #5 City</label><input type="text" id="t5c"/></div>
-    <div class="field"><label class="flabel">Testimonial #5 Text</label><textarea id="t5t" rows="3"></textarea></div>
-
-    <div class="form-nav"><button class="btn-back" onclick="goTo(6)">← Back</button><button class="btn-next" onclick="goTo(8)">Next: Technical →</button></div>
-  </div>
-
-  <div class="sc" id="s8">
-    <div class="sec-eye">8</div>
-    <h2 class="sec-title">Technical Setup</h2>
-    <p class="sec-sub">Domain, existing site, and where to send your preview.</p>
+    <h2 class="sec-title">Website address &amp; email</h2>
+    <p class="sec-sub"><strong>Why this matters:</strong> A clean domain and launch plan gets your growth site live faster — so you start capturing search traffic and calls instead of waiting on another month of word-of-mouth only.</p>
 
     <div class="field">
       <label class="flabel">Do you already have a domain name? <span class="req">*</span></label>
@@ -554,10 +492,10 @@
       </div>
     </div>
     <div class="cond" id="dom-exist">
-      <div class="field"><label class="flabel">Your Domain Name</label><input type="text" id="dom-name"/></div>
-      <div class="field"><label class="flabel">Registrar (optional)</label><input type="text" id="dom-reg"/></div>
+      <div class="field"><label class="flabel">Your web address (domain)</label><input type="text" id="dom-name" placeholder="eg. houstonroofers.com"></div>
+      <div class="field"><label class="flabel">Where you bought it — GoDaddy, Namecheap, etc. (optional)</label><input type="text" id="dom-reg" placeholder="eg. GoDaddy"></div>
     </div>
-    <div class="cond" id="dom-new"><div class="field"><label class="flabel">Preferred Domain Name(s)</label><input type="text" id="dom-pref"/></div></div>
+    <div class="cond" id="dom-new"><div class="field"><label class="flabel">Web addresses you’d like (we’ll check what’s available)</label><input type="text" id="dom-pref" placeholder="eg. houstonroofers.com, houstonroofersllc.com"></div></div>
 
     <div class="field">
       <label class="flabel">Do you have an existing website? <span class="req">*</span></label>
@@ -566,37 +504,412 @@
         <label class="oi"><input type="radio" name="has-site" value="no"/><div class="ot"><span class="om">No</span></div></label>
       </div>
     </div>
-    <div class="field"><label class="flabel">Existing Website URL (optional)</label><input type="url" id="old-url"/></div>
-    <div class="field"><label class="flabel">Email for Your Site Preview <span class="req">*</span></label><input type="email" id="proof-email"/></div>
-    <div class="field"><label class="flabel">Anything else?</label><textarea id="notes" rows="4"></textarea></div>
+    <div class="field"><label class="flabel">Current website link, if you have one (optional)</label><input type="url" id="old-url" placeholder="eg. https://www.youroldsite.com"></div>
+    <div class="field"><label class="flabel">The address you want when the new site goes live (optional)</label><input type="url" id="site-url" placeholder="eg. https://www.yourbusiness.com"/></div>
+    <div class="field"><label class="flabel">When someone contacts you, how fast do you usually get back to them? <span class="req">*</span></label><textarea id="contact-response-time" rows="3" placeholder="eg. We reply same day on weekdays…"></textarea></div>
+    <div class="field"><label class="flabel">Email where we should send your site preview <span class="req">*</span></label><input type="email" id="proof-email" placeholder="eg. you@yourbusiness.com"></div>
+    <div class="field"><label class="flabel">Anything else we should know?</label><textarea id="notes" rows="4"></textarea></div>
 
     <div class="form-nav">
-      <button class="btn-back" onclick="goTo(7)">← Back</button>
-      <button class="btn-submit" onclick="submitForm()">Submit &amp; Build</button>
+      <button class="btn-back" onclick="goTo(6)">← Back</button>
+      <button class="btn-next" onclick="goTo(8)">Next: Check answers →</button>
+    </div>
+  </div>
+
+  <div class="sc" id="s8">
+    <div class="sec-eye">8</div>
+    <h2 class="sec-title">Review your answers</h2>
+    <p class="sec-sub"><strong>Almost there.</strong> Confirm the details that will power your rankings and conversions — then we build a site engineered to bring you more customers.</p>
+    <div id="review-mount"></div>
+    <div class="form-nav">
+      <button type="button" class="btn-back" onclick="goTo(7)">← Back to edit</button>
+      <button type="button" class="btn-submit" onclick="submitFormFinal()">Submit intake</button>
     </div>
   </div>
 </div>
 
 <div id="done">
   <div class="done-icon"><svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="var(--ember)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-  <h2>You’Re All Set!</h2>
-  <p>We’ve got everything we need to generate your Enhanced website.</p>
-  <div class="nxt-card">
-    <h3>What Happens Now</h3>
-    <div class="ni"><div class="nd">1</div><p><strong>We normalize your intake.</strong> Consistent address and phone formatting, clear headlines, sensible links between pages, and machine-readable business details where hosts expect them.</p></div>
-    <div class="ni"><div class="nd">2</div><p><strong>We generate your 11-page site.</strong> Clear URLs (including three dedicated service-detail pages), carousel gallery, sitemap and robots files, and structured business data where appropriate.</p></div>
-    <div class="ni"><div class="nd">3</div><p><strong>Ongoing articles (if included in your plan).</strong> Up to two homeowner-focused posts per month can follow the same intake and update flow.</p></div>
+  <h2>Thank you!</h2>
+  <p>We received your answers and will use them to build your site.</p>
+  <div class="done-more">
+    <button type="button" class="btn-back" onclick="returnToReview()">Look over or change answers</button>
   </div>
 </div>
 
-<script src="intake-submit.js"></script>
+<script src="ahana-intake-trade-examples.js"></script>
 <script>
   var cur=1, TOTAL=8;
+  var STORAGE_KEY="ahana-intake-enhanced-v1";
+  var AHANA_GALLERY_PKG="Enhanced";
+  var AHANA_R2_UPLOAD_URL="https://ahana-replacer.getahana1006.workers.dev/upload";
+  var ahanaUploadPendingCount=0;
+  function ahanaR2FreshPhotoState(){return {heroUrl:"",galleryUrls:[],teamUrls:[],truckUrls:[],heroFileName:"",galleryFileNames:[],teamFileNames:[],truckFileNames:[]};}
+  var ahanaR2State={businessLogoUrl:"",photos:ahanaR2FreshPhotoState()};
+  var AHANA_BRAND_VOICE_META={
+    direct:{label:"Direct & no-nonsense",sample:"When your water heater quits, you need a fix—not a lecture. Call with the address; we quote before we start and leave the workspace tidy."},
+    neighborly:{label:"Neighborly & steady",sample:"We're the crew folks call when something breaks at home. Plain talk, fair pricing, and we treat your place like our own."},
+    professional:{label:"Professional & precise",sample:"Licensed technicians; documented estimates; clear arrival windows. Residential and light commercial work with warranty-backed workmanship."},
+    premium:{label:"Premium & understated",sample:"Quiet, thorough service for homeowners who expect punctuality and clean finishes. Schedule a consultation at your convenience."},
+    bold:{label:"Bold & high-energy",sample:"Same-day drain clears when we have capacity—get your weekend back. Tap to call; we jump on it and give you straight answers, fast."}
+  };
+  function getBrandVoiceSlug(){
+    var el=document.querySelector('input[name="brand-voice"]:checked');
+    return el&&el.value?el.value:"";
+  }
+  function getBrandVoiceLabel(slug){
+    var s=slug!=null&&slug!==""?slug:getBrandVoiceSlug();
+    var m=AHANA_BRAND_VOICE_META[s];
+    return m?m.label:"";
+  }
+  function updateBrandVoicePreview(){
+    var slug=getBrandVoiceSlug()||"direct";
+    var m=AHANA_BRAND_VOICE_META[slug]||AHANA_BRAND_VOICE_META.direct;
+    var pt=document.getElementById("bv-preview-text"),pc=document.getElementById("bv-preview-cap");
+    if(pt)pt.textContent=m.sample;
+    if(pc)pc.textContent=m.label;
+  }
+  function ahanaBumpPending(d){ahanaUploadPendingCount+=d;if(ahanaUploadPendingCount<0)ahanaUploadPendingCount=0;}
+  function uploadFileToR2(file,folder){
+    var fd=new FormData();fd.append("file",file);fd.append("folder",folder);
+    return fetch(AHANA_R2_UPLOAD_URL,{method:"POST",body:fd}).then(function(res){
+      if(!res.ok)return res.text().then(function(t){throw new Error(t||("HTTP "+res.status));});
+      return res.json();
+    }).then(function(data){
+      var u=data&&data.url;if(!u||typeof u!=="string")throw new Error("Invalid upload response");return u;
+    });
+  }
+  function uzGetWrap(inp){return inp&&inp.closest?inp.closest(".upload-zone"):null;}
+  function uzSetLoading(inp,on){var w=uzGetWrap(inp);if(w)w.classList.toggle("uz-loading",!!on);}
+  function uzClearError(inp){
+    var w=uzGetWrap(inp);if(!w)return;w.classList.remove("uz-has-error");
+    var e=w.querySelector(".uz-error-msg");if(e){e.style.display="none";e.textContent="";}
+    var sp=w.querySelector(".uz-spinner-slot");if(sp)sp.style.display="";
+  }
+  function uzSetError(inp,msg){
+    var w=uzGetWrap(inp);if(!w)return;uzSetLoading(inp,false);w.classList.remove("has-file");
+    var sp=w.querySelector(".uz-spinner-slot");if(sp)sp.style.display="none";
+    w.classList.add("uz-has-error");
+    var e=w.querySelector(".uz-error-msg");if(e){e.style.display="block";e.textContent=(msg!=null&&String(msg))?String(msg):"Upload failed. Please try again.";}
+    var sn=w.querySelector(".uz-s");if(sn&&sn.getAttribute("data-default"))sn.textContent=sn.getAttribute("data-default");
+  }
+  function uzSuccessUploaded(inp,fileName){
+    uzClearError(inp);uzSetLoading(inp,false);var w=uzGetWrap(inp);if(!w)return;
+    var sp=w.querySelector(".uz-spinner-slot");if(sp)sp.style.display="none";
+    var sn=w.querySelector(".uz-s");if(sn)sn.textContent="✓ Uploaded — "+(fileName||"file");w.classList.add("has-file");flashUploadZone(w);
+  }
+  function onAhanaLogoFileChange(inp){
+    ahanaR2State.businessLogoUrl="";
+    uzClearError(inp);
+    var f=inp.files&&inp.files[0],w=uzGetWrap(inp),sn=w&&w.querySelector(".uz-s");
+    if(!f){ if(sn)sn.textContent=sn.getAttribute("data-default")||""; if(w)w.classList.remove("has-file");return;}
+    uzSetLoading(inp,true);ahanaBumpPending(1);
+    uploadFileToR2(f,"logo").then(function(url){ahanaR2State.businessLogoUrl=url;uzSuccessUploaded(inp,f.name);}).catch(function(err){inp.value="";ahanaR2State.businessLogoUrl=""; uzSetError(inp,err.message);}).finally(function(){ahanaBumpPending(-1);});
+  }
+  function onAhanaHeroFileChange(inp){
+    ahanaR2State.photos.heroUrl="";ahanaR2State.photos.heroFileName="";
+    uzClearError(inp);
+    var f=inp.files&&inp.files[0],w=uzGetWrap(inp),sn=w&&w.querySelector(".uz-s");
+    if(!f){ if(sn)sn.textContent=sn.getAttribute("data-default")||""; if(w)w.classList.remove("has-file");return;}
+    uzSetLoading(inp,true);ahanaBumpPending(1);
+    uploadFileToR2(f,"hero").then(function(url){ahanaR2State.photos.heroUrl=url;ahanaR2State.photos.heroFileName=f.name; uzSuccessUploaded(inp,f.name);}).catch(function(err){inp.value=""; uzSetError(inp,err.message);}).finally(function(){ahanaBumpPending(-1);});
+  }
+  function onAhanaTeamFilesChange(inp){
+    ahanaR2TeamTruckGalleryMulti(inp,"team","team-fn",function(urls,names){ahanaR2State.photos.teamUrls=urls;ahanaR2State.photos.teamFileNames=names;});
+  }
+  function onAhanaTruckFilesChange(inp){
+    ahanaR2TeamTruckGalleryMulti(inp,"truck","truck-fn",function(urls,names){ahanaR2State.photos.truckUrls=urls;ahanaR2State.photos.truckFileNames=names;});
+  }
+  function onAhanaGalleryFilesChange(inp,max){
+    var fel=document.getElementById("gallery-fn");
+    uzClearError(inp);ahanaR2State.photos.galleryUrls=[];ahanaR2State.photos.galleryFileNames=[];
+    var files=[].slice.call(inp.files||[]),w=uzGetWrap(inp);
+    if(files.length>max){alert(AHANA_GALLERY_PKG+" allows up to "+max+" gallery photos. Please re-select "+max+" or fewer."); inp.value=""; if(fel)fel.textContent=fel.getAttribute("data-default")||"0 selected"; if(w)w.classList.remove("has-file"); return;}
+    if(!files.length){ if(fel)fel.textContent=fel.getAttribute("data-default")||"0 selected"; if(w)w.classList.remove("has-file"); return;}
+    uzSetLoading(inp,true);
+    var urls=new Array(files.length),failed=null,doneCt=0;
+    files.forEach(function(file,i){
+      ahanaBumpPending(1);
+      uploadFileToR2(file,"gallery").then(function(url){urls[i]=url;}).catch(function(e){failed=e&&e.message?e.message:"Upload failed";}).finally(function(){
+        ahanaBumpPending(-1);doneCt++;if(doneCt<files.length)return;
+        uzSetLoading(inp,false);
+        if(failed){ inp.value=""; ahanaR2State.photos.galleryUrls=[];ahanaR2State.photos.galleryFileNames=[]; if(fel)fel.textContent=fel.getAttribute("data-default")||"0 selected"; uzSetError(inp,failed); if(w)w.classList.remove("has-file"); return;}
+        ahanaR2State.photos.galleryUrls=urls.slice(); ahanaR2State.photos.galleryFileNames=files.map(function(fl){return fl.name;});
+        if(fel)fel.textContent="✓ "+files.length+" photo(s) uploaded"; uzClearError(inp); if(w){w.classList.add("has-file");flashUploadZone(w);}
+      });
+    });
+  }
+  function ahanaR2TeamTruckGalleryMulti(inp,folder,fnId,setBoth){
+    uzClearError(inp);setBoth([],[]);
+    var files=[].slice.call(inp.files||[]),fel=document.getElementById(fnId),w=uzGetWrap(inp);
+    if(!files.length){ if(fel)fel.textContent=fel.getAttribute("data-default")||""; if(w)w.classList.remove("has-file");return;}
+    uzSetLoading(inp,true);
+    var urls=new Array(files.length),failed=null,doneCt=0;
+    files.forEach(function(file,i){
+      ahanaBumpPending(1);
+      uploadFileToR2(file,folder).then(function(url){urls[i]=url;}).catch(function(e){failed=e&&e.message?e.message:"Upload failed";}).finally(function(){
+        ahanaBumpPending(-1);doneCt++;if(doneCt<files.length)return;
+        uzSetLoading(inp,false);
+        if(failed){ inp.value=""; setBoth([],[]); if(fel)fel.textContent=fel.getAttribute("data-default")||""; uzSetError(inp,failed); if(w)w.classList.remove("has-file"); return;}
+        setBoth(urls.slice(),files.map(function(fl){return fl.name;}));
+        if(fel)fel.textContent="✓ "+files.length+" photo(s) uploaded"; uzClearError(inp); if(w){w.classList.add("has-file");flashUploadZone(w);}
+      });
+    });
+  }
+  function restoreR2FromStoredPayload(p){
+    if(!p)return;
+    ahanaR2State.businessLogoUrl=(p.business&&typeof p.business.logoUrl==="string")?p.business.logoUrl:"";
+    if(!p.photos){ahanaR2State.photos=ahanaR2FreshPhotoState();return;}
+    var ph=p.photos;
+    ahanaR2State.photos={
+      heroUrl:typeof ph.heroUrl==="string"?ph.heroUrl:"",
+      galleryUrls:Array.isArray(ph.galleryUrls)?ph.galleryUrls.slice():[],
+      teamUrls:Array.isArray(ph.teamUrls)?ph.teamUrls.slice():[],
+      truckUrls:Array.isArray(ph.truckUrls)?ph.truckUrls.slice():[],
+      heroFileName:typeof ph.heroFileName==="string"?ph.heroFileName:"",
+      galleryFileNames:Array.isArray(ph.galleryFileNames)?ph.galleryFileNames.slice():[],
+      teamFileNames:Array.isArray(ph.teamFileNames)?ph.teamFileNames.slice():[],
+      truckFileNames:Array.isArray(ph.truckFileNames)?ph.truckFileNames.slice():[]
+    };
+  }
+  function syncAhanaUploadZonesUI(){
+    var p=null;try{var raw=localStorage.getItem(STORAGE_KEY);if(raw){var pk=JSON.parse(raw);if(pk.payload)p=pk.payload;}}catch(e){}
+    if(!p)return;
+    var lf=document.getElementById("logo-file"),lw=lf&&uzGetWrap(lf);if(ahanaR2State.businessLogoUrl&&lf&&lw){uzClearError(lf);uzSetLoading(lf,false);lw.classList.add("has-file");var lfn=p.business&&p.business.logo&&p.business.logo.fileName;var el=document.getElementById("logo-fn");if(el)el.textContent="✓ Uploaded — "+(lfn&&String(lfn).trim()?lfn:"logo");}
+    var hf=document.getElementById("hero-file"),hw=hf&&uzGetWrap(hf);if(ahanaR2State.photos.heroUrl&&hf&&hw){uzClearError(hf);uzSetLoading(hf,false);hw.classList.add("has-file");var he=document.getElementById("hero-fn");if(he)he.textContent="✓ Uploaded — "+(ahanaR2State.photos.heroFileName||"hero");}
+    function multiLine(inpId,lblId,urls){
+      if(!urls||!urls.length)return;var inp=document.getElementById(inpId);if(!inp)return;var mz=uzGetWrap(inp);if(!mz)return;uzClearError(inp);uzSetLoading(inp,false);mz.classList.add("has-file");var lb=document.getElementById(lblId);if(lb)lb.textContent="✓ "+urls.length+" photo(s) uploaded";
+    }
+    multiLine("team-files","team-fn",ahanaR2State.photos.teamUrls);
+    multiLine("truck-files","truck-fn",ahanaR2State.photos.truckUrls);
+    multiLine("gallery-files","gallery-fn",ahanaR2State.photos.galleryUrls);
+  }
+  function sanitizeUrl(u){
+    if(u==null||typeof u!=="string")return "";
+    return u.trim().replace(/\\/g,"");
+  }
+  /** REMOVE before launch: dev-only upload labels when prefill sets R2 state without File objects. */
+  function ahanaSyncDevR2UploadLabels(){
+    function setZone(inpId,fnId,has,fnText){
+      var inp=document.getElementById(inpId);
+      if(!inp)return;
+      var mz=uzGetWrap(inp);
+      if(!mz)return;
+      uzClearError(inp);
+      mz.classList.remove("uz-loading","uz-has-error");
+      var erm=mz.querySelector(".uz-error-msg");
+      if(erm){erm.style.display="none";erm.textContent="";}
+      if(has){
+        mz.classList.add("has-file");
+        var fe=document.getElementById(fnId);
+        if(fe&&fnText)fe.textContent=fnText;
+      }else{
+        mz.classList.remove("has-file");
+        var fd=document.getElementById(fnId);
+        if(fd&&fd.getAttribute("data-default"))fd.textContent=fd.getAttribute("data-default");
+      }
+    }
+    if(ahanaR2State.businessLogoUrl)setZone("logo-file","logo-fn",true,"✓ Dev prefill — stock-logo.jpg");
+    else setZone("logo-file","logo-fn",false,"");
+    if(ahanaR2State.photos.heroUrl)setZone("hero-file","hero-fn",true,"✓ Dev prefill — stock-hero.jpg");
+    else setZone("hero-file","hero-fn",false,"");
+    if(ahanaR2State.photos.teamUrls.length)setZone("team-files","team-fn",true,"✓ "+ahanaR2State.photos.teamUrls.length+" photo(s) (dev stock)");
+    else setZone("team-files","team-fn",false,"");
+    if(ahanaR2State.photos.truckUrls.length)setZone("truck-files","truck-fn",true,"✓ "+ahanaR2State.photos.truckUrls.length+" photo(s) (dev stock)");
+    else setZone("truck-files","truck-fn",false,"");
+    if(ahanaR2State.photos.galleryUrls.length)setZone("gallery-files","gallery-fn",true,"✓ "+ahanaR2State.photos.galleryUrls.length+" photo(s) (dev stock)");
+    else setZone("gallery-files","gallery-fn",false,"");
+  }
+  /** REMOVE before launch: fetch a remote image and attach as a File (before/after zones). */
+  function ahanaDevFetchStockToInput(inpId,fnId,url,stem){
+    return fetch(url,{mode:"cors",credentials:"omit"}).then(function(r){
+      if(!r.ok)throw new Error("HTTP "+r.status);
+      return r.blob();
+    }).then(function(b){
+      var inp=document.getElementById(inpId);
+      if(!inp)return;
+      var nm=(stem||inpId)+".jpg";
+      var ft=b.type&&b.type.indexOf("image")===0?b.type:"image/jpeg";
+      var file=new File([b],nm,{type:ft});
+      var dt=new DataTransfer();
+      dt.items.add(file);
+      inp.files=dt.files;
+      setFn(inp,fnId);
+    });
+  }
+  /**
+   * REMOVE before launch: dev-only — every field filled with short answers + stock URLs/Files
+   * (hurried owner who still completes the whole form, not a half-empty submission).
+   */
+  function ahanaApplyEnhancedDevPrefill(){
+    function z1(s){return (s==null?"":String(s)).replace(/\\/g," ").replace(/\r/g," ").trim();}
+    var U=[
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1504917595217-d0023cdaa829?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1564518096939-61c968a3849d?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad3ab?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&w=1200&q=80",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&w=1200&q=80"
+    ];
+    resetUploadZones();
+    setFieldVal("pkg","Enhanced");
+    setFieldVal("biz-name","Smith Plumbing LLC");
+    setFieldVal("biz-short","Smith Plumbing");
+    setFieldVal("owner-name","Tom Smith");
+    setFieldVal("biz-phone","6025550142");
+    setFieldVal("biz-email","tom.smith.plumbing.example@gmail.com");
+    setFieldVal("biz-address","123 W Main St");
+    setFieldVal("biz-city","Phoenix");
+    setFieldVal("biz-state","AZ");
+    setFieldVal("biz-zip","85004");
+    setFieldVal("biz-year","2012");
+    setFieldVal("license-line",z1("Licensed · bonded · insured"));
+    pickRadioByName("brand-voice","neighborly");
+    setHexAndPicker("brand-primary-hex","brand-primary-picker","#2563EB");
+    setHexAndPicker("brand-accent-hex","brand-accent-picker","#64748B");
+    setFieldVal("brand-colors","#2563EB, #64748B");
+    pickRadioByName("has-logo","yes-file");
+    pickRadioByName("logo-show-name","yes");
+    setFieldVal("logo-link","");
+    setFieldVal("inspo","https://example.com/plumber-a\nhttps://example.com/plumber-b");
+    var pt=document.getElementById("primary-trade");
+    if(pt){pt.value="Plumbing";toggleOther(pt.value);pt.dispatchEvent(new Event("change",{bubbles:true}));}
+    setFieldVal("s1n","Repairs");
+    setFieldVal("s1d",z1("From dripping faucets to whole-bathroom repipes, we track down the leak, show you repair-or-replace options with upfront pricing, and finish with pressure tests and cleanup so your water stays where it belongs."));
+    setFieldVal("s2n","Water heaters");
+    setFieldVal("s2d",z1("We size tank and tankless units for your home, handle safe venting and connections, flush or swap failing heaters, haul away the old unit, and walk you through warranty coverage before we leave."));
+    setFieldVal("s3n","Drains");
+    setFieldVal("s3d",z1("Kitchen, bath, and main-line backups get cabled or hydro-jetted with camera follow-up when needed, clear written findings, and coaching on what caused the slow drain so it is less likely to return."));
+    setFieldVal("s4n","Sewer camera");
+    setFieldVal("s4d",z1("HD sewer scans locate offsets, bellies, and stubborn blockages with video you can keep—ideal before big purchases, insurance documentation, or deciding between spot repair and full replacement."));
+    setFieldVal("s5n","Gas lines");
+    setFieldVal("s5d",z1("Stove, dryer, and outdoor appliance gas runs are pressure-tested, leak-checked at every joint, labeled for shutoffs, and brought up to familiar code practices so daily operation feels straightforward."));
+    setFieldVal("s6n","Commercial");
+    setFieldVal("s6d",z1("Light retail and office buildings get documented scopes, after-hours options when foot traffic matters, and the same cleanup standards we use on residences so your team can reopen with confidence."));
+    setFieldVal("svc-other",z1("After-hours calls if its an emergency."));
+    pickRadioByName("emergency","yes-limited");
+    setFieldVal("scities","Phoenix, Scottsdale, Tempe, Mesa");
+    setFieldVal("szips","85004, 85251, 85281");
+    pickRadioByName("gbp","yes-claimed");
+    setFieldVal("gbp-link","https://maps.google.com/?cid=dev-example-smith-plumbing");
+    var rv=document.getElementById("rvrat");
+    if(rv){
+      [].slice.call(rv.options).forEach(function(o){o.disabled=false;o.selected=false;});
+      rv.value="4.6";
+    }
+    setFieldVal("rvcount","38");
+    setFieldVal("bstory",z1("Learned plumbing on job sites and went out on my own. Mostly word of mouth."));
+    setFieldVal("u1t","Straight pricing");
+    setFieldVal("u1d",z1("Tell you the price before we start."));
+    setFieldVal("u2t","Show up");
+    setFieldVal("u2d",z1("Try to keep the window we give you."));
+    setFieldVal("u3t","Clean up");
+    setFieldVal("u3d",z1("We wipe up when were done."));
+    setFieldVal("p1",z1("Customer calls or texts what they need."));
+    setFieldVal("p2",z1("We go look and give a price."));
+    setFieldVal("p3",z1("Do the work and collect payment."));
+    [].slice.call(document.querySelectorAll('input[name="vals"]')).forEach(function(c){c.checked=(c.value==="integrity"||c.value==="honest-pricing");});
+    setFieldVal("vals-other",z1("Show up on time."));
+    setFieldVal("guar",z1("1 year labor on our installs."));
+    setFieldVal("hero-h1-accent",z1("you can trust"));
+    setFieldVal("hero-sub-enh",z1("Residential and light commercial plumbing with priority dispatch for leaks, drains, and water-heater emergencies—serving homeowners across your core service markets."));
+    setFieldVal("biz-hours",z1("Mon–Fri 7am–6pm · Sat 8am–2pm · Closed Sun · After-hours leak line on voicemail."));
+    pickRadioByName("estimates-policy","free-estimates");
+    setFieldVal("estimates-notes","");
+    setFieldVal("warranty-details",z1("One-year labor on installations we perform; manufacturer warranties on fixtures and water heaters when equipment is registered per label instructions."));
+    setFieldVal("warranty-claim",z1("Call (602) 555-0142 with your invoice number — ask for warranty or email getahana1006@gmail.com with photos."));
+    refreshEstimatesNotesVisibility();
+    setFieldVal("hp1t","Fast response");
+    setFieldVal("hp1v","Same-day priority");
+    setFieldVal("hp1s",z1("We prioritize urgent service calls with realistic arrival windows, clear written estimates before work begins, and transparent communication so you always understand the repair plan and pricing."));
+    setFieldVal("hp2t","Photo updates");
+    setFieldVal("hp2v","Documented");
+    setFieldVal("hp2s",z1("Job photos and notes show what we found on arrival, what you approved before we started, and the finished repair so you have a useful record for insurance, resale, or future service visits."));
+    setFieldVal("hp3t","Clean job sites");
+    setFieldVal("hp3v","Photo documented");
+    setFieldVal("hp3s",z1("We share before-and-after photos and leave driveways and work areas tidy when we finish."));
+    setFieldVal("tb1","Licensed");
+    setFieldVal("tb2","Insured");
+    setFieldVal("tb3","Free estimates");
+    setFieldVal("tb4","Senior discount");
+    setFieldVal("tb5","Cash or card");
+    setFieldVal("t1n","Bob K.");
+    setFieldVal("t1c","Phoenix");
+    setFieldVal("t1t",z1("Fixed leak under sink same day. Fair price."));
+    setFieldVal("t2n","Mike");
+    setFieldVal("t2c","Tempe");
+    setFieldVal("t2t",z1("Water heater swap went smooth. No mess."));
+    setFieldVal("t3n","Sarah");
+    setFieldVal("t3c","");
+    setFieldVal("t3t",z1("Drain was backing up, cleared it in an hour."));
+    setFieldVal("t4n","J");
+    setFieldVal("t4c","Mesa");
+    setFieldVal("t4t",z1("Good enough."));
+    setFieldVal("t5n","Rick");
+    setFieldVal("t5c","Scottsdale");
+    setFieldVal("t5t",z1("Would call again for a toilet."));
+    pickRadioByName("has-dom","no-new");
+    setFieldVal("dom-name","");
+    setFieldVal("dom-reg","");
+    setFieldVal("dom-pref",z1("smithplumbingphx.com, azsmithplumb.com"));
+    pickRadioByName("has-site","no");
+    setFieldVal("old-url","");
+    setFieldVal("site-url","https://smith-plumbing-dev.example.netlify.app");
+    setFieldVal("contact-response-time",z1("Usually same day on weekdays, next day weekends."));
+    setFieldVal("proof-email","getahana1006@gmail.com");
+    setFieldVal("notes",z1("Dev autofill — bare-bones: every field has a short answer."));
+    var i,gUrls=[];
+    for(i=0;i<10;i++)gUrls.push(sanitizeUrl(U[4+i]));
+    ahanaR2State.businessLogoUrl=sanitizeUrl(U[0]);
+    ahanaR2State.photos.heroUrl=sanitizeUrl(U[1]);
+    ahanaR2State.photos.heroFileName="dev-stock-hero.jpg";
+    ahanaR2State.photos.teamUrls=[sanitizeUrl(U[2])];
+    ahanaR2State.photos.truckUrls=[sanitizeUrl(U[3])];
+    ahanaR2State.photos.galleryUrls=gUrls;
+    ahanaR2State.photos.teamFileNames=["dev-stock-team.jpg"];
+    ahanaR2State.photos.truckFileNames=["dev-stock-truck.jpg"];
+    ahanaR2State.photos.galleryFileNames=["dev-gallery-01.jpg","dev-gallery-02.jpg","dev-gallery-03.jpg","dev-gallery-04.jpg","dev-gallery-05.jpg","dev-gallery-06.jpg","dev-gallery-07.jpg","dev-gallery-08.jpg","dev-gallery-09.jpg","dev-gallery-10.jpg"];
+    showLogo("yes-file");
+    toggleDom("no");
+    updateBrandColors();
+    refreshServiceNameUI();
+    persistPack(buildPayload());
+    ahanaSyncDevR2UploadLabels();
+    Promise.all([
+      ahanaDevFetchStockToInput("eba1b","eba1b-fn",U[14],"dev-s1-before"),
+      ahanaDevFetchStockToInput("eba1a","eba1a-fn",U[15],"dev-s1-after"),
+      ahanaDevFetchStockToInput("eba2b","eba2b-fn",U[16],"dev-s2-before"),
+      ahanaDevFetchStockToInput("eba2a","eba2a-fn",U[17],"dev-s2-after"),
+      ahanaDevFetchStockToInput("eba3b","eba3b-fn",U[18],"dev-s3-before"),
+      ahanaDevFetchStockToInput("eba3a","eba3a-fn",U[19],"dev-s3-after")
+    ]).then(function(){
+      persistPack(buildPayload());
+      if(cur===8)renderReview();
+    }).catch(function(err){
+      console.warn("Dev autofill: before/after stock fetch failed",err);
+      persistPack(buildPayload());
+      if(cur===8)renderReview();
+    });
+  }
   function goTo(n){
     document.getElementById("s"+cur).classList.remove("active");
     cur=n;
     document.getElementById("s"+n).classList.add("active");
-    document.getElementById("pgf").style.width=(((n-1)/TOTAL)*100)+"%";
+    document.getElementById("pgf").style.width=((n/TOTAL)*100)+"%";
     for(var i=1;i<=TOTAL;i++){
       var e=document.getElementById("pl-"+i);
       e.classList.remove("active","done");
@@ -604,37 +917,376 @@
       else if(i<n)e.classList.add("done");
     }
     window.scrollTo({top:0,behavior:"smooth"});
+    updateBrandColors();
+    refreshServiceNameUI();
+    if(n===8)renderReview();
+  }
+  function captureFormSnapshot(){
+    var snap={fields:{},radios:{},checkboxes:{}};
+    var all=document.querySelectorAll("#fw input, #fw textarea, #fw select");
+    for(var i=0;i<all.length;i++){
+      var el=all[i];
+      var t=el.type;
+      if(t==="radio"||t==="checkbox"||t==="file")continue;
+      if(el.id)snap.fields[el.id]=el.value;
+    }
+    var rads=document.querySelectorAll("#fw input[type=radio]:checked");
+    for(var j=0;j<rads.length;j++)snap.radios[rads[j].name]=rads[j].value;
+    var cbs=document.querySelectorAll("#fw input[type=checkbox]");
+    for(var k=0;k<cbs.length;k++){
+      var c=cbs[k];
+      if(!c.name)continue;
+      if(!snap.checkboxes[c.name])snap.checkboxes[c.name]=[];
+    }
+    for(var k=0;k<cbs.length;k++){
+      var c=cbs[k];
+      if(!c.name)continue;
+      if(c.checked)snap.checkboxes[c.name].push(c.value||"on");
+    }
+    return snap;
+  }
+  function setFieldVal(id,v){
+    var el=document.getElementById(id);
+    if(el && (el.tagName==="INPUT"||el.tagName==="TEXTAREA"||el.tagName==="SELECT"))el.value=v==null?"":String(v);
+  }
+  function pickRadioByName(name,val){
+    if(val==null||val==="")return;
+    var grp=document.getElementsByName(name);
+    for(var i=0;i<grp.length;i++){
+      if(grp[i].type==="radio" && grp[i].value===val){
+        grp[i].checked=true;
+        grp[i].dispatchEvent(new Event("change",{bubbles:true}));
+        break;
+      }
+    }
+  }
+  function applyFormSnapshot(snap){
+    if(!snap||!snap.fields)return;
+    for(var id in snap.fields)setFieldVal(id,snap.fields[id]);
+    if(snap.radios){
+      for(var rn in snap.radios)pickRadioByName(rn,snap.radios[rn]);
+    }
+    if(snap.checkboxes){
+      for(var cn in snap.checkboxes){
+        var want=snap.checkboxes[cn]||[];
+        var grp=document.querySelectorAll('#fw input[type=checkbox][name="'+cn.replace(/\\/g,"\\\\").replace(/"/g,'\\"')+'"]');
+        for(var g=0;g<grp.length;g++){
+          grp[g].checked=want.indexOf(grp[g].value)>=0 || (grp[g].value==="" && want.indexOf("on")>=0);
+        }
+      }
+    }
+    var hd=snap.radios&&snap.radios["has-dom"];
+    if(hd==="yes")toggleDom("yes"); else if(hd)toggleDom("no");
+    var lg=snap.radios&&snap.radios["has-logo"];
+    if(lg)showLogo(lg);
+    var pt=document.getElementById("primary-trade");
+    if(pt)toggleOther(pt.value);
+    resetUploadZones();
+    try{
+      var rawLS=localStorage.getItem(STORAGE_KEY);
+      if(rawLS){
+        var pls=JSON.parse(rawLS);
+        if(pls&&pls.payload)restoreR2FromStoredPayload(pls.payload);
+      }
+    }catch(e){}
+    syncAhanaUploadZonesUI();
+    updateBrandColors();
+    refreshServiceNameUI();
+    updateBrandVoicePreview();
+  }
+  function persistPack(payload){
+    var pack={v:1,snapshot:captureFormSnapshot(),payload:payload};
+    try{localStorage.setItem(STORAGE_KEY, JSON.stringify(pack));}catch(e){}
+  }
+  function renderReview(){
+    var data=buildPayload();
+    persistPack(data);
+    var m=document.getElementById("review-mount");
+    m.innerHTML='';
+    var note=document.createElement("p");
+    note.className="hint review-note";
+    note.innerHTML='Skim each section below. Tap <strong>Edit</strong> on a card to jump back and change answers. Uploaded files show as filenames here; if you swap files after editing, you may need to pick the file again.';
+    m.appendChild(note);
+
+    function clean(v){
+      if(v==null)return "";
+      if(Array.isArray(v))return v.filter(Boolean).join(", ");
+      return String(v).trim();
+    }
+    function addRow(box,label,val){
+      var row=document.createElement("div"); row.className="rv-row";
+      var l=document.createElement("div"); l.className="rv-label"; l.textContent=label;
+      var v=document.createElement("div"); v.className="rv-val";
+      var out=clean(val);
+      if(!out){v.textContent="—"; v.classList.add("rv-empty");}
+      else v.textContent=out;
+      row.appendChild(l); row.appendChild(v); box.appendChild(row);
+    }
+    function addList(box,label,arr){
+      var out=(arr||[]).filter(function(x){return (x||"").trim();});
+      addRow(box,label,out.length?out.join("\n"):"");
+    }
+    function card(title,step,build){
+      var c=document.createElement("section"); c.className="rv-card";
+      var h=document.createElement("div"); h.className="rv-h";
+      var t=document.createElement("h3"); t.className="rv-title"; t.textContent=title;
+      var b=document.createElement("button"); b.type="button"; b.className="rv-edit"; b.textContent="Edit";
+      b.addEventListener("click",function(){goTo(step);});
+      h.appendChild(t); c.appendChild(h); c.appendChild(b);
+      build(c);
+      return c;
+    }
+
+    var grid=document.createElement("div"); grid.className="rv-grid";
+    grid.appendChild(card("You & business",1,function(c){
+      addRow(c,"Brand tone",data.brandVoiceLabel||data.brandVoice);
+      addRow(c,"Business name",data.business.publicName||data.business.legalName);
+      addRow(c,"Owner",data.business.ownerName);
+      addRow(c,"Phone",data.business.phone);
+      addRow(c,"Email",data.business.email);
+      addRow(c,"Main city",data.business.city);
+      addRow(c,"State",data.business.state);
+      addRow(c,"Street address",data.business.address);
+      addRow(c,"ZIP",data.business.zip);
+      addRow(c,"Year started",data.business.yearFounded);
+      addRow(c,"Brand colors",data.business.brandColors);
+      addRow(c,"License line",data.business.licenseFooterLine);
+      addRow(c,"Logo",data.business.logo.fileName||data.business.logo.link||data.business.logo.choice);
+      addRow(c,"Name beside logo in header",data.business.logo&&data.business.logo.showNameNextToLogo===false?"No (logo only)":"Yes");
+    }));
+    grid.appendChild(card("What you do",2,function(c){
+      addRow(c,"Main trade",data.services.primaryTrade);
+      addRow(c,"Emergency service",data.services.emergency);
+      addRow(c,"Service #1",data.services.service1 && data.services.service1.name);
+      addRow(c,"Service #2",data.services.service2 && data.services.service2.name);
+      addRow(c,"Service #3",data.services.service3 && data.services.service3.name);
+      addRow(c,"Service #4",data.services.service4 && data.services.service4.name);
+      addRow(c,"Service #5",data.services.service5 && data.services.service5.name);
+      addRow(c,"Service #6",data.services.service6 && data.services.service6.name);
+      addRow(c,"Other services",data.services.otherServices);
+      addList(c,"Websites you like",data.seo && data.seo.inspirationUrls);
+    }));
+    grid.appendChild(card("Where you work",3,function(c){
+      addRow(c,"Areas served",data.location.serviceCities);
+      addRow(c,"ZIP codes",data.location.serviceZips);
+      addRow(c,"Google listing",data.location.gbp);
+      addRow(c,"Google listing link",data.location.gbpLink);
+      addRow(c,"Star rating",data.location.reviewRating);
+      addRow(c,"Review count",data.location.reviewCount);
+    }));
+    grid.appendChild(card("Your story & highlights",4,function(c){
+      addRow(c,"Why you started",data.story.whyStarted);
+      addRow(c,"Services page — reason 1",[(data.story.usp[0]||{}).title,(data.story.usp[0]||{}).detail].filter(Boolean).join(" — "));
+      addRow(c,"Services page — reason 2",[(data.story.usp[1]||{}).title,(data.story.usp[1]||{}).detail].filter(Boolean).join(" — "));
+      addRow(c,"Services page — reason 3",[(data.story.usp[2]||{}).title,(data.story.usp[2]||{}).detail].filter(Boolean).join(" — "));
+      addRow(c,"Typical job steps",[data.story.process&&data.story.process.step1,data.story.process&&data.story.process.step2,data.story.process&&data.story.process.step3].filter(Boolean).join(" → "));
+      addList(c,"Values",data.story.values);
+      addRow(c,"Warranty line",data.story.guarantee);
+      addRow(c,"Business hours",data.operations&&data.operations.businessHours);
+      addRow(c,"Estimates / visits",data.operations&&data.operations.estimatesPolicy);
+      addRow(c,"Estimate policy notes",data.operations&&data.operations.estimatesPolicyNotes);
+      addRow(c,"Warranty details",data.operations&&data.operations.warranty&&data.operations.warranty.coverageDetails);
+      addRow(c,"Warranty claim process",data.operations&&data.operations.warranty&&data.operations.warranty.claimProcess);
+      addRow(c,"Business description",data.siteContent.hero.subheadline);
+      addRow(c,"Slogan or motto",data.siteContent.hero.h1Accent);
+      (function(){
+        var pts=(data.siteContent.hero&&data.siteContent.hero.proofTiles)||[];
+        pts.forEach(function(pt,idx){
+          var bits=[pt.title,pt.value,pt.sub].filter(Boolean);
+          if(bits.length)addRow(c,"Home selling point "+(idx+1),bits.join(" — "));
+        });
+        if(data.siteContent.hero&&data.siteContent.hero.trustBar&&data.siteContent.hero.trustBar.length)addRow(c,"Quick facts",data.siteContent.hero.trustBar.join(" · "));
+      })();
+    }));
+    grid.appendChild(card("Photos",5,function(c){
+      addRow(c,"Top-of-page photo",data.photos.heroFileName);
+      addRow(c,"Top-of-page photo link",data.photos.heroUrl);
+      addList(c,"Team photos",data.photos.teamFileNames);
+      addRow(c,"Team photo links",Array.isArray(data.photos.teamUrls)?data.photos.teamUrls.join("\n"):"");
+      addList(c,"Truck photos",data.photos.truckFileNames);
+      addRow(c,"Truck photo links",Array.isArray(data.photos.truckUrls)?data.photos.truckUrls.join("\n"):"");
+      addList(c,"Gallery photos",data.photos.galleryFileNames);
+      addRow(c,"Gallery photo links",Array.isArray(data.photos.galleryUrls)?data.photos.galleryUrls.join("\n"):"");
+      addRow(c,"Logo link",data.business.logoUrl);
+      addRow(c,"Before/after (service #1)",[(data.photos.serviceBeforeAfterPairs[0]||{}).beforeFileName,(data.photos.serviceBeforeAfterPairs[0]||{}).afterFileName].filter(Boolean).join("  |  "));
+      addRow(c,"Before/after (service #2)",[(data.photos.serviceBeforeAfterPairs[1]||{}).beforeFileName,(data.photos.serviceBeforeAfterPairs[1]||{}).afterFileName].filter(Boolean).join("  |  "));
+      addRow(c,"Before/after (service #3)",[(data.photos.serviceBeforeAfterPairs[2]||{}).beforeFileName,(data.photos.serviceBeforeAfterPairs[2]||{}).afterFileName].filter(Boolean).join("  |  "));
+    }));
+    grid.appendChild(card("Reviews",6,function(c){
+      addRow(c,"Review #1",[(data.testimonials[0]||{}).name,(data.testimonials[0]||{}).city].filter(Boolean).join(" — "));
+      addRow(c,"Review #1 text",(data.testimonials[0]||{}).text);
+      addRow(c,"Review #2",[(data.testimonials[1]||{}).name,(data.testimonials[1]||{}).city].filter(Boolean).join(" — "));
+      addRow(c,"Review #2 text",(data.testimonials[1]||{}).text);
+      addRow(c,"Review #3",[(data.testimonials[2]||{}).name,(data.testimonials[2]||{}).city].filter(Boolean).join(" — "));
+      addRow(c,"Review #3 text",(data.testimonials[2]||{}).text);
+      addRow(c,"Review #4",[(data.testimonials[3]||{}).name,(data.testimonials[3]||{}).city].filter(Boolean).join(" — "));
+      addRow(c,"Review #4 text",(data.testimonials[3]||{}).text);
+      addRow(c,"Review #5",[(data.testimonials[4]||{}).name,(data.testimonials[4]||{}).city].filter(Boolean).join(" — "));
+      addRow(c,"Review #5 text",(data.testimonials[4]||{}).text);
+    }));
+    grid.appendChild(card("Domain & email",7,function(c){
+      addRow(c,"Have a domain?",data.technical.hasDomain);
+      addRow(c,"Domain name",data.technical.domainName);
+      addRow(c,"Where domain was bought",data.technical.domainRegistrar);
+      addRow(c,"Domain ideas",data.technical.domainPreferences);
+      addRow(c,"Have an old website?",data.technical.hasExistingSite);
+      addRow(c,"Old website link",data.technical.existingUrl);
+      addRow(c,"Planned live address",data.technical.plannedSiteUrl);
+      addRow(c,"How fast you reply",data.technical.contactResponseTime);
+      addRow(c,"Preview email",data.technical.previewEmail);
+      addRow(c,"Extra notes",data.technical.notes);
+    }));
+    m.appendChild(grid);
+  }
+  function returnToReview(){
+    var raw=null;
+    try{raw=localStorage.getItem(STORAGE_KEY);}catch(e){}
+    document.getElementById("done").style.display="none";
+    document.getElementById("fw").style.display="block";
+    document.querySelector(".pg-wrap").style.display="block";
+    if(raw){
+      try{
+        var pack=JSON.parse(raw);
+        if(pack.snapshot)applyFormSnapshot(pack.snapshot);
+      }catch(e){}
+    }
+    goTo(8);
   }
   function showLogo(v){
     document.getElementById("logo-upload").classList.toggle("on",v==="yes-file");
     document.getElementById("logo-link-f").classList.toggle("on",v==="yes-link");
+    var sn=document.getElementById("logo-show-name-wrap");
+    if(sn) sn.classList.toggle("on",v==="yes-file"||v==="yes-link");
+    var gf=document.getElementById("logo-format-guide");
+    if(gf) gf.classList.toggle("on",v==="yes-file"||v==="yes-link");
   }
   function toggleOther(v){document.getElementById("other-trade").classList.toggle("on",v==="other");}
   function toggleDom(t){
     document.getElementById("dom-exist").classList.toggle("on",t==="yes");
     document.getElementById("dom-new").classList.toggle("on",t==="no");
   }
-  function setFn(input,id){if(input.files && input.files.length)document.getElementById(id).textContent="✓ "+input.files[0].name;}
-  function setMultiFn(input,id){
-    var n=(input.files && input.files.length)||0;
-    document.getElementById(id).textContent = n ? ("✓ "+n+" file(s) selected") : "No files selected";
+  function flashUploadZone(wrap){
+    if(!wrap)return;
+    wrap.classList.remove('uz-anim');
+    void wrap.offsetWidth;
+    wrap.classList.add('uz-anim');
   }
-  function enforceMaxFiles(input,max,id){
-    var files = Array.prototype.slice.call(input.files || []);
-    if(files.length>max){
-      alert("Enhanced allows up to "+max+" gallery photos. Please re-select "+max+" or fewer.");
-      input.value="";
-      document.getElementById(id).textContent="0 selected";
-      return;
+  function resetUploadZones(){
+    ahanaUploadPendingCount=0;
+    ahanaR2State.businessLogoUrl="";
+    ahanaR2State.photos=ahanaR2FreshPhotoState();
+    [].slice.call(document.querySelectorAll('#fw label.upload-zone')).forEach(function(wrap){
+      wrap.classList.remove('has-file','uz-anim','uz-loading','uz-has-error');
+      var erm=wrap.querySelector('.uz-error-msg');
+      if(erm){erm.style.display='none';erm.textContent='';}
+      var sp=wrap.querySelector('.uz-spinner-slot');
+      if(sp)sp.style.display='';
+    });
+    [].slice.call(document.querySelectorAll('#fw .uz-s[data-default]')).forEach(function(el){
+      el.textContent=el.getAttribute('data-default');
+    });
+    [].slice.call(document.querySelectorAll('#fw input[type=file]')).forEach(function(inp){inp.value='';});
+  }
+  function setFn(input,id){
+    var el=document.getElementById(id);
+    var wrap=input && input.closest ? input.closest('.upload-zone') : null;
+    if(!el)return;
+    if(input.files && input.files.length){
+      el.textContent="✓ File received — "+input.files[0].name;
+      if(wrap){ wrap.classList.add('has-file'); flashUploadZone(wrap); }
+    } else {
+      el.textContent=el.getAttribute('data-default')||'';
+      if(wrap) wrap.classList.remove('has-file','uz-anim');
     }
-    document.getElementById(id).textContent = files.length+" selected";
   }
-  function g(id){var e=document.getElementById(id);return e?e.value.trim():"";}
+  function normHex(h){
+    h=(h||"").trim();
+    if(!h)return "";
+    if(h[0]!=="#")h="#"+h;
+    if(/^#[0-9a-fA-F]{3}$/.test(h)){h="#"+h[1]+h[1]+h[2]+h[2]+h[3]+h[3];}
+    if(!/^#[0-9a-fA-F]{6}$/.test(h))return "";
+    return h.toUpperCase();
+  }
+  function setHexAndPicker(hexId,pickerId,hex){
+    var nh=normHex(hex);
+    if(!nh)return;
+    var hi=document.getElementById(hexId);
+    var pi=document.getElementById(pickerId);
+    if(hi)hi.value=nh;
+    if(pi)pi.value=nh;
+  }
+  function bindColorBlock(hexId,pickerId){
+    var hexEl=document.getElementById(hexId);
+    var pickerEl=document.getElementById(pickerId);
+    if(!hexEl||!pickerEl)return;
+    function sync(){
+      var a=normHex(hexEl.value);
+      if(a){hexEl.value=a;pickerEl.value=a;updateBrandColors();}
+    }
+    hexEl.addEventListener("blur",sync);
+    hexEl.addEventListener("change",sync);
+    pickerEl.addEventListener("input",function(){setHexAndPicker(hexId,pickerId,pickerEl.value);updateBrandColors();});
+  }
+  function updateBrandColors(){
+    var p = normHex(g("brand-primary-hex"));
+    var a = normHex(g("brand-accent-hex"));
+    var out = [p,a].filter(Boolean).join(", ");
+    var bc = document.getElementById("brand-colors");
+    if(bc)bc.value = out;
+  }
+  function serviceNames(){
+    return [g("s1n"),g("s2n"),g("s3n")].map(function(s,i){
+      return (s||"").trim() || ("Service #"+(i+1));
+    });
+  }
+  function refreshServiceNameUI(){
+    var names = serviceNames();
+    [].slice.call(document.querySelectorAll("[data-svcname]")).forEach(function(el){
+      var i = parseInt(el.getAttribute("data-svcname"),10);
+      if(!i||i<1||i>3)return;
+      el.textContent = "("+names[i-1]+")";
+    });
+  }
+  /** Strip backslashes so downstream tools (e.g. Make -> Anthropic JSON) never see invalid escapes like \\e or \\https */
+  function sanitizeJsonUnsafe(s){
+    if(s==null||s==="")return "";
+    return String(s).replace(/\\/g," ");
+  }
+  function operationsBlock(){
+    return {
+      businessHours:g("biz-hours"),
+      estimatesPolicy:(document.querySelector('input[name=estimates-policy]:checked')||{}).value||"",
+      estimatesPolicyNotes:g("estimates-notes"),
+      warranty:{
+        badgeShort:(g("guar")||g("warranty-short")).trim(),
+        coverageDetails:g("warranty-details"),
+        claimProcess:g("warranty-claim")
+      }
+    };
+  }
+  function refreshEstimatesNotesVisibility(){
+    var v=(document.querySelector('input[name=estimates-policy]:checked')||{}).value||"";
+    var w=document.getElementById("estimates-notes-wrap");
+    if(w)w.classList.toggle("on",v==="case-by-case"||v==="free-estimates-trip-applies"||v==="paid-diagnostic");
+  }
+  function g(id){var e=document.getElementById(id);return sanitizeJsonUnsafe(e?e.value:"").trim();}
   function fn(id){var el=document.getElementById(id),f=el&&el.files&&el.files[0];return f?f.name:"";}
-  function submitForm(){
-    var kws=[g("kw1"),g("kw2"),g("kw3"),g("kw4"),g("kw5"),g("kw6")].filter(Boolean).slice(0,6);
-    var data={
+  function buildPayload(){
+    updateBrandColors();
+    var kws=[g("s1n"),g("s2n"),g("s3n"),g("s4n"),g("s5n"),g("s6n")].map(function(s){return (s||"").trim();}).filter(Boolean).slice(0,6);
+    var primaryTrade=(g("primary-trade")==="other"?g("other-tin"):g("primary-trade")).trim();
+    var areaShort=(function(){
+      var c=(g("biz-city")||"").trim();
+      if(c)return c;
+      var p=(g("scities")||"").split(/[,;]/)[0]||"";
+      return (p||"").trim();
+    })();
+    var bvSlug=(document.querySelector('input[name="brand-voice"]:checked')||{}).value||"";
+    return{
       package:g("pkg"),
+      operations:operationsBlock(),
+      brandVoice:bvSlug,
+      brandVoiceLabel:getBrandVoiceLabel(bvSlug),
       business:{
         legalName:g("biz-name"),
         publicName:g("biz-short"),
@@ -646,21 +1298,29 @@
         state:g("biz-state"),
         zip:g("biz-zip"),
         yearFounded:g("biz-year"),
+        brandPrimary:normHex(g("brand-primary-hex")),
+        brandAccent:normHex(g("brand-accent-hex")),
         brandColors:g("brand-colors"),
         licenseFooterLine:g("license-line"),
+        logoUrl:ahanaR2State.businessLogoUrl||"",
         logo:{
           choice:(document.querySelector("input[name=has-logo]:checked")||{}).value||"",
           link:g("logo-link"),
-          fileName:(document.getElementById("logo-file").files[0]||{}).name||""
+          fileName:(document.getElementById("logo-file").files[0]||{}).name||"",
+          showNameNextToLogo:(function(){
+            var hc=(document.querySelector("input[name=has-logo]:checked")||{}).value||"";
+            if(hc==="no")return true;
+            return ((document.querySelector("input[name=logo-show-name]:checked")||{}).value||"yes")!=="no";
+          })()
         }
       },
-      primaryServiceHeroLabel:g("primary-svc-hero"),
+      primaryServiceHeroLabel:primaryTrade,
       seo:{
         primaryKeywords:kws,
         inspirationUrls:g("inspo").split("\n").map(function(s){return s.trim();}).filter(Boolean)
       },
       services:{
-        primaryTrade:(g("primary-trade")==="other"?g("other-tin"):g("primary-trade")),
+        primaryTrade:primaryTrade,
         emergency:(document.querySelector("input[name=emergency]:checked")||{}).value||"",
         service1:{name:g("s1n"),desc:g("s1d")},
         service2:{name:g("s2n"),desc:g("s2d")},
@@ -668,11 +1328,10 @@
         service4:{name:g("s4n"),desc:g("s4d")},
         service5:{name:g("s5n"),desc:g("s5d")},
         service6:{name:g("s6n"),desc:g("s6d")},
-        otherServices:g("svc-other"),
-        additionalServicesIntro:g("addl-svc-intro")
+        otherServices:g("svc-other")
       },
       location:{
-        primaryCity:g("pcity"),
+        primaryCity:g("biz-city"),
         serviceCities:g("scities"),
         serviceZips:g("szips"),
         gbp:(document.querySelector("input[name=gbp]:checked")||{}).value||"",
@@ -681,7 +1340,13 @@
         reviewCount:g("rvcount")
       },
       story:{
-        yearsExperience:g("yexp"),
+        yearsExperience:(function(){
+          var y=parseInt(g("biz-year"),10);
+          if(!y||y<1950||y>2035)return "";
+          var now=new Date().getFullYear();
+          var d=now-y;
+          return d>0 ? (d+"+") : "";
+        })(),
         whyStarted:g("bstory"),
         usp:[
           {title:g("u1t"),detail:g("u1d")},
@@ -689,29 +1354,33 @@
           {title:g("u3t"),detail:g("u3d")}
         ],
         process:{step1:g("p1"),step2:g("p2"),step3:g("p3")},
-        values:[].slice.call(document.querySelectorAll("input[name=vals]:checked")).map(function(c){return c.value;}),
-        credentials:g("creds"),
-        guarantee:g("guar")
+        values:[].slice.call(document.querySelectorAll("input[name=vals]:checked")).map(function(c){return sanitizeJsonUnsafe(c.value).trim();}).concat([g("vals-other")].filter(Boolean)),
+        credentials:g("license-line"),
+        guarantee:(g("guar")||g("warranty-short")).trim()
       },
       siteContent:{
-        hero:{h1Accent:g("hero-h1-accent"),subheadline:g("hero-sub-enh"),warrantyShort:g("warranty-short"),proofTiles:[{title:g("hp1t"),value:g("hp1v"),sub:g("hp1s")},{title:g("hp2t"),value:g("hp2v"),sub:g("hp2s")},{title:g("hp3t"),value:g("hp3v"),sub:g("hp3s")}],trustBar:[g("tb1"),g("tb2"),g("tb3"),g("tb4"),g("tb5")].filter(Boolean)},
-        home:{servicesIntro:g("home-svc-intro"),testimonialsIntro:g("home-t-intro")},
-        servicesPage:{intro:g("svc-page-intro"),longCopy:[g("svc1-long"),g("svc2-long"),g("svc3-long"),g("svc4-long"),g("svc5-long"),g("svc6-long")],hubPopularIntro:g("svc-hub-popular-intro"),hubCoreIntro:g("svc-hub-core-intro")},
-        faq:{emergencyAnswer:g("faq-em"),schedulingAnswer:g("faq-sched"),estimateAnswer:g("faq-est")},
-        about:{h1Accent:g("about-h1-ac"),lead:g("about-lead"),storyHeadline:g("about-h2"),storyLong:g("about-long"),valuesIntro:g("values-intro"),valueLines:[g("v1"),g("v2"),g("v3"),g("v4")]},
-        articlesHub:{intro:g("blog-intro"),posts:[{title:g("b1t"),excerpt:g("b1x"),date:g("b1dt"),url:g("b1u")},{title:g("b2t"),excerpt:g("b2x"),date:g("b2dt"),url:g("b2u")},{title:g("b3t"),excerpt:g("b3x"),date:g("b3dt"),url:g("b3u")}]},
-        serviceArea:{navLabel:g("sa-nav"),shortHeadline:g("sa-short"),intro:g("sa-intro")},
-        contact:{lead:g("contact-lead"),callCopy:g("contact-call"),formIntro:g("contact-form-intro")},
-        gallery:{intro:g("gal-intro")},
-        ctaStrip:{intro:g("cta-intro")},
-        footer:{tagline:g("footer-tag")},
-        testimonialsPage:{navLabel:g("tpage-lbl"),intro:g("tpage-intro")}
+        hero:{h1Accent:g("hero-h1-accent"),subheadline:g("hero-sub-enh"),warrantyShort:(g("guar")||g("warranty-short")).trim(),proofTiles:[{title:g("hp1t"),value:g("hp1v"),sub:g("hp1s")},{title:g("hp2t"),value:g("hp2v"),sub:g("hp2s")},{title:g("hp3t"),value:g("hp3v"),sub:g("hp3s")}],trustBar:[g("tb1"),g("tb2"),g("tb3"),g("tb4"),g("tb5")].filter(Boolean)},
+        home:{servicesIntro:"",testimonialsIntro:""},
+        servicesPage:{intro:"",longCopy:["","","","","",""],hubPopularIntro:"",hubCoreIntro:""},
+        faq:{emergencyAnswer:"",schedulingAnswer:"",estimateAnswer:""},
+        about:{h1Accent:"",lead:"",storyHeadline:"",storyLong:"",valuesIntro:"",valueLines:["","","",""]},
+        articlesHub:{intro:"",posts:[{title:"",excerpt:"",date:"",url:""},{title:"",excerpt:"",date:"",url:""},{title:"",excerpt:"",date:"",url:""}]},
+        serviceArea:{navLabel:"Service Area",shortHeadline:areaShort,intro:""},
+        contact:{lead:"",callCopy:"",formIntro:""},
+        gallery:{intro:""},
+        ctaStrip:{intro:""},
+        footer:{tagline:""},
+        testimonialsPage:{navLabel:"",intro:""}
       },
       photos:{
-        heroFileName:(document.getElementById("hero-file").files[0]||{}).name||"",
-        teamFileNames:[].slice.call(document.getElementById("team-files").files||[]).map(function(f){return f.name;}),
-        truckFileNames:[].slice.call(document.getElementById("truck-files").files||[]).map(function(f){return f.name;}),
-        galleryFileNames:[].slice.call(document.getElementById("gallery-files").files||[]).map(function(f){return f.name;}),
+        heroUrl:ahanaR2State.photos.heroUrl||"",
+        galleryUrls:ahanaR2State.photos.galleryUrls.slice(),
+        teamUrls:ahanaR2State.photos.teamUrls.slice(),
+        truckUrls:ahanaR2State.photos.truckUrls.slice(),
+        heroFileName:ahanaR2State.photos.heroFileName||(document.getElementById("hero-file").files[0]||{}).name||"",
+        teamFileNames:ahanaR2State.photos.teamFileNames.length?ahanaR2State.photos.teamFileNames.slice():[].slice.call(document.getElementById("team-files").files||[]).map(function(f){return f.name;}),
+        truckFileNames:ahanaR2State.photos.truckFileNames.length?ahanaR2State.photos.truckFileNames.slice():[].slice.call(document.getElementById("truck-files").files||[]).map(function(f){return f.name;}),
+        galleryFileNames:ahanaR2State.photos.galleryFileNames.length?ahanaR2State.photos.galleryFileNames.slice():[].slice.call(document.getElementById("gallery-files").files||[]).map(function(f){return f.name;}),
         galleryLimit:10,
         galleryPresentation:"carousel",
         serviceBeforeAfterPairs:[
@@ -719,7 +1388,7 @@
           {servicePriority:2,beforeFileName:fn("eba2b"),afterFileName:fn("eba2a")},
           {servicePriority:3,beforeFileName:fn("eba3b"),afterFileName:fn("eba3a")}
         ],
-        note:"No photo captions collected. AI should infer context from images."
+        note:"No photo captions collected with uploads; image context is handled during build."
       },
       testimonials:[
         {name:g("t1n"),city:g("t1c"),text:g("t1t")},
@@ -735,16 +1404,76 @@
         domainPreferences:g("dom-pref"),
         hasExistingSite:(document.querySelector("input[name=has-site]:checked")||{}).value||"",
         existingUrl:g("old-url"),
+        plannedSiteUrl:g("site-url"),
+        contactResponseTime:g("contact-response-time"),
         previewEmail:g("proof-email"),
         notes:g("notes")
-      },
-      submittedAt:new Date().toISOString()
+      }
     };
-    ahanaSubmitIntake('enhanced', data, TOTAL)
-    .catch(function(){
+  }
+  function cleanPayload(obj) {
+    if (typeof obj === 'string') return obj.replace(/\\/g, '').replace(/\r/g, '').replace(/\n/g, ' ');
+    if (Array.isArray(obj)) return obj.map(cleanPayload);
+    if (typeof obj === 'object' && obj !== null) {
+      return Object.fromEntries(
+        Object.entries(obj).map(([k, v]) => [k, cleanPayload(v)])
+      );
+    }
+    return obj;
+  }
+  function submitFormFinal(){
+    if(ahanaUploadPendingCount>0){
+      alert("Please wait — uploading images...");
+      return;
+    }
+    var payload=buildPayload();
+    payload.submittedAt=new Date().toISOString();
+    persistPack(payload);
+    console.log("Ahana Enhanced Intake:",payload);
+    var webhookUrl = 'https://hook.us2.make.com/4ichfuaniemsapbx20422smdm4omb22u';
+    fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cleanPayload(payload))
+    })
+    .then(function(response){
+      if(response.ok){
+        persistPack(payload);
+        document.getElementById("fw").style.display="none";
+        document.querySelector(".pg-wrap").style.display="none";
+        document.getElementById("done").style.display="block";
+        document.getElementById("pgf").style.width="100%";
+        for(var i=1;i<=TOTAL;i++){var e=document.getElementById("pl-"+i);e.classList.remove("active");e.classList.add("done");}
+        window.scrollTo({top:0,behavior:"smooth"});
+      } else {
+        alert('Error submitting form. Please try again.');
+      }
+    })
+    .catch(function(error){
+      console.error('Error:', error);
       alert('Error submitting form. Please try again.');
     });
   }
+
+  refreshEstimatesNotesVisibility();
+  // Init (safe if elements are missing)
+  bindColorBlock("brand-primary-hex","brand-primary-picker");
+  bindColorBlock("brand-accent-hex","brand-accent-picker");
+  setHexAndPicker("brand-primary-hex","brand-primary-picker",document.getElementById("brand-primary-hex") && document.getElementById("brand-primary-hex").value ? document.getElementById("brand-primary-hex").value : "#FF5733");
+  setHexAndPicker("brand-accent-hex","brand-accent-picker",document.getElementById("brand-accent-hex") && document.getElementById("brand-accent-hex").value ? document.getElementById("brand-accent-hex").value : "#1A1A1B");
+  updateBrandColors();
+  ["s1n","s2n","s3n"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.addEventListener("input",refreshServiceNameUI);
+  });
+  refreshServiceNameUI();
+  [].slice.call(document.querySelectorAll('input[name="brand-voice"]')).forEach(function(inp){
+    inp.addEventListener("change",updateBrandVoicePreview);
+    inp.addEventListener("input",updateBrandVoicePreview);
+  });
+  updateBrandVoicePreview();
+  if(window.AhanaIntakeExamples) AhanaIntakeExamples.bind();
+  (function(){var p=document.getElementById("pgf");if(p)p.style.width=((1/TOTAL)*100)+"%";})();
 </script>
 </body>
 </html>
