@@ -58,7 +58,6 @@
     .welcome-brand{
       display:inline-flex;
       align-items:center;
-      gap:12px;
       margin-bottom:22px;
       text-decoration:none;
       color:var(--text,#101318);
@@ -68,7 +67,7 @@
       letter-spacing:-.01em;
       line-height:1;
     }
-    .welcome-brand .logo-han{color:var(--ember)}
+    .welcome-brand em{color:var(--ember);font-style:normal;font-weight:900}
     .welcome-hero h1{
       font-family:"Barlow Condensed",system-ui,sans-serif;
       font-weight:800;
@@ -161,15 +160,6 @@
 </head>
 <body class="theme-sleek">
   <div class="intake-shell">
-    <header class="intake-top">
-      <div class="container">
-        <a class="intake-logo" href="https://www.getahana.com/" aria-label="Ahana">
-          <img src="/favicon.svg" alt="" width="36" height="36">
-          <span>AHA<em>NA</em></span>
-        </a>
-      </div>
-    </header>
-
     <main class="intake-main">
       <div class="container intake-card">
 
@@ -177,7 +167,7 @@
         <section class="intake-view is-active" id="welcome-view" aria-label="Welcome">
           <div class="welcome-hero">
             <div class="welcome-inner">
-              <div class="ph-kicker">Client intake</div>
+              <a class="welcome-brand" href="https://www.getahana.com/" aria-label="Ahana home">AHA<em>NA</em></a>
               <h1>Welcome.<br>Let&rsquo;s build <em>your</em> site.</h1>
               <p class="welcome-lead">You&rsquo;re in the right place. This short intake tells us about your business so we can design your website and SEO plan. Most clients finish in under 20 minutes.</p>
               <ol class="welcome-steps">
