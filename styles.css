@@ -458,6 +458,7 @@ body.theme-sleek .hero h1 .italic,
 .plan-body{padding:28px 32px 36px;flex:1;display:flex;flex-direction:column}
 .feat-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;flex:1}
 .feat-list li{display:flex;align-items:flex-start;gap:10px;font-size:0.875rem;color:#444;line-height:1.5;font-weight:300}
+.feat-list li .feat-text{flex:1;min-width:0}
 .plan.featured .feat-list li{color:rgba(255,255,255,0.72)}
 .f-check{width:17px;height:17px;border-radius:50%;background:#F0FDF4;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
 .f-check svg{width:8px;height:8px}
