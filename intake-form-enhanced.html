@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Website questionnaire — Enhanced</title>
+  <title>Enhanced onboarding — Ahana</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,10 +36,10 @@
     <li><strong>Step 3</strong><span>Photos &amp; reviews</span></li>
     <li><strong>Step 4</strong><span>Domain, review &amp; submit</span></li>
   </ol>
-  <p class="intro-note">Your answers power a <strong>free site customized to your business</strong>. Most owners finish in about 11 minutes—plain English is fine, we polish everything.</p>
+  <p class="intro-note">You&rsquo;re signed on — your onboarding answers help us build a <strong>site customized to your business</strong>. Most owners finish in about 11 minutes. Plain English is fine; we polish everything.</p>
   <div class="intro-actions">
     <button type="button" class="btn-next intro-start" onclick="beginIntake()">
-      Get started
+      Begin onboarding
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </div>
@@ -93,7 +93,7 @@
 
     <div class="field" style="margin-bottom:1.25rem;padding-bottom:0;border-bottom:none">
       <button type="button" class="btn-dev-prefill" onclick="ahanaApplyEnhancedDevPrefill()">Autofill (dev — bare-bones sample)</button>
-      <p class="dev-prefill-note">Fills <strong>every</strong> field with short, generic answers (thin copy, stock photos) so you can test the pipeline without a “perfect” intake. Remove this button, <code>ahanaApplyEnhancedDevPrefill</code>, <code>ahanaDevFetchStockToInput</code>, and <code>ahanaSyncDevR2UploadLabels</code> before launch.</p>
+      <p class="dev-prefill-note">Fills <strong>every</strong> field with short, generic answers (thin copy, stock photos) so you can test the pipeline without a “perfect” onboarding. Remove this button, <code>ahanaApplyEnhancedDevPrefill</code>, <code>ahanaDevFetchStockToInput</code>, and <code>ahanaSyncDevR2UploadLabels</code> before launch.</p>
     </div>
 
     <div class="field"><label class="flabel">Plan <span class="req">*</span></label><input type="text" id="pkg" value="Enhanced" readonly placeholder="eg. Enhanced"></div>
@@ -538,7 +538,7 @@
     <div id="review-mount"></div>
     <div class="form-nav">
       <button type="button" class="btn-back" onclick="goTo(7)">← Back to edit</button>
-      <button type="button" class="btn-submit" onclick="submitFormFinal()">Submit intake</button>
+      <button type="button" class="btn-submit" onclick="submitFormFinal()">Complete onboarding</button>
     </div>
   </div>
 </div><!-- /fw -->
@@ -547,13 +547,14 @@
 <div id="done">
   <div class="done-icon"><svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="var(--ember)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
   <h2>Thank you!</h2>
-  <p>We received your answers and will use them to build your site.</p>
+  <p>We&rsquo;ve received your onboarding details and will start your build.</p>
   <div class="done-more">
     <button type="button" class="btn-back" onclick="returnToReview()">Look over or change answers</button>
   </div>
 </div>
 
 <script src="ahana-intake-trade-examples.js"></script>
+<script src="intake-submit.js"></script>
 <script>
   var cur=1, TOTAL=8;
   var STORAGE_KEY="ahana-intake-enhanced-v1";
@@ -1464,27 +1465,13 @@
     payload.submittedAt=new Date().toISOString();
     persistPack(payload);
     console.log("Ahana Enhanced Intake:",payload);
-    var webhookUrl = 'https://hook.us2.make.com/4ichfuaniemsapbx20422smdm4omb22u';
-    fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(cleanPayload(payload))
-    })
-    .then(function(response){
-      if(response.ok){
-        persistPack(payload);
-        hideIntakeForm();
-        document.getElementById("done").style.display="block";
-        document.getElementById("pgf").style.width="100%";
-        for(var i=1;i<=TOTAL;i++){var e=document.getElementById("pl-"+i);e.classList.remove("active");e.classList.add("done");}
-        window.scrollTo({top:0,behavior:"smooth"});
-      } else {
-        alert('Error submitting form. Please try again.');
-      }
-    })
-    .catch(function(error){
-      console.error('Error:', error);
-      alert('Error submitting form. Please try again.');
+    if(typeof window.ahanaSubmitIntake!=="function"){
+      alert("Error submitting form. Please try again.");
+      return;
+    }
+    window.ahanaSubmitIntake("enhanced",cleanPayload(payload),TOTAL).catch(function(error){
+      console.error("Error:",error);
+      alert("Error submitting form. Please try again.");
     });
   }
 

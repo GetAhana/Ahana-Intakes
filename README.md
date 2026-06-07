@@ -1,15 +1,15 @@
-# Ahana — Intakes
+# Ahana — Client onboarding
 
-Private client intake portal for **https://intakes.getahana.com**.
+Private client onboarding portal for **https://intakes.getahana.com**.
 
 ## Pages
 
 | URL | Step |
 |-----|------|
-| `/` | Welcome landing → **Begin intake** → plan picker |
-| `/intake-form-starter` | Starter intake form |
-| `/intake-form-enhanced` | Enhanced intake |
-| `/intake-form-premium` | Premium intake |
+| `/` | Welcome landing → plan picker → onboarding |
+| `/intake-form-starter` | Starter onboarding |
+| `/intake-form-enhanced` | Enhanced onboarding |
+| `/intake-form-premium` | Premium onboarding |
 
 ## Netlify setup
 

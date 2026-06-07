@@ -35,7 +35,7 @@ exports.handler = async (event) => {
   const webhookUrl = config ? process.env[config.url] : '';
   const apiKey = config ? process.env[config.apiKey] : '';
 
-  if (!config || !webhookUrl || !apiKey) {
+  if (!config || !webhookUrl) {
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json' },
@@ -44,12 +44,12 @@ exports.handler = async (event) => {
   }
 
   try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (apiKey) headers['X-Make-ApiKey'] = apiKey;
+
     const response = await fetch(webhookUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Make-ApiKey': apiKey,
-      },
+      headers,
       body: JSON.stringify(body),
     });
 
