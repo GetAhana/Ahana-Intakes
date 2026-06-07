@@ -782,6 +782,13 @@ body.intake-form-page.theme-sleek .hdr h1{color:var(--obs)}
   line-height:1.45;
   color:rgba(16,19,24,.68);
 }
+.intro-note{
+  margin:1.25rem 0 0;
+  font-size:.875rem;
+  line-height:1.55;
+  color:rgba(16,19,24,.55);
+  max-width:42rem;
+}
 .intro-note strong{color:rgba(16,19,24,.85);font-weight:600}
 .intro-actions{
   margin-top:1.75rem;
