@@ -9,10 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=block" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=4">
-  <link rel="stylesheet" href="intake-forms.css?v=2">
+  <link rel="stylesheet" href="intake-forms.css?v=3">
 </head>
 <body class="theme-sleek intake-form-page">
 
+<div id="intake-intro" class="intake-intro">
 <header class="hdr">
   <div class="logo-wrap">
     <span class="logo-name">AHA<em>NA</em></span>
@@ -29,9 +30,23 @@
     <li>Dominate “near me” and service-area searches with a map and localized copy</li>
     <li>Look like the established shop in town while competitors still run a basic 5-page site</li>
   </ul>
-  <p class="hdr-cta">Each step below feeds pages that bring you more qualified leads. Plain English is fine — we polish everything.</p>
+  <ol class="intro-steps" aria-label="What to expect">
+    <li><strong>Step 1</strong><span>Business details &amp; brand voice</span></li>
+    <li><strong>Step 2</strong><span>Services, area &amp; your story</span></li>
+    <li><strong>Step 3</strong><span>Photos &amp; reviews</span></li>
+    <li><strong>Step 4</strong><span>Domain, review &amp; submit</span></li>
+  </ol>
+  <p class="intro-note">Your answers power a <strong>free sample site customized to your business</strong>. Most owners finish in about 11 minutes—plain English is fine, we polish everything.</p>
+  <div class="intro-actions">
+    <button type="button" class="btn-next intro-start" onclick="beginIntake()">
+      Get started
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
 </header>
+</div>
 
+<div id="intake-form" class="intake-form-main" hidden>
 <div class="pg-wrap">
   <div class="pg-inner">
     <div class="pg-labels">
@@ -526,7 +541,8 @@
       <button type="button" class="btn-submit" onclick="submitFormFinal()">Submit intake</button>
     </div>
   </div>
-</div>
+</div><!-- /fw -->
+</div><!-- /intake-form -->
 
 <div id="done">
   <div class="done-icon"><svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="var(--ember)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
@@ -905,6 +921,25 @@
       if(cur===8)renderReview();
     });
   }
+  function beginIntake(){
+    document.getElementById("intake-intro").hidden=true;
+    var form=document.getElementById("intake-form");
+    form.hidden=false;
+    form.style.display="";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  function showIntakeForm(){
+    document.getElementById("intake-intro").hidden=true;
+    var form=document.getElementById("intake-form");
+    form.hidden=false;
+    form.style.display="";
+  }
+  function hideIntakeForm(){
+    var form=document.getElementById("intake-form");
+    form.hidden=true;
+    form.style.display="none";
+  }
+
   function goTo(n){
     document.getElementById("s"+cur).classList.remove("active");
     cur=n;
@@ -1142,8 +1177,7 @@
     var raw=null;
     try{raw=localStorage.getItem(STORAGE_KEY);}catch(e){}
     document.getElementById("done").style.display="none";
-    document.getElementById("fw").style.display="block";
-    document.querySelector(".pg-wrap").style.display="block";
+    showIntakeForm();
     if(raw){
       try{
         var pack=JSON.parse(raw);
@@ -1439,8 +1473,7 @@
     .then(function(response){
       if(response.ok){
         persistPack(payload);
-        document.getElementById("fw").style.display="none";
-        document.querySelector(".pg-wrap").style.display="none";
+        hideIntakeForm();
         document.getElementById("done").style.display="block";
         document.getElementById("pgf").style.width="100%";
         for(var i=1;i<=TOTAL;i++){var e=document.getElementById("pl-"+i);e.classList.remove("active");e.classList.add("done");}
