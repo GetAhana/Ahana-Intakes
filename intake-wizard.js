@@ -615,6 +615,7 @@
     goToSection: goToSection,
     goToReview: function () { showIndex(reviewStepIndex()); },
     restoreFieldNodes: restoreFieldNodes,
+    getLeadId: function () { return state.leadId || ''; },
     get active() { return state.active; },
   };
 

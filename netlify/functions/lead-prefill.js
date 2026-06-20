@@ -1,3 +1,6 @@
+const { buildStrictPrefill, validateNimExtraction, mergePrefill } = require('./lib/strict-prefill');
+const { extractIntakeFields } = require('./lib/nim-intake');
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
@@ -7,15 +10,23 @@ const CORS = {
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const GOOGLE_KEY = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
 
-const TRADE_MAP = [
-  { re: /roof/i, value: 'Roofing' },
-  { re: /general|remodel|contract/i, value: 'General Contracting / Remodeling' },
-  { re: /hvac|heating|cooling|air condition/i, value: 'HVAC / Heating & Cooling' },
-  { re: /plumb/i, value: 'Plumbing' },
-  { re: /electric/i, value: 'Electrical' },
-  { re: /landscap|lawn/i, value: 'Landscaping / Lawn Care' },
-];
+const PLACE_FIELDS = [
+  'place_id',
+  'name',
+  'formatted_address',
+  'address_components',
+  'formatted_phone_number',
+  'international_phone_number',
+  'website',
+  'rating',
+  'user_ratings_total',
+  'opening_hours',
+  'url',
+  'types',
+  'reviews',
+].join(',');
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS, body: '' };
@@ -54,14 +65,54 @@ exports.handler = async function (event) {
       return { statusCode: 200, headers: CORS, body: JSON.stringify({ found: false }) };
     }
 
-    const prefill = mapLeadToPrefill(lead);
+    const cached = readCache(lead);
+    if (cached) {
+      return {
+        statusCode: 200,
+        headers: CORS,
+        body: JSON.stringify({
+          found: true,
+          leadId: lead.id,
+          prefill: cached.prefill,
+          cached: true,
+        }),
+      };
+    }
+
+    const place = await fetchPlaceDetails(lead);
+    const strict = buildStrictPrefill(lead, place);
+    let prefill = strict.prefill;
+
+    const nimSource = buildNimSourceBundle(lead, place);
+    const hasNimCorpus = Boolean(
+      nimSource.scrape.query || nimSource.scrape.description || nimSource.scrape.about || nimSource.scrape.located_in
+    );
+
+    if (hasNimCorpus && process.env.NVIDIA_API_KEY) {
+      const nimRaw = await extractIntakeFields(nimSource);
+      if (nimRaw) {
+        const validated = validateNimExtraction(nimRaw, strict.corpus);
+        prefill = mergePrefill(prefill, validated);
+      }
+    }
+
+    const cachePayload = {
+      prefill: prefill,
+      generated_at: new Date().toISOString(),
+      lead_updated_at: lead.updated_at || null,
+    };
+    await saveCache(lead.id, cachePayload).catch(function (err) {
+      console.error('intake_prefill_cache save failed', err.message);
+    });
+
     return {
       statusCode: 200,
       headers: CORS,
       body: JSON.stringify({
         found: true,
         leadId: lead.id,
-        prefill,
+        prefill: prefill,
+        cached: false,
       }),
     };
   } catch (err) {
@@ -73,26 +124,73 @@ exports.handler = async function (event) {
   }
 };
 
-async function supabaseGet(path) {
-  const url = SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/' + path;
-  const res = await fetch(url, {
-    headers: {
-      apikey: SUPABASE_KEY,
-      Authorization: 'Bearer ' + SUPABASE_KEY,
-      Accept: 'application/json',
+function buildNimSourceBundle(lead, place) {
+  const meta = lead.scrape_metadata && typeof lead.scrape_metadata === 'object' ? lead.scrape_metadata : {};
+  return {
+    business_name: lead.business_name,
+    city: lead.city,
+    state: lead.state,
+    trade: lead.trade,
+    scrape: {
+      query: meta.query || '',
+      description: meta.description || '',
+      about: meta.about || '',
+      located_in: meta.located_in || '',
+      subtypes: meta.subtypes || '',
+      type: meta.type || '',
     },
+    google: place ? {
+      name: place.name || '',
+      formatted_address: place.formatted_address || '',
+    } : null,
+  };
+}
+
+function readCache(lead) {
+  const cache = lead.intake_prefill_cache;
+  if (!cache || !cache.prefill || !cache.generated_at) return null;
+  if (lead.updated_at && cache.lead_updated_at && cache.lead_updated_at !== lead.updated_at) return null;
+  return cache;
+}
+
+async function supabaseRequest(method, path, body) {
+  const url = SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/' + path;
+  const headers = {
+    apikey: SUPABASE_KEY,
+    Authorization: 'Bearer ' + SUPABASE_KEY,
+    Accept: 'application/json',
+  };
+  if (body) {
+    headers['Content-Type'] = 'application/json';
+    headers.Prefer = 'return=minimal';
+  }
+  const res = await fetch(url, {
+    method: method,
+    headers: headers,
+    body: body ? JSON.stringify(body) : undefined,
   });
   if (!res.ok) {
     const text = await res.text();
-    throw new Error('Supabase error ' + res.status + ': ' + text.slice(0, 200));
+    throw new Error('Supabase ' + method + ' ' + res.status + ': ' + text.slice(0, 200));
   }
-  return res.json();
+  if (res.status === 204) return null;
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+async function supabaseGet(path) {
+  return supabaseRequest('GET', path);
+}
+
+async function saveCache(leadId, cachePayload) {
+  await supabaseRequest('PATCH', 'leads?id=eq.' + encodeURIComponent(leadId), {
+    intake_prefill_cache: cachePayload,
+  });
 }
 
 async function fetchLeadById(id) {
-  const safe = encodeURIComponent(id);
   const rows = await supabaseGet(
-    'leads?id=eq.' + safe + '&select=*&limit=1'
+    'leads?id=eq.' + encodeURIComponent(id) + '&select=*&limit=1'
   );
   return rows && rows[0] ? rows[0] : null;
 }
@@ -119,10 +217,35 @@ async function fetchLeadByName(name) {
   return bestScore >= 0.72 ? best : null;
 }
 
+async function fetchPlaceDetails(lead) {
+  if (!GOOGLE_KEY) return null;
+  const meta = lead.scrape_metadata && typeof lead.scrape_metadata === 'object' ? lead.scrape_metadata : {};
+  const placeId = lead.google_place_id || meta.google_place_id || meta.place_id;
+  if (!placeId || !/^ChI[a-zA-Z0-9_-]{10,}$/.test(String(placeId))) return null;
+
+  const url =
+    'https://maps.googleapis.com/maps/api/place/details/json' +
+    '?place_id=' + encodeURIComponent(placeId) +
+    '&fields=' + PLACE_FIELDS +
+    '&reviews_sort=newest&key=' + GOOGLE_KEY;
+
+  const controller = new AbortController();
+  const timer = setTimeout(function () { controller.abort(); }, 12000);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    const data = await res.json();
+    if (data.status !== 'OK' || !data.result) return null;
+    return data.result;
+  } catch (err) {
+    console.error('Places details failed', err.message);
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function normalizeName(s) {
-  return String(s || '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '');
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
 function namesAlign(stored, entered) {
@@ -138,85 +261,4 @@ function nameScore(stored, entered) {
     return Math.min(a.length, b.length) / Math.max(a.length, b.length);
   }
   return 0;
-}
-
-function mapTrade(trade, meta) {
-  const raw = [trade, meta && meta.type, meta && meta.subtypes].filter(Boolean).join(' ');
-  for (const row of TRADE_MAP) {
-    if (row.re.test(raw)) return row.value;
-  }
-  return '';
-}
-
-function nearestRatingOption(rating) {
-  if (!rating || rating <= 0) return 'No reviews yet';
-  const opts = [5.0, 4.9, 4.8, 4.7, 4.6, 4.5, 4.4, 4.3, 4.2, 4.1, 4.0, 3.9, 3.8, 3.7, 3.6, 3.5, 3.4, 3.3, 3.2, 3.1, 3.0];
-  let best = opts[0];
-  let diff = Math.abs(rating - best);
-  for (let i = 1; i < opts.length; i++) {
-    const d = Math.abs(rating - opts[i]);
-    if (d < diff) {
-      diff = d;
-      best = opts[i];
-    }
-  }
-  return best.toFixed(1);
-}
-
-function formatWorkingHours(hours) {
-  if (!hours) return '';
-  if (typeof hours === 'string') return hours.trim();
-  if (Array.isArray(hours)) return hours.filter(Boolean).join(' · ');
-  if (typeof hours === 'object') {
-    return Object.keys(hours)
-      .map(function (day) {
-        return day + ': ' + hours[day];
-      })
-      .join(' · ');
-  }
-  return '';
-}
-
-function websiteUrl(lead, meta) {
-  const site = lead.website || meta.domain || '';
-  if (!site) return '';
-  if (/^https?:\/\//i.test(site)) return site;
-  return 'https://' + site.replace(/^\/\//, '');
-}
-
-function mapLeadToPrefill(lead) {
-  const meta = lead.scrape_metadata && typeof lead.scrape_metadata === 'object' ? lead.scrape_metadata : {};
-  const trade = mapTrade(lead.trade, meta);
-  const site = websiteUrl(lead, meta);
-
-  const fields = {
-    'biz-name': lead.business_name || '',
-    'biz-short': lead.business_name || '',
-    'owner-name': lead.contact_name || meta.full_name || [meta.first_name, meta.last_name].filter(Boolean).join(' ') || '',
-    'biz-phone': lead.phone || '',
-    'biz-email': lead.email || meta.name_for_emails || '',
-    'biz-city': lead.city || '',
-    'biz-state': lead.state || '',
-    'biz-address': lead.address || meta.street || meta.address || '',
-    'biz-zip': lead.zip || '',
-    'gbp-link': lead.google_maps_url || meta.location_link || '',
-    'scities': lead.city || meta.located_in || '',
-    'biz-hours': formatWorkingHours(meta.working_hours || meta.working_hours_csv_compatible),
-    'old-url': site,
-    'bstory': meta.description || meta.about || '',
-    'hero-slogan': meta.website_title || '',
-    'hero-subheadline': meta.website_description || '',
-  };
-
-  if (lead.google_rating != null) fields.rvrat = nearestRatingOption(Number(lead.google_rating));
-  if (lead.google_review_count != null) fields.rvcount = String(lead.google_review_count);
-
-  const radios = {};
-  if (lead.google_maps_url || lead.google_place_id) radios.gbp = 'yes-claimed';
-  if (site) radios['has-site'] = 'yes';
-
-  const select = {};
-  if (trade) select['primary-trade'] = trade;
-
-  return { fields, radios, select };
 }

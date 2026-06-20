@@ -946,7 +946,11 @@
   function g(id){var e=document.getElementById(id);return sanitizeJsonUnsafe(e?e.value:"").trim();}
   function buildPayload(){
     updateBrandColors();
+    var leadId="";
+    if(window.AhanaWizard&&typeof window.AhanaWizard.getLeadId==="function")leadId=window.AhanaWizard.getLeadId()||"";
+    if(!leadId){try{leadId=new URLSearchParams(window.location.search).get("lead")||"";}catch(e){}}
     return{
+      leadId:leadId,
       package:g("pkg"),
       operations:operationsBlock(),
       business:{

@@ -4,6 +4,9 @@ const WEBHOOKS = {
   premium: { url: 'Premium_Webhook', apiKey: 'Make_API' },
 };
 
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, body: '' };
@@ -61,6 +64,10 @@ exports.handler = async (event) => {
       };
     }
 
+    archiveSubmission(formType, body, event.headers).catch(function (err) {
+      console.error('intake_submissions archive failed', err.message);
+    });
+
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -74,3 +81,47 @@ exports.handler = async (event) => {
     };
   }
 };
+
+async function archiveSubmission(formType, payload, headers) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+
+  const biz = payload.business || {};
+  const leadId = String(payload.leadId || '').trim() || null;
+  const submittedAt = payload.submittedAt || new Date().toISOString();
+  const host = headerValue(headers, 'host') || headerValue(headers, 'x-forwarded-host') || '';
+
+  const row = {
+    form_type: formType,
+    lead_id: leadId,
+    business_name: biz.legalName || biz.publicName || null,
+    owner_name: biz.ownerName || null,
+    email: biz.email || null,
+    phone: biz.phone || null,
+    payload: payload,
+    submitted_at: submittedAt,
+    source_host: host || null,
+  };
+
+  const url = SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/intake_submissions';
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(row),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error('Supabase insert ' + res.status + ': ' + text.slice(0, 200));
+  }
+}
+
+function headerValue(headers, name) {
+  if (!headers) return '';
+  const key = Object.keys(headers).find(function (k) { return k.toLowerCase() === name; });
+  return key ? String(headers[key] || '').trim() : '';
+}
