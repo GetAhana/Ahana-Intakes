@@ -6,8 +6,8 @@ Private client onboarding portal for **https://intakes.getahana.com**.
 
 | URL | Step |
 |-----|------|
-| `/` | Welcome landing → plan picker → onboarding |
-| `/intake-form-starter` | Starter onboarding |
+| `/` | Welcome landing → begin questionnaire |
+| `/intake-form-starter` | Onboarding questionnaire |
 | `/intake-form-enhanced` | Enhanced onboarding |
 | `/intake-form-premium` | Premium onboarding |
 
@@ -21,6 +21,8 @@ Private client onboarding portal for **https://intakes.getahana.com**.
    - `Starter_Webhook`, `Enhanced_Webhook`, `Premium_Webhook`, `Make_API`
 
 Form submissions POST to `/api/submit-form` (serverless proxy → Make with `X-Make-ApiKey`).
+
+Google profile import POSTs to `/api/gbp-prefill` (Places API — requires `GOOGLE_PLACES_API_KEY` in Netlify env).
 
 ## Local preview
 

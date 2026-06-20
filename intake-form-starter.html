@@ -2,55 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Starter onboarding — Ahana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Onboarding questionnaire — Ahana</title>
   <meta name="robots" content="noindex,nofollow"/>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=block" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=4">
-  <link rel="stylesheet" href="intake-forms.css?v=3">
+  <link rel="stylesheet" href="intake-forms.css?v=11">
 </head>
-<body class="theme-sleek intake-form-page">
+<body class="theme-sleek intake-form-page" data-intake-storage-key="ahana-intake-starter-v1">
 
-<div id="intake-intro" class="intake-intro">
-<header class="hdr">
-  <div class="logo-wrap">
-    <span class="logo-name">AHA<em>NA</em></span>
-    <div class="badge">
-      <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      Starter plan · ~9 minutes
-    </div>
-  </div>
-  <h1>Starter puts you in the searches that drive calls.<br/><em>More visibility. More leads. More booked work.</em></h1>
-  <p class="hdr-includes"><strong>Your plan:</strong> 5-page website + 1 new article every month — <strong>$2,000 build included</strong> at no setup cost.</p>
-  <ul class="hdr-points">
-    <li>Show up when homeowners search your trade in your area — not buried behind bigger competitors</li>
-    <li>Look established on first click so price-shoppers still call you</li>
-    <li>Turn site visits into phone calls with pages built to convert</li>
-    <li>Stay in front of local buyers every month without writing your own marketing</li>
-  </ul>
-  <ol class="intro-steps" aria-label="What to expect">
-    <li><strong>Step 1</strong><span>Business details &amp; brand</span></li>
-    <li><strong>Step 2</strong><span>Services &amp; service area</span></li>
-    <li><strong>Step 3</strong><span>Story, photos &amp; reviews</span></li>
-    <li><strong>Step 4</strong><span>Domain, review &amp; submit</span></li>
-  </ol>
-  <p class="intro-note">You&rsquo;re signed on — your onboarding answers help us build a <strong>site customized to your business</strong>. Most owners finish in about 9 minutes. Plain English is fine; we polish everything.</p>
-  <div class="intro-actions">
-    <button type="button" class="btn-next intro-start" onclick="beginIntake()">
-      Begin onboarding
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
-  </div>
-</header>
-</div>
-
-<div id="intake-form" class="intake-form-main" hidden>
+<div id="intake-form" class="intake-form-main">
 <div class="pg-wrap">
   <div class="pg-inner">
-    <div class="pg-labels">
+    <p class="pg-mobile" id="pg-mobile" aria-live="polite">
+      <span class="pg-mobile-n"><span id="pg-pct-n">0</span>% complete</span>
+      <span class="pg-mobile-t">Building your site</span>
+    </p>
+    <div class="pg-labels" aria-hidden="true">
       <button type="button" class="pg-lbl active" id="pl-1" onclick="goTo(1)">You &amp; business</button>
       <button type="button" class="pg-lbl" id="pl-2" onclick="goTo(2)">What you do</button>
       <button type="button" class="pg-lbl" id="pl-3" onclick="goTo(3)">Where you work</button>
@@ -61,6 +32,8 @@
       <button type="button" class="pg-lbl" id="pl-8" onclick="goTo(8)">Check answers</button>
     </div>
     <div class="pg-track"><div class="pg-fill" id="pgf"></div></div>
+    <p class="pg-pct" id="pg-pct" aria-live="polite"><span id="pg-pct-desk-n">0</span>% complete</p>
+    <p class="pg-encourage" id="pg-encourage"></p>
   </div>
 </div>
 
@@ -71,11 +44,18 @@
     <div class="sec-eye">1</div>
     <h2 class="sec-title">You &amp; your business</h2>
     <p class="sec-sub"><strong>Why this matters:</strong> Google and customers decide whether to call you in seconds. Matching name, phone, and address everywhere builds trust and stops leads from bouncing to the next result. Give us the basics exactly as customers should see them.</p>
-    <!-- REMOVE BEFORE LAUNCH: Prefill (dev sample) + note -->
-    <button type="button" class="btn-dev-prefill" onclick="ahanaApplyDevPrefill()">Prefill (dev sample)</button>
-    <p class="dev-prefill-note">Remove this button and <code>ahanaApplyDevPrefill</code> before launch.</p>
 
-    <div class="field"><label class="flabel">Plan <span class="req">*</span></label><input type="text" id="pkg" value="Starter" readonly placeholder="eg. Enhanced"></div>
+    <div class="gbp-import-panel">
+      <label class="flabel" for="gbp-link">Google Business Profile link <span class="tip">Optional — saves time</span></label>
+      <p class="hint" style="margin-bottom:0">Paste your Google Maps listing link and we&rsquo;ll fill in business name, phone, address, hours, rating, and reviews where we can.</p>
+      <div class="gbp-import-row">
+        <input type="url" id="gbp-link" placeholder="eg. https://maps.google.com/?cid=... or Share → Copy link from Google" inputmode="url" autocomplete="url"/>
+        <button type="button" class="gbp-import-btn" id="gbp-import-btn">Import from Google</button>
+      </div>
+      <p class="gbp-import-status" id="gbp-import-status" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="field sr-only" aria-hidden="true"><label class="flabel">Plan</label><input type="hidden" id="pkg" value="Starter"></div>
     <div class="field"><label class="flabel">Official business name <span class="req">*</span></label><input type="text" id="biz-name" placeholder="eg. As registered — e.g. Houston Roofers LLC"/></div>
     <div class="field"><label class="flabel">Name customers know you by <span class="req">*</span></label><input type="text" id="biz-short" placeholder="eg. Houston Roofers"/></div>
     <div class="frow">
@@ -94,8 +74,7 @@
 
     <div class="field"><label class="flabel">License or “licensed &amp; insured” line (optional)</label><input type="text" id="license-line" placeholder="eg. Licensed &amp; insured · License #12345"/></div>
 
-    <div class="field">
-      <label class="flabel">Your two main brand colors <span class="req">*</span> <span class="tip">Main + second</span></label>
+    <div class="field" id="brand-colors-block">
       <p class="hint" style="margin-bottom:.7rem">Pick colors that match your truck, shirts, or logo. Click the <strong>color square</strong> or type a code like #FF5733 if you already have one.</p>
 
       <div class="frow" style="gap:1rem">
@@ -165,13 +144,10 @@
     <div class="sec-eye">2</div>
     <h2 class="sec-title">What you do</h2>
     <p class="sec-sub"><strong>Why this matters:</strong> The services you list here are what your site will rank for — and what callers will ask about. Put your <strong>three highest-value lines first</strong> (#1 = most important). Clear names like “Tankless water heater install” beat vague “Plumbing” and bring better-fit jobs.</p>
-    <div class="callout"><strong>Tip:</strong> Be specific about what’s included so we can describe it accurately on your site.</div>
-
-    <div class="field"><label class="flabel">Websites you like (optional)</label><textarea id="inspo" rows="3" placeholder="eg. Paste links, one per line — could be a competitor or any site whose look you like."></textarea></div>
 
     <div class="field">
       <label class="flabel">Main type of work <span class="req">*</span></label>
-      <select id="primary-trade" onchange="toggleOther(this.value)">
+      <select id="primary-trade" onchange="toggleOther(this.value);updateServicePlaceholders()">
         <option value="" disabled selected>Pick your trade…</option>
         <option>Roofing</option>
         <option>General Contracting / Remodeling</option>
@@ -183,6 +159,8 @@
       </select>
       <div class="cond" id="other-trade" style="margin-top:.5rem"><input type="text" id="other-tin" placeholder="eg. Describe your trade..."/></div>
     </div>
+
+    <div class="callout"><strong>Tip:</strong> Be specific about what’s included so we can describe it accurately on your site.</div>
 
     <div class="field"><label class="flabel">Service #1 <span class="req">*</span></label><input type="text" id="s1n" placeholder="eg. Roof Replacement"/></div>
     <div class="field"><label class="flabel">Service #1 — in a sentence or two, what’s included?</label><textarea id="s1d" rows="2" placeholder="eg. What you do, what’s included, what makes you different…"></textarea></div>
@@ -210,18 +188,18 @@
     <div class="sec-eye">3</div>
     <h2 class="sec-title">Where you work</h2>
     <p class="sec-sub"><strong>Why this matters:</strong> Local search is how most service businesses get found. The towns and areas you name here tell Google — and homeowners — where you actually work, so you show up when nearby customers search.</p>
-    <div class="field"><label class="flabel">Towns and neighborhoods you serve <span class="req">*</span></label><textarea id="scities" rows="3" placeholder="eg. Houston, Katy, Sugar Land, Pearland..."></textarea><p class="hint">Separate with commas. Include your main city if you work outside it too.</p></div>
-    <div class="field"><label class="flabel">ZIP codes you cover (optional)</label><textarea id="szips" rows="2" placeholder="eg. 77001, 77002, 77449..."></textarea></div>
+    <div class="field"><label class="flabel">Towns and neighborhoods you serve <span class="req">*</span></label><textarea id="scities" rows="3" placeholder="eg. Houston, Katy, Sugar Land, Pearland..."></textarea></div>
+    <div class="field"><label class="flabel">ZIP codes you cover (optional)</label><textarea id="szips" rows="2" placeholder="eg. 77001, 77002, 77449..."></textarea><p class="hint">Only if you&rsquo;d like to specifically mention ZIPs in other areas — otherwise leave blank.</p></div>
 
     <div class="field">
       <label class="flabel">Do you show up on Google Maps / have a Google listing? <span class="req">*</span></label>
+      <p class="hint" style="margin-bottom:.55rem">Choose the option that best matches your situation today.</p>
       <div class="og">
         <label class="oi"><input type="radio" name="gbp" value="yes-claimed"/><div class="ot"><span class="om">Yes — I manage it in Google</span></div></label>
         <label class="oi"><input type="radio" name="gbp" value="yes-unclaimed"/><div class="ot"><span class="om">Yes — it’s there but I don’t run it yet</span></div></label>
         <label class="oi"><input type="radio" name="gbp" value="no"/><div class="ot"><span class="om">No</span></div></label>
       </div>
     </div>
-    <div class="field"><label class="flabel">Link to your Google listing (optional)</label><input type="url" id="gbp-link" placeholder="eg. https://maps.google.com/..."/></div>
 
     <div class="frow">
       <div class="field"><label class="flabel">Star rating on Google (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.9</option><option>4.8</option><option>4.7</option><option>4.6</option><option>4.5</option><option>4.4</option><option>4.3</option><option>4.2</option><option>4.1</option><option>4.0</option><option>3.9</option><option>3.8</option><option>3.7</option><option>3.6</option><option>3.5</option><option>3.4</option><option>3.3</option><option>3.2</option><option>3.1</option><option>3.0</option><option>Rather not say</option><option>No reviews yet</option></select><p class="hint" style="margin-top:.45rem">Rough average is fine. Pick <strong>Rather not say</strong> if you prefer not to show a number.</p></div>
@@ -265,7 +243,7 @@
       </div>
     </div>
 
-    <div class="field">
+    <div class="field" id="process-steps-field">
       <label class="flabel">When someone hires you, what are the usual steps? <span class="req">*</span></label>
       <div class="field"><label class="flabel">Step 1</label><input type="text" id="p1" placeholder="eg. Call or request a quote online"/></div>
       <div class="field"><label class="flabel">Step 2</label><input type="text" id="p2" placeholder="eg. We inspect and give a clear estimate"/></div>
@@ -294,8 +272,8 @@
     </div>
     <div class="field">
       <label class="flabel">Warranty &amp; guarantee details <span class="tip">Optional but helpful</span></label>
-      <textarea id="warranty-details" rows="3" placeholder="eg. Labor: 2-year workmanship on repairs and installs we perform. Parts: manufacturer warranty on materials (shingles, fixtures, equipment) when registered per label. Limits: prior damage, normal wear, storm-only temp work unless noted in writing."></textarea>
-      <p class="hint">Used anywhere the site mentions warranties so copy stays accurate.</p>
+      <textarea id="warranty-details" rows="3" placeholder="eg. 2-year workmanship on our installs. Labor: repairs and installs we perform. Parts: manufacturer warranty on materials when registered per label."></textarea>
+      <p class="hint">The first line becomes your short warranty line on the site. Add full details so copy stays accurate everywhere else.</p>
     </div>
     <div class="field"><label class="flabel">How customers request warranty service (optional)</label><input type="text" id="warranty-claim" placeholder="eg. Call with your invoice — same number as our main line"/></div>
 
@@ -311,7 +289,6 @@
       </div>
     </div>
     <div class="field"><label class="flabel">Other values to mention (optional)</label><textarea id="vals-other" rows="2" placeholder="eg. Communication, cleanliness, punctuality, respect for your home"></textarea></div>
-    <div class="field"><label class="flabel">One line about your warranty (optional)</label><input type="text" id="guar" placeholder="eg. 2-year workmanship on our installs"/></div>
 
     <div class="form-nav"><button class="btn-back" onclick="goTo(3)">← Back</button><button class="btn-next" onclick="goTo(5)">Next: Photos →</button></div>
   </div>
@@ -320,7 +297,7 @@
   <div class="sc" id="s5">
     <div class="sec-eye">5</div>
     <h2 class="sec-title">Photos</h2>
-    <p class="sec-sub"><strong>Why this matters:</strong> Real photos prove you do the work — they lift conversion more than stock images ever will. Starter shows up to <strong>5 gallery photos</strong> on your home page. No captions needed; we match them to the right spots.</p>
+    <p class="sec-sub"><strong>Why this matters:</strong> Real photos prove you do the work — they lift conversion more than stock images ever will. Your site shows up to <strong>5 gallery photos</strong> on your home page. No captions needed; we match them to the right spots.</p>
     <div class="callout"><strong>Gallery:</strong> up to <strong>5</strong> photos.</div>
 
     <div class="field"><label class="flabel">Slogan or main line for the top of your site</label><input type="text" id="hero-slogan" maxlength="200" placeholder="eg. Straight answers. Clean work. Same-week help."/></div>
@@ -373,7 +350,7 @@
         <p class="uz-error-msg" role="alert"></p>
         <input type="file" id="gallery-files" accept="image/*" multiple onchange="onAhanaGalleryFilesChange(this,5);"/>
       </label>
-      <p class="hint">Optional. Starter allows up to 5 gallery photos.</p>
+      <p class="hint">Optional. Up to 5 gallery photos.</p>
     </div>
 
     <div class="form-nav"><button class="btn-back" onclick="goTo(4)">← Back</button><button class="btn-next" onclick="goTo(6)">Next: Reviews →</button></div>
@@ -383,15 +360,15 @@
   <div class="sc" id="s6">
     <div class="sec-eye">6</div>
     <h2 class="sec-title">Customer reviews</h2>
-    <p class="sec-sub"><strong>Why this matters:</strong> Reviews are the fastest way to beat competitors who look similar on paper. Starter highlights <strong>two</strong> real testimonials — paste them as you have them; we’ll polish grammar without changing what the customer said.</p>
+    <p class="sec-sub"><strong>Why this matters:</strong> Reviews are the fastest way to beat competitors who look similar on paper. We highlight <strong>two</strong> real testimonials on your site — paste them as you have them; we&rsquo;ll polish grammar without changing what the customer said.</p>
 
-    <div class="field"><label class="flabel">Review #1 — customer name <span class="req">*</span></label><input type="text" id="t1n" placeholder="eg. Sarah M."/></div>
-    <div class="field"><label class="flabel">Review #1 — town (optional)</label><input type="text" id="t1c" placeholder="eg. Houston"/></div>
-    <div class="field"><label class="flabel">Review #1 — what they said <span class="req">*</span></label><textarea id="t1t" rows="3" placeholder="eg. Paste the review..."></textarea></div>
+    <div class="field"><label class="flabel">Customer name <span class="req">*</span></label><p class="hint">First name or initials — e.g. Sarah M.</p><input type="text" id="t1n" placeholder="eg. Sarah M."/></div>
+    <div class="field"><label class="flabel">Town <span class="tip">Optional</span></label><p class="hint">Where they&rsquo;re from — adds local trust.</p><input type="text" id="t1c" placeholder="eg. Houston"/></div>
+    <div class="field"><label class="flabel">What they said <span class="req">*</span></label><p class="hint">Paste the review text as you have it.</p><textarea id="t1t" rows="3" placeholder="eg. Paste the review..."></textarea></div>
 
-    <div class="field" style="margin-top:1.3rem"><label class="flabel">Review #2 — customer name <span class="req">*</span></label><input type="text" id="t2n" placeholder="eg. Mike T."/></div>
-    <div class="field"><label class="flabel">Review #2 — town (optional)</label><input type="text" id="t2c" placeholder="eg. Katy"/></div>
-    <div class="field"><label class="flabel">Review #2 — what they said <span class="req">*</span></label><textarea id="t2t" rows="3" placeholder="eg. Paste the review..."></textarea></div>
+    <div class="field" style="margin-top:1.3rem"><label class="flabel">Customer name <span class="req">*</span></label><p class="hint">First name or initials — e.g. Mike T.</p><input type="text" id="t2n" placeholder="eg. Mike T."/></div>
+    <div class="field"><label class="flabel">Town <span class="tip">Optional</span></label><p class="hint">Where they&rsquo;re from — adds local trust.</p><input type="text" id="t2c" placeholder="eg. Katy"/></div>
+    <div class="field"><label class="flabel">What they said <span class="req">*</span></label><p class="hint">Paste the review text as you have it.</p><textarea id="t2t" rows="3" placeholder="eg. Paste the review..."></textarea></div>
 
     <div class="form-nav"><button class="btn-back" onclick="goTo(5)">← Back</button><button class="btn-next" onclick="goTo(7)">Next: Domain &amp; email →</button></div>
   </div>
@@ -411,8 +388,8 @@
       </div>
     </div>
     <div class="cond" id="dom-exist">
-      <div class="field"><label class="flabel">Your web address (domain)</label><input type="text" id="dom-name" placeholder="eg. houstonroofers.com"/></div>
-      <div class="field"><label class="flabel">Where you bought it — GoDaddy, Namecheap, etc. (optional)</label><input type="text" id="dom-reg" placeholder="eg. GoDaddy / Namecheap / etc."/></div>
+      <div class="field"><label class="flabel">Your domain</label><p class="hint">The web address you own — e.g. houstonroofers.com</p><input type="text" id="dom-name" placeholder="eg. houstonroofers.com"/></div>
+      <div class="field"><label class="flabel">Who hosts it? <span class="tip">Optional</span></label><p class="hint">Where your site or domain is hosted — e.g. GoDaddy, Namecheap, Squarespace.</p><input type="text" id="dom-reg" placeholder="eg. GoDaddy / Namecheap / etc."/></div>
     </div>
     <div class="cond" id="dom-new"><div class="field"><label class="flabel">Web addresses you’d like (we’ll check what’s available)</label><input type="text" id="dom-pref" placeholder="eg. houstonroofers.com, houstonroofersllc.com"/></div></div>
 
@@ -424,7 +401,7 @@
       </div>
     </div>
     <div class="field"><label class="flabel">Current website link, if you have one (optional)</label><input type="url" id="old-url" placeholder="eg. https://www.youroldsite.com"/></div>
-    <div class="field"><label class="flabel">The address you want when the new site goes live (optional)</label><input type="url" id="site-url" placeholder="eg. https://www.yourbusiness.com"/></div>
+    <div class="field"><label class="flabel">Web address you&rsquo;d like <span class="tip">Optional</span></label><p class="hint">The URL you want when your new site goes live — e.g. www.yourbusiness.com. Not sure yet? Leave blank.</p><input type="url" id="site-url" placeholder="eg. https://www.yourbusiness.com"/></div>
     <div class="field"><label class="flabel">When someone contacts you, how fast do you usually get back to them? <span class="req">*</span></label><textarea id="contact-response-time" rows="3" placeholder="eg. Same business day for emergencies when you call before noon; within 24 hours for form messages on weekdays."></textarea><p class="hint">This text appears on your <strong>Contact</strong> page so people know what to expect.</p></div>
     <div class="field"><label class="flabel">Email where we should send your site preview <span class="req">*</span></label><input type="email" id="proof-email" placeholder="eg. Best email to receive the preview link"/></div>
     <div class="field"><label class="flabel">Anything else we should know?</label><textarea id="notes" rows="4"></textarea></div>
@@ -459,8 +436,12 @@
   </div>
 </div>
 
-<script src="ahana-intake-trade-examples.js"></script>
+<script src="intake-notify.js"></script>
+<script src="intake-mobile.js"></script>
+<script src="intake-gbp-prefill.js"></script>
 <script src="intake-submit.js"></script>
+<script src="intake-review-inline.js"></script>
+<script src="intake-wizard.js?v=13"></script>
 <script>
   var cur=1, TOTAL=8;
   var STORAGE_KEY="ahana-intake-starter-v1";
@@ -524,7 +505,7 @@
     var fel=document.getElementById("gallery-fn");
     uzClearError(inp);ahanaR2State.photos.galleryUrls=[];ahanaR2State.photos.galleryFileNames=[];
     var files=[].slice.call(inp.files||[]),w=uzGetWrap(inp);
-    if(files.length>max){alert(AHANA_GALLERY_PKG+" allows up to "+max+" gallery photos. Please re-select "+max+" or fewer."); inp.value=""; if(fel)fel.textContent=fel.getAttribute("data-default")||"0 selected"; if(w)w.classList.remove("has-file"); return;}
+    if(files.length>max){if(typeof window.ahanaNotify==="function")window.ahanaNotify(AHANA_GALLERY_PKG+" allows up to "+max+" gallery photos. Please re-select "+max+" or fewer.",{placement:"toast"}); else alert(AHANA_GALLERY_PKG+" allows up to "+max+" gallery photos. Please re-select "+max+" or fewer."); inp.value=""; if(fel)fel.textContent=fel.getAttribute("data-default")||"0 selected"; if(w)w.classList.remove("has-file"); return;}
     if(!files.length){ if(fel)fel.textContent=fel.getAttribute("data-default")||"0 selected"; if(w)w.classList.remove("has-file"); return;}
     uzSetLoading(inp,true);
     var urls=new Array(files.length),failed=null,doneCt=0;
@@ -585,56 +566,17 @@
     multiLine("gallery-files","gallery-fn",ahanaR2State.photos.galleryUrls);
   }
 
-  /** After dev prefill: reflect ahanaR2State on upload labels (no real file objects). REMOVE before launch with Prefill UI. */
-  function ahanaSyncDevR2UploadLabels(){
-    function setZone(inpId,fnId,has,fnText){
-      var inp=document.getElementById(inpId);
-      if(!inp)return;
-      var mz=uzGetWrap(inp);
-      if(!mz)return;
-      uzClearError(inp);
-      mz.classList.remove("uz-loading","uz-has-error");
-      var erm=mz.querySelector(".uz-error-msg");
-      if(erm){erm.style.display="none";erm.textContent="";}
-      if(has){
-        mz.classList.add("has-file");
-        var fe=document.getElementById(fnId);
-        if(fe&&fnText)fe.textContent=fnText;
-      }else{
-        mz.classList.remove("has-file");
-        var fd=document.getElementById(fnId);
-        if(fd&&fd.getAttribute("data-default"))fd.textContent=fd.getAttribute("data-default");
-      }
-    }
-    if(ahanaR2State.businessLogoUrl)setZone("logo-file","logo-fn",true,"✓ Dev prefill — Screenshot 2026-04-23 120424.png");
-    else setZone("logo-file","logo-fn",false,"");
-    if(ahanaR2State.photos.heroUrl)setZone("hero-file","hero-fn",true,"✓ Dev prefill — hero");
-    else setZone("hero-file","hero-fn",false,"");
-    if(ahanaR2State.photos.teamUrls.length)setZone("team-files","team-fn",true,"✓ "+ahanaR2State.photos.teamUrls.length+" photo(s) (dev)");
-    else setZone("team-files","team-fn",false,"");
-    if(ahanaR2State.photos.truckUrls.length)setZone("truck-files","truck-fn",true,"✓ "+ahanaR2State.photos.truckUrls.length+" photo(s) (dev)");
-    else setZone("truck-files","truck-fn",false,"");
-    if(ahanaR2State.photos.galleryUrls.length)setZone("gallery-files","gallery-fn",true,"✓ "+ahanaR2State.photos.galleryUrls.length+" photo(s) (dev)");
-    else setZone("gallery-files","gallery-fn",false,"");
-  }
-
   function beginIntake(){
-    document.getElementById("intake-intro").hidden=true;
     var form=document.getElementById("intake-form");
-    form.hidden=false;
-    form.style.display="";
+    if(form){form.hidden=false;form.style.display="";}
     window.scrollTo({top:0,behavior:"smooth"});
   }
   function showIntakeForm(){
-    document.getElementById("intake-intro").hidden=true;
-    var form=document.getElementById("intake-form");
-    form.hidden=false;
-    form.style.display="";
+    beginIntake();
   }
   function hideIntakeForm(){
     var form=document.getElementById("intake-form");
-    form.hidden=true;
-    form.style.display="none";
+    if(form){form.hidden=true;form.style.display="none";}
   }
 
   function goTo(n){
@@ -650,6 +592,8 @@
       else if(i<n)e.classList.add("done");
     }
     window.scrollTo({top:0,behavior:"smooth"});
+    if(typeof window.ahanaUpdateProgressUI==="function")window.ahanaUpdateProgressUI(n,TOTAL);
+    if(typeof window.ahanaRefreshMobileNavLabels==="function")window.ahanaRefreshMobileNavLabels();
     updateBrandColors();
     if(n===8)renderReview();
   }
@@ -735,7 +679,7 @@
     m.innerHTML='';
     var note=document.createElement("p");
     note.className="hint review-note";
-    note.innerHTML='Skim each section below. Tap <strong>Edit</strong> on a card to jump back and change answers. Uploaded files show as filenames here; if you swap files after editing, you may need to pick the file again.';
+    note.innerHTML='Skim each section below. Tap <strong>Edit</strong> to change answers right on this page — no need to go back through the form.';
     m.appendChild(note);
 
     function clean(v){
@@ -761,9 +705,17 @@
       var h=document.createElement("div"); h.className="rv-h";
       var t=document.createElement("h3"); t.className="rv-title"; t.textContent=title;
       var b=document.createElement("button"); b.type="button"; b.className="rv-edit"; b.textContent="Edit";
-      b.addEventListener("click",function(){goTo(step);});
+      b.setAttribute("aria-expanded","false");
+      b.addEventListener("click",function(){
+        if(window.AhanaReviewInline){
+          if(c.classList.contains("rv-card--editing"))window.AhanaReviewInline.close(true);
+          else window.AhanaReviewInline.open(step,c,b);
+        }else goTo(step);
+      });
       h.appendChild(t); c.appendChild(h); c.appendChild(b);
-      build(c);
+      var body=document.createElement("div"); body.className="rv-body";
+      build(body);
+      c.appendChild(body);
       return c;
     }
 
@@ -793,7 +745,6 @@
       addRow(c,"Service #3",data.services.service3 && data.services.service3.name);
       addRow(c,"Service #3 details",data.services.service3 && data.services.service3.desc);
       addRow(c,"Other services",data.services.otherServices);
-      addList(c,"Websites you like",data.seo && data.seo.inspirationUrls);
     }));
     grid.appendChild(card("Where you work",3,function(c){
       addRow(c,"Areas served",data.location.serviceCities);
@@ -810,7 +761,7 @@
       addRow(c,"Reason #3",[(data.story.usp[2]||{}).title,(data.story.usp[2]||{}).detail].filter(Boolean).join(" — "));
       addRow(c,"How jobs usually go",["1) "+(data.story.process.step1||""),"2) "+(data.story.process.step2||""),"3) "+(data.story.process.step3||"")].map(function(s){return s.trim();}).filter(function(s){return s.length>3;}).join("\n"));
       addList(c,"Values",data.story.values);
-      addRow(c,"Guarantee badge",data.story.guarantee);
+      addRow(c,"Warranty line (from details)",data.story.guarantee);
       addRow(c,"Business hours",data.operations&&data.operations.businessHours);
       addRow(c,"Estimates / visits",data.operations&&data.operations.estimatesPolicy);
       addRow(c,"Estimate policy notes",data.operations&&data.operations.estimatesPolicyNotes);
@@ -839,6 +790,7 @@
     grid.appendChild(card("Domain & email",7,function(c){
       addRow(c,"Have a domain?",data.technical.hasDomain);
       addRow(c,"Domain name",data.technical.domainName);
+      addRow(c,"Hosted with",data.technical.domainHost);
       addRow(c,"Domain ideas",data.technical.domainPreferences);
       addRow(c,"Have an old website?",data.technical.hasExistingSite);
       addRow(c,"Old website link",data.technical.existingUrl);
@@ -860,7 +812,8 @@
         if(pack.snapshot)applyFormSnapshot(pack.snapshot);
       }catch(e){}
     }
-    goTo(8);
+    if(window.AhanaWizard&&window.AhanaWizard.goToReview)window.AhanaWizard.goToReview();
+    else goTo(8);
   }
   function showLogo(v){
     document.getElementById("logo-upload").classList.toggle("on",v==="yes-file");
@@ -870,7 +823,40 @@
     var gf=document.getElementById("logo-format-guide");
     if(gf) gf.classList.toggle("on",v==="yes-file"||v==="yes-link");
   }
-  function toggleOther(v){document.getElementById("other-trade").classList.toggle("on",v==="other");}
+  function toggleOther(v){document.getElementById("other-trade").classList.toggle("on",v==="other");updateServicePlaceholders();}
+  var SERVICE_PLACEHOLDERS={
+    "Roofing":{s1:"Roof Replacement",s2:"Roof Repair",s3:"Storm Damage / Insurance Claims",other:"Gutters, skylights, attic ventilation…"},
+    "General Contracting / Remodeling":{s1:"Basement Finishing",s2:"Kitchen Remodeling",s3:"Bathroom Remodeling",other:"Additions, decks, whole-home renovations…"},
+    "HVAC / Heating & Cooling":{s1:"AC Installation",s2:"Furnace Repair",s3:"Duct Cleaning",other:"Heat pumps, thermostat installs, seasonal tune-ups…"},
+    "Plumbing":{s1:"Drain Cleaning",s2:"Water Heater Installation",s3:"Leak Detection & Repair",other:"Fixture installs, sewer lines, repiping…"},
+    "Electrical":{s1:"Panel Upgrades",s2:"EV Charger Installation",s3:"Lighting & Rewiring",other:"Outlet installs, surge protection, code corrections…"},
+    "Landscaping / Lawn Care":{s1:"Lawn Maintenance",s2:"Landscape Design",s3:"Hardscaping",other:"Irrigation, mulching, seasonal cleanups…"},
+    "other":{s1:"Your top service",s2:"Your second service",s3:"Your third service",other:"List other work you do…"},
+    "":{s1:"eg. Your top service",s2:"eg. Your second service",s3:"eg. Your third service",other:"eg. List other work you do…"}
+  };
+  function updateServicePlaceholders(){
+    var tradeEl=document.getElementById("primary-trade");
+    var trade=tradeEl?tradeEl.value:"";
+    var key=trade==="other"?"other":(trade||"");
+    var ex=SERVICE_PLACEHOLDERS[key]||SERVICE_PLACEHOLDERS[""];
+    var s1=document.getElementById("s1n");
+    var s2=document.getElementById("s2n");
+    var s3=document.getElementById("s3n");
+    var so=document.getElementById("svc-other");
+    if(s1)s1.placeholder="eg. "+ex.s1;
+    if(s2)s2.placeholder="eg. "+ex.s2;
+    if(s3)s3.placeholder="eg. "+ex.s3;
+    if(so)so.placeholder="eg. "+ex.other;
+  }
+  function warrantyBadgeShort(){
+    var details=g("warranty-details");
+    if(!details)return "";
+    var first=details.split(/\n/)[0].trim();
+    var sentence=first.split(/\.(?:\s|$)/)[0].trim();
+    var out=sentence||first;
+    if(out.length>120)out=out.slice(0,117).trim()+"…";
+    return out;
+  }
   function toggleDom(t){
     document.getElementById("dom-exist").classList.toggle("on",t==="yes");
     document.getElementById("dom-new").classList.toggle("on",t==="no");
@@ -946,7 +932,7 @@
       estimatesPolicy:(document.querySelector('input[name=estimates-policy]:checked')||{}).value||"",
       estimatesPolicyNotes:g("estimates-notes"),
       warranty:{
-        badgeShort:(g("guar")||g("warranty-short")).trim(),
+        badgeShort:warrantyBadgeShort(),
         coverageDetails:g("warranty-details"),
         claimProcess:g("warranty-claim")
       }
@@ -995,8 +981,7 @@
         subheadline:g("hero-subheadline")
       },
       seo:{
-        primaryKeywords:[g("s1n"),g("s2n"),g("s3n")].map(function(s){return (s||"").trim();}).filter(Boolean).slice(0,3),
-        inspirationUrls:g("inspo").split("\n").map(function(s){return s.trim();}).filter(Boolean)
+        primaryKeywords:[g("s1n"),g("s2n"),g("s3n")].map(function(s){return (s||"").trim();}).filter(Boolean).slice(0,3)
       },
       services:{
         primaryTrade:(g("primary-trade")==="other"?g("other-tin"):g("primary-trade")),
@@ -1033,7 +1018,7 @@
         values:[].slice.call(document.querySelectorAll("input[name=vals]:checked")).map(function(c){return sanitizeJsonUnsafe(c.value).trim();}).concat([g("vals-other")].filter(Boolean)),
         valuesJoined:sanitizeJsonUnsafe([].slice.call(document.querySelectorAll("input[name=vals]:checked")).map(function(c){return sanitizeJsonUnsafe(c.value).trim();}).concat([g("vals-other")].filter(Boolean)).join(", ")),
         credentials:g("license-line"),
-        guarantee:(g("guar")||g("warranty-short")).trim()
+        guarantee:warrantyBadgeShort()
       },
       photos:{
         heroUrl:sanitizeUrl(ahanaR2State.photos.heroUrl||""),
@@ -1057,6 +1042,7 @@
       technical:{
         hasDomain:(document.querySelector("input[name=has-dom]:checked")||{}).value||"",
         domainName:g("dom-name"),
+        domainHost:g("dom-reg"),
         domainPreferences:g("dom-pref"),
         hasExistingSite:(document.querySelector("input[name=has-site]:checked")||{}).value||"",
         existingUrl:g("old-url"),
@@ -1077,112 +1063,10 @@
     }
     return obj;
   }
-  /**
-   * REMOVE BEFORE LAUNCH: dev-only Lizzie sample (internal token-map test payload).
-   * Remove this function, ahanaSyncDevR2UploadLabels, and the Prefill button + note in section 1.
-   */
-  function ahanaApplyDevPrefill(){
-    function z1(s){ return (s==null?"":String(s)).replace(/\\/g," ").replace(/\r/g," ").trim(); }
-    var uLogo="https://pub-75e88d30b2744aebbd822cbccb7c025a.r2.dev/logo/1778355329037-Screenshot 2026-04-23 120424.png";
-    var uGal1="https://pub-75e88d30b2744aebbd822cbccb7c025a.r2.dev/gallery/1778355514351-download (1).jpg";
-    var uGal2="https://pub-75e88d30b2744aebbd822cbccb7c025a.r2.dev/gallery/1778355514353-download.jpg";
-    var uTeam="https://pub-75e88d30b2744aebbd822cbccb7c025a.r2.dev/team/1778355506773-plumbing owner.jpg";
-    var uTruck="https://pub-75e88d30b2744aebbd822cbccb7c025a.r2.dev/truck/1778355509951-plumbing team.jpg";
-    resetUploadZones();
-    setFieldVal("pkg","Starter");
-    setFieldVal("biz-name","Lizzie's Roofing");
-    setFieldVal("biz-short","Lizz Roof");
-    setFieldVal("owner-name","Lizz R");
-    setFieldVal("biz-phone","9876543211");
-    setFieldVal("biz-email","lizz@lroof.com");
-    setFieldVal("biz-address","25 Bay st");
-    setFieldVal("biz-city","Toronto");
-    setFieldVal("biz-state","ON");
-    setFieldVal("biz-zip","M4A");
-    setFieldVal("biz-year","2011");
-    setFieldVal("license-line","Licensed and Insured $5MM");
-    setHexAndPicker("brand-primary-hex","brand-primary-picker","#A2402A");
-    setHexAndPicker("brand-accent-hex","brand-accent-picker","#2C2CAF");
-    setFieldVal("brand-colors","#A2402A, #2C2CAF");
-    pickRadioByName("has-logo","yes-file");
-    pickRadioByName("logo-show-name","yes");
-    setFieldVal("logo-link","");
-    setFieldVal("inspo","");
-    var pt=document.getElementById("primary-trade");
-    if(pt){pt.value="Roofing";toggleOther(pt.value);pt.dispatchEvent(new Event("change",{bubbles:true}));}
-    setFieldVal("s1n","Roof Replacement");
-    setFieldVal("s1d",z1("we replcace roofs for your home"));
-    setFieldVal("s2n","flat roofin");
-    setFieldVal("s2d",z1("we do commercial flat roofing and for your gargage"));
-    setFieldVal("s3n","commercial roofing");
-    setFieldVal("s3d",z1("we do commercial roofing"));
-    setFieldVal("svc-other",z1("we do roofing for new home builds roofing for extensions"));
-    pickRadioByName("emergency","yes-limited");
-    setFieldVal("scities","Vaughan, Markham");
-    setFieldVal("szips","l1s, m1w");
-    pickRadioByName("gbp","yes-claimed");
-    setFieldVal("gbp-link","");
-    var rv=document.getElementById("rvrat");
-    if(rv){
-      [].slice.call(rv.options).forEach(function(o){o.disabled=false;o.selected=false;});
-      rv.value="4.8";
-    }
-    setFieldVal("rvcount","25");
-    setFieldVal("bstory","i come from a family of roofers\nroofing is in our blood\nbeen roofing for more than 30 years myself");
-    setFieldVal("u1t","");
-    setFieldVal("u1d","");
-    setFieldVal("u2t","owner operated");
-    setFieldVal("u2d","i will personally manage your projects");
-    setFieldVal("u3t","up front pricing");
-    setFieldVal("u3d","always transparent pricing");
-    setFieldVal("p1","Fill out our form");
-    setFieldVal("p2","Book an appointment");
-    setFieldVal("p3","Get a Quote");
-    [].slice.call(document.querySelectorAll('input[name="vals"]')).forEach(function(c){c.checked=(c.value==="integrity"||c.value==="community");});
-    setFieldVal("vals-other","punctual, respect your home, professional team");
-    setFieldVal("guar","1 year warranty and 5 years labour");
-    setFieldVal("biz-hours",z1("Mon–Fri 7am–5pm · Sat 9am–1pm · Closed Sun"));
-    pickRadioByName("estimates-policy","free-estimates");
-    setFieldVal("estimates-notes","");
-    setFieldVal("warranty-details",z1("1 year labour on workmanship; manufacturer shingle warranty when we install qualifying products."));
-    setFieldVal("warranty-claim",z1("Email lizz@lroof.com with photos and your contract or invoice number."));
-    refreshEstimatesNotesVisibility();
-    setFieldVal("hero-slogan","roof all day, roof all night");
-    setFieldVal("hero-subheadline","Nobody does roofing like Lizz Roofs");
-    setFieldVal("t1n","");
-    setFieldVal("t1c","");
-    setFieldVal("t1t","");
-    setFieldVal("t2n","Sarah M");
-    setFieldVal("t2c","Toronto");
-    setFieldVal("t2t","Best roofers in town");
-    pickRadioByName("has-dom","no-idea");
-    setFieldVal("dom-name","");
-    setFieldVal("dom-pref","");
-    pickRadioByName("has-site","no");
-    setFieldVal("old-url","");
-    setFieldVal("site-url","https://ahana-lizzie-s-roofing-2605091539.netlify.app");
-    setFieldVal("contact-response-time","4 hours");
-    setFieldVal("proof-email","getahana1006@gmail.com");
-    setFieldVal("notes","");
-    ahanaR2State.businessLogoUrl=sanitizeUrl(uLogo);
-    ahanaR2State.photos.heroUrl="";
-    ahanaR2State.photos.heroFileName="";
-    ahanaR2State.photos.galleryUrls=[sanitizeUrl(uGal1),sanitizeUrl(uGal2)];
-    ahanaR2State.photos.teamUrls=[sanitizeUrl(uTeam)];
-    ahanaR2State.photos.truckUrls=[sanitizeUrl(uTruck)];
-    ahanaR2State.photos.galleryFileNames=ahanaR2State.photos.galleryUrls.map(function(u){try{var p=String(u).split("/").pop()||"";return decodeURIComponent(p);}catch(e){return u;}});
-    ahanaR2State.photos.teamFileNames=ahanaR2State.photos.teamUrls.map(function(u){try{var p=String(u).split("/").pop()||"";return decodeURIComponent(p);}catch(e){return u;}});
-    ahanaR2State.photos.truckFileNames=ahanaR2State.photos.truckUrls.map(function(u){try{var p=String(u).split("/").pop()||"";return decodeURIComponent(p);}catch(e){return u;}});
-    showLogo("yes-file");
-    toggleDom("no");
-    updateBrandColors();
-    persistPack(buildPayload());
-    ahanaSyncDevR2UploadLabels();
-    if(cur===8)renderReview();
-  }
   function submitFormFinal(){
     if(ahanaUploadPendingCount>0){
-      alert("Please wait — uploading images...");
+      if(typeof window.ahanaNotify==="function")window.ahanaNotify("Please wait — we're still uploading your images.",{placement:"toast",type:"info"});
+      else alert("Please wait — uploading images...");
       return;
     }
     var payload=buildPayload();
@@ -1190,12 +1074,14 @@
     persistPack(payload);
     console.log("Ahana Starter Intake:",payload);
     if(typeof window.ahanaSubmitIntake!=="function"){
-      alert("Error submitting form. Please try again.");
+      if(typeof window.ahanaNotify==="function")window.ahanaNotify("Something went wrong submitting your answers. Please try again.",{placement:"toast"});
+      else alert("Error submitting form. Please try again.");
       return;
     }
     window.ahanaSubmitIntake("starter",cleanPayload(payload),TOTAL).catch(function(error){
       console.error("Error:",error);
-      alert("Error submitting form. Please try again.");
+      if(typeof window.ahanaNotify==="function")window.ahanaNotify("We couldn't send your answers. Check your connection and try again.",{placement:"toast"});
+      else alert("Error submitting form. Please try again.");
     });
   }
   bindColorBlock("brand-primary-hex","brand-primary-picker");
@@ -1204,7 +1090,28 @@
   setHexAndPicker("brand-accent-hex","brand-accent-picker",document.getElementById("brand-accent-hex") && document.getElementById("brand-accent-hex").value ? document.getElementById("brand-accent-hex").value : "#1A1A1B");
   updateBrandColors();
   refreshEstimatesNotesVisibility();
-  if(window.AhanaIntakeExamples) AhanaIntakeExamples.bind();
+  updateServicePlaceholders();
+  window.ahanaResumeIntake=function(){
+    try{
+      var raw=localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var pack=JSON.parse(raw);
+        if(pack.snapshot)applyFormSnapshot(pack.snapshot);
+      }
+    }catch(e){}
+    if(window.AhanaWizard&&window.AhanaWizard.active){
+      setTimeout(function(){
+        var nm=document.getElementById("biz-name");
+        if(nm&&String(nm.value||"").trim())window.AhanaWizard.goToSection(2);
+      },0);
+    }
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+  if(location.search.indexOf("resume=1")>=0)window.ahanaResumeIntake();
+  if(typeof window.ahanaUpdateProgressUI==="function")window.ahanaUpdateProgressUI(1,TOTAL);
+  window.toggleOther=toggleOther;
+  window.updateServicePlaceholders=updateServicePlaceholders;
+  window.refreshEstimatesNotesVisibility=refreshEstimatesNotesVisibility;
 </script>
 </body>
 </html>

@@ -1,4 +1,22 @@
 (function () {
+  window.ahanaUpdateProgressUI = function (n, total) {
+    var mobile = document.getElementById('pg-mobile');
+    if (mobile) {
+      var active = document.getElementById('pl-' + n);
+      var label = active ? active.textContent.replace(/\s+/g, ' ').trim() : '';
+      mobile.innerHTML =
+        '<span class="pg-mobile-n">Step ' + n + ' of ' + total + '</span>' +
+        '<span class="pg-mobile-t">' + label + '</span>';
+    }
+
+    var activeBtn = document.getElementById('pl-' + n);
+    if (activeBtn && activeBtn.scrollIntoView && window.matchMedia('(min-width:640px)').matches) {
+      try {
+        activeBtn.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+      } catch (e) {}
+    }
+  };
+
   function showIntakeSuccess(totalSteps) {
     var fw = document.getElementById('fw');
     var pgWrap = document.querySelector('.pg-wrap');

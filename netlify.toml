@@ -6,6 +6,16 @@
   to = "/.netlify/functions/submit-form"
   status = 200
 
+[[redirects]]
+  from = "/api/gbp-prefill"
+  to = "/.netlify/functions/gbp-prefill"
+  status = 200
+
+[[redirects]]
+  from = "/api/lead-prefill"
+  to = "/.netlify/functions/lead-prefill"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]

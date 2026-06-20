@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Premium onboarding — Ahana</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=block" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=4">
-  <link rel="stylesheet" href="intake-forms.css?v=3">
+  <link rel="stylesheet" href="intake-forms.css?v=5">
 </head>
-<body class="theme-sleek intake-form-page">
+<body class="theme-sleek intake-form-page" data-intake-storage-key="ahana-intake-premium-v1">
 
 <div id="intake-intro" class="intake-intro">
 <header class="hdr">
@@ -49,6 +49,10 @@
 <div id="intake-form" class="intake-form-main" hidden>
 <div class="pg-wrap">
   <div class="pg-inner">
+    <p class="pg-mobile" id="pg-mobile" aria-live="polite">
+      <span class="pg-mobile-n">Step 1 of 8</span>
+      <span class="pg-mobile-t">Essentials</span>
+    </p>
     <div class="pg-labels">
       <button type="button" class="pg-lbl active" id="pl-1" onclick="goTo(1)">Essentials</button>
       <button type="button" class="pg-lbl" id="pl-2" onclick="goTo(2)">Services</button>
@@ -760,6 +764,7 @@ https://competitor2.com"></textarea></div>
 </div>
 
 <script src="ahana-intake-trade-examples.js"></script>
+<script src="intake-mobile.js"></script>
 <script src="intake-submit.js"></script>
 <script>
   var cur=1, TOTAL=8;
@@ -1214,6 +1219,8 @@ https://competitor2.com"></textarea></div>
       else if(i<n)e.classList.add("done");
     }
     window.scrollTo({top:0,behavior:"smooth"});
+    if(typeof window.ahanaUpdateProgressUI==="function")window.ahanaUpdateProgressUI(n,TOTAL);
+    if(typeof window.ahanaRefreshMobileNavLabels==="function")window.ahanaRefreshMobileNavLabels();
     updateBrandColors();
     refreshServiceNameUI();
     updateBrandVoicePreview();
@@ -1899,6 +1906,16 @@ https://competitor2.com"></textarea></div>
   updateBrandVoicePreview();
   refreshEstimatesNotesVisibility();
   if(window.AhanaIntakeExamples) AhanaIntakeExamples.bind();
+  window.ahanaResumeIntake=function(){
+    beginIntake();
+    try{
+      var raw=localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var pack=JSON.parse(raw);
+        if(pack.snapshot)applyFormSnapshot(pack.snapshot);
+      }
+    }catch(e){}
+  };
 </script>
 </body>
 </html>
