@@ -88,7 +88,7 @@ exports.handler = async function (event) {
       nimSource.scrape.query || nimSource.scrape.description || nimSource.scrape.about || nimSource.scrape.located_in
     );
 
-    if (hasNimCorpus && process.env.NVIDIA_API_KEY) {
+    if (hasNimCorpus && process.env.NVIDIA_API_KEY && process.env.NVIDIA_MODEL) {
       const nimRaw = await extractIntakeFields(nimSource);
       if (nimRaw) {
         const validated = validateNimExtraction(nimRaw, strict.corpus);

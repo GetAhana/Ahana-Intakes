@@ -1,9 +1,9 @@
 const NVIDIA_API = 'https://integrate.api.nvidia.com/v1/chat/completions';
-const MODEL = process.env.NVIDIA_MODEL || 'deepseek-ai/deepseek-v4-flash';
 
 async function extractIntakeFields(sourceBundle) {
   const apiKey = process.env.NVIDIA_API_KEY;
-  if (!apiKey) return null;
+  const model = trimEnv(process.env.NVIDIA_MODEL);
+  if (!apiKey || !model) return null;
 
   const systemPrompt = `You extract intake form fields from verified business data only.
 
@@ -27,7 +27,7 @@ Rules:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: MODEL,
+        model: model,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
@@ -82,4 +82,8 @@ Rules:
   }
 }
 
-module.exports = { extractIntakeFields, MODEL };
+function trimEnv(val) {
+  return val == null ? '' : String(val).trim();
+}
+
+module.exports = { extractIntakeFields };
