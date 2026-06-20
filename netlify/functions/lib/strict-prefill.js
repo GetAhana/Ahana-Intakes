@@ -175,7 +175,13 @@ function certainReviews(placeReviews, businessCity) {
   if (!Array.isArray(placeReviews)) return out;
 
   const fiveStar = placeReviews.filter(function (r) {
-    return Number(r.rating) === 5 && trim(r.text).length >= 10 && trim(r.author_name).length >= 1;
+    var rating = Number(r.rating);
+    var text = trim(r.text);
+    return rating >= 5 && text.length >= 8 && trim(r.author_name).length >= 1;
+  });
+
+  fiveStar.sort(function (a, b) {
+    return trim(b.text).length - trim(a.text).length;
   });
 
   if (fiveStar[0]) {
