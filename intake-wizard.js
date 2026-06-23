@@ -118,8 +118,6 @@
     { kind: 'q', section: 4, title: 'How customers request warranty service', subtitle: 'e.g. Call with your invoice number.', nodes: ['warranty-claim'] },
     { kind: 'q', section: 4, title: 'What matters to your team?', subtitle: 'Check any that fit your business.', nodes: ['name:vals'] },
     { kind: 'q', section: 4, title: 'Other values to mention', subtitle: 'Anything else you want on the site.', nodes: ['vals-other'] },
-    { kind: 'q', section: 5, title: 'Slogan for the top of your site', subtitle: 'Short line above the fold — or leave blank.', nodes: ['hero-slogan'] },
-    { kind: 'q', section: 5, title: 'Describe your business in one sentence', subtitle: 'Optional — who you serve and what you\'re known for.', nodes: ['hero-subheadline'] },
     { kind: 'photo', section: 5, title: 'Big photo for your home page', subtitle: 'Crew on a job, finished project, or wrapped truck at a real home.', nodes: ['hero-file'], skipFile: 'hero-file' },
     { kind: 'photo', section: 5, title: 'Owner / team photos', subtitle: 'Optional — builds trust.', nodes: ['team-files'], skipFile: 'team-files' },
     { kind: 'photo', section: 5, title: 'Truck / vehicle photos', subtitle: 'Optional.', nodes: ['truck-files'], skipFile: 'truck-files' },

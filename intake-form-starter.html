@@ -300,9 +300,6 @@
     <p class="sec-sub"><strong>Why this matters:</strong> Real photos prove you do the work — they lift conversion more than stock images ever will. Your site shows up to <strong>5 gallery photos</strong> on your home page. No captions needed; we match them to the right spots.</p>
     <div class="callout"><strong>Gallery:</strong> up to <strong>5</strong> photos.</div>
 
-    <div class="field"><label class="flabel">Slogan or main line for the top of your site</label><input type="text" id="hero-slogan" maxlength="200" placeholder="eg. Straight answers. Clean work. Same-week help."/></div>
-    <div class="field"><label class="flabel">Describe your business in one sentence (optional)</label><textarea id="hero-subheadline" rows="2" placeholder="eg. Trusted plumbing across Phoenix with same-day leak and drain help."></textarea><p class="hint">A short line under your slogan — who you serve and what you’re known for.</p></div>
-
     <div class="field">
       <label class="flabel">Big photo for the top of your home page</label>
       <p class="hint" style="margin-bottom:.65rem">This is the <strong>wide picture behind the first words people see</strong>. Good choices: crew on a job, a finished project, or your <strong>wrapped truck</strong> at a real home. Skip tiny logos alone, very dark indoor-only shots, or blurry phone pics.</p>
@@ -767,8 +764,6 @@
       addRow(c,"Estimate policy notes",data.operations&&data.operations.estimatesPolicyNotes);
       addRow(c,"Warranty details",data.operations&&data.operations.warranty&&data.operations.warranty.coverageDetails);
       addRow(c,"Warranty claim process",data.operations&&data.operations.warranty&&data.operations.warranty.claimProcess);
-      addRow(c,"Home headline",data.hero && data.hero.slogan);
-      addRow(c,"Line under headline",data.hero && data.hero.subheadline);
     }));
     grid.appendChild(card("Photos",5,function(c){
       addRow(c,"Top-of-page photo",data.photos.heroFileName);
@@ -979,10 +974,6 @@
             return ((document.querySelector("input[name=logo-show-name]:checked")||{}).value||"yes")!=="no";
           })()
         }
-      },
-      hero:{
-        slogan:g("hero-slogan"),
-        subheadline:g("hero-subheadline")
       },
       seo:{
         primaryKeywords:[g("s1n"),g("s2n"),g("s3n")].map(function(s){return (s||"").trim();}).filter(Boolean).slice(0,3)
