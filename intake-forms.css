@@ -316,6 +316,7 @@ body.intake-form-page.theme-sleek{background:transparent}
 
 .field{margin-bottom:1.3rem}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:end}
+.frow > .hint{grid-column:1 / -1;margin-top:0}
 @media(max-width:520px){.frow{grid-template-columns:1fr;align-items:stretch}}
 .frow .flabel{min-height:2.55em;line-height:1.35;display:flex;align-items:flex-end}
 .flabel{

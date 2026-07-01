@@ -240,9 +240,9 @@
         body: JSON.stringify({ businessName: businessName, leadId: leadId }),
       });
       var data = await res.json();
+      if (data.found && data.leadId) state.leadId = data.leadId;
       if (data.found && data.prefill && typeof window.ahanaApplyGbpPrefill === 'function') {
         window.ahanaApplyGbpPrefill(data.prefill);
-        if (data.leadId) state.leadId = data.leadId;
         if (typeof window.updateBrandColors === 'function') window.updateBrandColors();
       }
     } catch (e) {

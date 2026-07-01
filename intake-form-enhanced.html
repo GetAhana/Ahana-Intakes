@@ -251,8 +251,9 @@
     </div>
     <div class="field"><label class="flabel">Link to your Google listing (optional)</label><input type="url" id="gbp-link" placeholder="eg. https://maps.google.com/?cid=..."></div>
     <div class="frow">
-      <div class="field"><label class="flabel">Star rating on Google (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.9</option><option>4.8</option><option>4.7</option><option>4.6</option><option>4.5</option><option>4.4</option><option>4.3</option><option>4.2</option><option>4.1</option><option>4.0</option><option>3.9</option><option>3.8</option><option>3.7</option><option>3.6</option><option>3.5</option><option>3.4</option><option>3.3</option><option>3.2</option><option>3.1</option><option>3.0</option><option>Rather not say</option><option>No reviews yet</option></select><p class="hint" style="margin-top:.45rem">Rough average is fine. Pick <strong>Rather not say</strong> if you prefer not to show a number.</p></div>
+      <div class="field"><label class="flabel">Star rating on Google (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.9</option><option>4.8</option><option>4.7</option><option>4.6</option><option>4.5</option><option>4.4</option><option>4.3</option><option>4.2</option><option>4.1</option><option>4.0</option><option>3.9</option><option>3.8</option><option>3.7</option><option>3.6</option><option>3.5</option><option>3.4</option><option>3.3</option><option>3.2</option><option>3.1</option><option>3.0</option><option>Rather not say</option><option>No reviews yet</option></select></div>
       <div class="field"><label class="flabel">About how many Google reviews? (optional)</label><input type="number" id="rvcount" min="0" placeholder="eg. 47"></div>
+      <p class="hint">Rough average is fine. Pick <strong>Rather not say</strong> if you prefer not to show a number.</p>
     </div>
 
     <div class="form-nav"><button class="btn-back" onclick="goTo(2)">← Back</button><button class="btn-next" onclick="goTo(4)">Next: Your story &amp; highlights →</button></div>
@@ -1325,6 +1326,7 @@
     })();
     var bvSlug=(document.querySelector('input[name="brand-voice"]:checked')||{}).value||"";
     return{
+      leadId:typeof window.ahanaGetLeadId==="function"?window.ahanaGetLeadId():"",
       package:g("pkg"),
       operations:operationsBlock(),
       brandVoice:bvSlug,

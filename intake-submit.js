@@ -1,4 +1,16 @@
 (function () {
+  window.ahanaGetLeadId = function () {
+    if (window.AhanaWizard && typeof window.AhanaWizard.getLeadId === 'function') {
+      var fromWizard = window.AhanaWizard.getLeadId();
+      if (fromWizard) return fromWizard;
+    }
+    try {
+      return new URLSearchParams(window.location.search).get('lead') || '';
+    } catch (e) {
+      return '';
+    }
+  };
+
   window.ahanaUpdateProgressUI = function (n, total) {
     var mobile = document.getElementById('pg-mobile');
     if (mobile) {

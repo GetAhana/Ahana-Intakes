@@ -4,6 +4,9 @@ const WEBHOOKS = {
   premium: { url: 'Premium_Webhook', apiKey: 'Make_API' },
 };
 
+const { resolveLeadId } = require('./lib/lead-lookup');
+const { expandIntakeForMake } = require('./lib/intake-webhook-expand');
+
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -47,13 +50,22 @@ exports.handler = async (event) => {
   }
 
   try {
+    const biz = body.business || {};
+    const resolvedLeadId = await resolveLeadId({
+      leadId: body.leadId,
+      businessName: biz.legalName || biz.publicName,
+    });
+    if (resolvedLeadId) body.leadId = resolvedLeadId;
+
+    const webhookPayload = expandIntakeForMake(body);
+
     const headers = { 'Content-Type': 'application/json' };
     if (apiKey) headers['X-Make-ApiKey'] = apiKey;
 
     const response = await fetch(webhookUrl, {
       method: 'POST',
       headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify(webhookPayload),
     });
 
     if (!response.ok) {

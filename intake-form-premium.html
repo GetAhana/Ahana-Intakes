@@ -328,8 +328,9 @@ https://competitor2.com"></textarea></div>
     </div>
     <div class="field"><label class="flabel">Google Business Profile Link (optional)</label><input type="url" id="gbp-link" placeholder="eg. https://maps.google.com/?cid=..."></div>
     <div class="frow">
-      <div class="field"><label class="flabel">Review Rating (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.9</option><option>4.8</option><option>4.7</option><option>4.6</option><option>4.5</option><option>4.4</option><option>4.3</option><option>4.2</option><option>4.1</option><option>4.0</option><option>3.9</option><option>3.8</option><option>3.7</option><option>3.6</option><option>3.5</option><option>3.4</option><option>3.3</option><option>3.2</option><option>3.1</option><option>3.0</option><option>Rather not say</option><option>No reviews yet</option></select><p class="hint" style="margin-top:.45rem">Choose the number that matches your public average (<strong>3.0–5.0</strong> stars). Use <strong>Rather not say</strong> if yours is below 3.0 or you prefer not to share.</p></div>
+      <div class="field"><label class="flabel">Review Rating (optional)</label><select id="rvrat"><option value="" disabled selected>Select…</option><option>5.0</option><option>4.9</option><option>4.8</option><option>4.7</option><option>4.6</option><option>4.5</option><option>4.4</option><option>4.3</option><option>4.2</option><option>4.1</option><option>4.0</option><option>3.9</option><option>3.8</option><option>3.7</option><option>3.6</option><option>3.5</option><option>3.4</option><option>3.3</option><option>3.2</option><option>3.1</option><option>3.0</option><option>Rather not say</option><option>No reviews yet</option></select></div>
       <div class="field"><label class="flabel">Number of Reviews (optional)</label><input type="number" id="rvcount" min="0" placeholder="eg. 47"></div>
+      <p class="hint">Choose the number that matches your public average (<strong>3.0–5.0</strong> stars). Use <strong>Rather not say</strong> if yours is below 3.0 or you prefer not to share.</p>
     </div>
 
     <div class="form-nav"><button class="btn-back" onclick="goTo(2)">← Back</button><button class="btn-next" onclick="goTo(4)">Next: Story →</button></div>
@@ -1690,6 +1691,7 @@ https://competitor2.com"></textarea></div>
       });
     }
     return{
+      leadId:typeof window.ahanaGetLeadId==="function"?window.ahanaGetLeadId():"",
       package:g("pkg"),
       operations:operationsBlock(),
       brandVoice:bvSlug,
