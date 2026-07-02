@@ -375,7 +375,7 @@
   <div class="sc" id="s7">
     <div class="sec-eye">7</div>
     <h2 class="sec-title">Website address &amp; email</h2>
-    <p class="sec-sub"><strong>Why this matters:</strong> Your domain is your digital storefront address — we need it to launch a site that looks professional from day one and sends previews to the right inbox.</p>
+    <p class="sec-sub"><strong>Why this matters:</strong> Your domain is your digital storefront address — we need it to launch a site that looks professional from day one.</p>
 
     <div class="field">
       <label class="flabel">Do you already have a domain name? <span class="req">*</span></label>
@@ -401,7 +401,6 @@
     <div class="field"><label class="flabel">Current website link, if you have one (optional)</label><input type="url" id="old-url" placeholder="eg. https://www.youroldsite.com"/></div>
     <div class="field"><label class="flabel">Web address you&rsquo;d like <span class="tip">Optional</span></label><p class="hint">The URL you want when your new site goes live — e.g. www.yourbusiness.com. Not sure yet? Leave blank.</p><input type="url" id="site-url" placeholder="eg. https://www.yourbusiness.com"/></div>
     <div class="field"><label class="flabel">When someone contacts you, how fast do you usually get back to them? <span class="req">*</span></label><textarea id="contact-response-time" rows="3" placeholder="eg. Same business day for emergencies when you call before noon; within 24 hours for form messages on weekdays."></textarea><p class="hint">This text appears on your <strong>Contact</strong> page so people know what to expect.</p></div>
-    <div class="field"><label class="flabel">Email where we should send your site preview <span class="req">*</span></label><input type="email" id="proof-email" placeholder="eg. Best email to receive the preview link"/></div>
     <div class="field"><label class="flabel">Anything else we should know?</label><textarea id="notes" rows="4"></textarea></div>
 
     <div class="form-nav">
@@ -429,9 +428,6 @@
   <div class="done-icon"><svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="var(--ember)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
   <h2>Thank you!</h2>
   <p>We&rsquo;ve received your onboarding details and will start your build.</p>
-  <div class="done-more">
-    <button type="button" class="btn-back" onclick="returnToReview()">Look over or change answers</button>
-  </div>
 </div>
 
 <script src="intake-notify.js"></script>
@@ -792,24 +788,9 @@
       addRow(c,"Old website link",data.technical.existingUrl);
       addRow(c,"Planned live address",data.technical.plannedSiteUrl);
       addRow(c,"How fast you reply",data.technical.contactResponseTime);
-      addRow(c,"Preview email",data.technical.previewEmail);
       addRow(c,"Extra notes",data.technical.notes);
     }));
     m.appendChild(grid);
-  }
-  function returnToReview(){
-    var raw=null;
-    try{raw=localStorage.getItem(STORAGE_KEY);}catch(e){}
-    document.getElementById("done").style.display="none";
-    showIntakeForm();
-    if(raw){
-      try{
-        var pack=JSON.parse(raw);
-        if(pack.snapshot)applyFormSnapshot(pack.snapshot);
-      }catch(e){}
-    }
-    if(window.AhanaWizard&&window.AhanaWizard.goToReview)window.AhanaWizard.goToReview();
-    else goTo(8);
   }
   function showLogo(v){
     document.getElementById("logo-upload").classList.toggle("on",v==="yes-file");
@@ -1041,7 +1022,6 @@
         existingUrl:g("old-url"),
         plannedSiteUrl:g("site-url"),
         contactResponseTime:g("contact-response-time"),
-        previewEmail:g("proof-email"),
         notes:g("notes")
       }
     };

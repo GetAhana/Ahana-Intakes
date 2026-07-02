@@ -11,7 +11,6 @@
     'biz-city': 'address-level2',
     'biz-state': 'address-level1',
     'biz-zip': 'postal-code',
-    'proof-email': 'email',
   };
 
   function isMobile() {
@@ -91,7 +90,7 @@
     var phone = document.getElementById('biz-phone');
     if (phone) phone.setAttribute('inputmode', 'tel');
 
-    var emails = document.querySelectorAll('#biz-email, #proof-email');
+    var emails = document.querySelectorAll('#biz-email');
     for (var i = 0; i < emails.length; i++) emails[i].setAttribute('inputmode', 'email');
 
     var zip = document.getElementById('biz-zip');

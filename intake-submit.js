@@ -40,6 +40,11 @@
     if (done) done.style.display = 'block';
     if (pgf) pgf.style.width = '100%';
 
+    try {
+      var storageKey = document.body.getAttribute('data-intake-storage-key');
+      if (storageKey) localStorage.removeItem(storageKey);
+    } catch (e) {}
+
     for (var i = 1; i <= totalSteps; i++) {
       var step = document.getElementById('pl-' + i);
       if (step) {

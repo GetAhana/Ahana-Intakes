@@ -527,7 +527,6 @@
     <div class="field"><label class="flabel">Current website link, if you have one (optional)</label><input type="url" id="old-url" placeholder="eg. https://www.youroldsite.com"></div>
     <div class="field"><label class="flabel">The address you want when the new site goes live (optional)</label><input type="url" id="site-url" placeholder="eg. https://www.yourbusiness.com"/></div>
     <div class="field"><label class="flabel">When someone contacts you, how fast do you usually get back to them? <span class="req">*</span></label><textarea id="contact-response-time" rows="3" placeholder="eg. We reply same day on weekdays…"></textarea></div>
-    <div class="field"><label class="flabel">Email where we should send your site preview <span class="req">*</span></label><input type="email" id="proof-email" placeholder="eg. you@yourbusiness.com"></div>
     <div class="field"><label class="flabel">Anything else we should know?</label><textarea id="notes" rows="4"></textarea></div>
 
     <div class="form-nav">
@@ -553,9 +552,6 @@
   <div class="done-icon"><svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="var(--ember)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
   <h2>Thank you!</h2>
   <p>We&rsquo;ve received your onboarding details and will start your build.</p>
-  <div class="done-more">
-    <button type="button" class="btn-back" onclick="returnToReview()">Look over or change answers</button>
-  </div>
 </div>
 
 <script src="ahana-intake-trade-examples.js"></script>
@@ -893,7 +889,6 @@
     setFieldVal("old-url","");
     setFieldVal("site-url","https://smith-plumbing-dev.example.netlify.app");
     setFieldVal("contact-response-time",z1("Usually same day on weekdays, next day weekends."));
-    setFieldVal("proof-email","getahana1006@gmail.com");
     setFieldVal("notes",z1("Dev autofill — bare-bones: every field has a short answer."));
     var i,gUrls=[];
     for(i=0;i<10;i++)gUrls.push(sanitizeUrl(U[4+i]));
@@ -1177,23 +1172,9 @@
       addRow(c,"Old website link",data.technical.existingUrl);
       addRow(c,"Planned live address",data.technical.plannedSiteUrl);
       addRow(c,"How fast you reply",data.technical.contactResponseTime);
-      addRow(c,"Preview email",data.technical.previewEmail);
       addRow(c,"Extra notes",data.technical.notes);
     }));
     m.appendChild(grid);
-  }
-  function returnToReview(){
-    var raw=null;
-    try{raw=localStorage.getItem(STORAGE_KEY);}catch(e){}
-    document.getElementById("done").style.display="none";
-    showIntakeForm();
-    if(raw){
-      try{
-        var pack=JSON.parse(raw);
-        if(pack.snapshot)applyFormSnapshot(pack.snapshot);
-      }catch(e){}
-    }
-    goTo(8);
   }
   function showLogo(v){
     document.getElementById("logo-upload").classList.toggle("on",v==="yes-file");
@@ -1450,7 +1431,6 @@
         existingUrl:g("old-url"),
         plannedSiteUrl:g("site-url"),
         contactResponseTime:g("contact-response-time"),
-        previewEmail:g("proof-email"),
         notes:g("notes")
       }
     };

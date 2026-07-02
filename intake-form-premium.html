@@ -706,7 +706,7 @@ https://competitor2.com"></textarea></div>
   <div class="sc" id="s7">
     <div class="sec-eye">7</div>
     <h2 class="sec-title">Technical Setup</h2>
-    <p class="sec-sub"><strong>Why this matters:</strong> The faster we launch on your domain, the faster you start capturing search traffic your competitors are still fighting over — tell us where to point the site and who should see the preview.</p>
+    <p class="sec-sub"><strong>Why this matters:</strong> The faster we launch on your domain, the faster you start capturing search traffic your competitors are still fighting over — tell us where to point the site.</p>
 
     <div class="field">
       <label class="flabel">Do you already have a domain name? <span class="req">*</span></label>
@@ -733,7 +733,6 @@ https://competitor2.com"></textarea></div>
     <div class="field"><label class="flabel">Planned live site URL (optional)</label><input type="url" id="site-url" placeholder="eg. https://www.yourbusiness.com"/></div>
     <div class="field"><label class="flabel">Security / abuse contact email (optional)</label><input type="email" id="security-email" placeholder="eg. security@yourbusiness.com"/><p class="hint">Published in <code>.well-known/security.txt</code> for responsible disclosure.</p></div>
     <div class="field"><label class="flabel">Typical response time (contact page) <span class="req">*</span></label><textarea id="contact-response-time" rows="3" placeholder="eg. When customers reach out, how quickly do you usually respond?"></textarea></div>
-    <div class="field"><label class="flabel">Email for Your Site Preview <span class="req">*</span></label><input type="email" id="proof-email" placeholder="eg. you@yourbusiness.com"></div>
     <div class="field"><label class="flabel">Anything else?</label><textarea id="notes" rows="4"></textarea></div>
 
     <div class="form-nav">
@@ -759,9 +758,6 @@ https://competitor2.com"></textarea></div>
   <div class="done-icon"><svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="var(--ember)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
   <h2>You’re All Set!</h2>
   <p>We&rsquo;ve received your onboarding details and will start your Premium build.</p>
-  <div class="done-more">
-    <button type="button" class="btn-back" onclick="returnToReview()">Review or edit responses</button>
-  </div>
 </div>
 
 <script src="ahana-intake-trade-examples.js"></script>
@@ -1145,7 +1141,6 @@ https://competitor2.com"></textarea></div>
     setFieldVal("site-url","https://houston-roofers-dev.example.netlify.app");
     setFieldVal("security-email","");
     setFieldVal("contact-response-time",z1("Usually same business day on weekdays; next morning on weekends."));
-    setFieldVal("proof-email","getahana1006@gmail.com");
     setFieldVal("notes",z1("Dev autofill — Premium bare-bones sample for pipeline testing."));
     var i,gUrls=[];
     for(i=0;i<12;i++)gUrls.push(sanitizeUrl(U[4+i]));
@@ -1470,23 +1465,9 @@ https://competitor2.com"></textarea></div>
       addRow(c,"Planned live URL",data.technical.plannedSiteUrl);
       addRow(c,"Security contact",data.technical.securityContactEmail);
       addRow(c,"Response time",data.technical.contactResponseTime);
-      addRow(c,"Preview email",data.technical.previewEmail);
       addRow(c,"Notes",data.technical.notes);
     }));
     m.appendChild(grid);
-  }
-  function returnToReview(){
-    var raw=null;
-    try{raw=localStorage.getItem(STORAGE_KEY);}catch(e){}
-    document.getElementById("done").style.display="none";
-    showIntakeForm();
-    if(raw){
-      try{
-        var pack=JSON.parse(raw);
-        if(pack.snapshot)applyFormSnapshot(pack.snapshot);
-      }catch(e){}
-    }
-    goTo(8);
   }
   function showLogo(v){
     document.getElementById("logo-upload").classList.toggle("on",v==="yes-file");
@@ -1858,7 +1839,6 @@ https://competitor2.com"></textarea></div>
         plannedSiteUrl:g("site-url"),
         contactResponseTime:g("contact-response-time"),
         securityContactEmail:g("security-email")||g("biz-email"),
-        previewEmail:g("proof-email"),
         notes:g("notes")
       },
       premiumOps:{

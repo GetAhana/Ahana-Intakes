@@ -131,7 +131,6 @@
     { kind: 'q', section: 7, title: 'Current website link', subtitle: 'The URL of your site today.', nodes: ['old-url'], cond: 'has-existing-site' },
     { kind: 'q', section: 7, title: 'What web address would you like?', subtitle: 'The URL you want customers to use when your new site goes live — e.g. www.yourbusiness.com. Leave blank if you\'re not sure yet.', nodes: ['site-url'] },
     { kind: 'q', section: 7, title: 'How fast do you usually get back to people?', subtitle: 'Shows on your Contact page — set realistic expectations.', nodes: ['contact-response-time'], required: ['contact-response-time'] },
-    { kind: 'q', section: 7, title: 'Email for your site preview', subtitle: 'Best inbox for your draft site link.', nodes: ['proof-email'], required: ['proof-email'] },
     { kind: 'q', section: 7, title: 'Anything else we should know?', subtitle: 'Deadlines, preferences, or special requests.', nodes: ['notes'] },
     { kind: 'review', section: 8, title: 'Review your answers', subtitle: 'Skim each section — tap Edit on any card to jump back.' },
   ];
